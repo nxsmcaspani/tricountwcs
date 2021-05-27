@@ -133,5 +133,3 @@ CREATE INDEX `contactid_idx` ON `tricount`.`beneficiary` (`contactid` ASC);
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-tricount.txt
-Affichage de tricount.txt en cours...
