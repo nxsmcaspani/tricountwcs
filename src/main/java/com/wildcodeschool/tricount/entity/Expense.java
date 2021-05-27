@@ -1,4 +1,4 @@
-package com.wildcodeschool.entity;
+package com.wildcodeschool.tricount.entity;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class Expense {
         joinColumns = @JoinColumn(name="expense_id"), 
         inverseJoinColumns = @JoinColumn(name = "contact_id"))
     private List<Contact> beneficiaries;
-        
+
     
     public Long getId() {
         return id;

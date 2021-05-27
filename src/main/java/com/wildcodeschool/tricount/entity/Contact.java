@@ -1,4 +1,4 @@
-package com.wildcodeschool.entity;
+package com.wildcodeschool.tricount.entity;
 
 import java.util.List;
 
