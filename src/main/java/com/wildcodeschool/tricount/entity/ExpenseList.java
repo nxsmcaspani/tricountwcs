@@ -50,10 +50,10 @@ public class ExpenseList {
     public void setName(String aName) {
         name = aName;
     }
-    public List<Expense> getExpenseList() {
+    public List<Expense> getExpensesList() {
         return expensesList;
     }
-    public void setExpenseList(List<Expense> aExpenseList) {
+    public void setExpensesList(List<Expense> aExpenseList) {
         expensesList = aExpenseList;
     }
     public List<Contact> getContacts() {
