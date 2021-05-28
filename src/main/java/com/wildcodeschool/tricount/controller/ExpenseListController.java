@@ -17,7 +17,7 @@ public class ExpenseListController {
     @GetMapping("/")
     public String getAll(Model model) {
         model.addAttribute("expenseslists", expenseListService.findAll());
-        return "expenseslists";
+        return "index";
     }
 
     @PostMapping("/expenseslist")
@@ -27,14 +27,14 @@ public class ExpenseListController {
     }
 
     @PutMapping("/expenseslist")
-    public String updateExpensesList(@RequestParam Integer idList){
-        expenseListService.delete(idList);
+    public String updateExpensesList(@ModelAttribute ExpenseList expenseList){
+        expenseListService.save(expenseList);
         return "redirect:/";
     }
 
     @DeleteMapping("/expenseslist")
     public String deleteExpensesList(Model model, @RequestParam Integer idList){
-        //do stuff
+        expenseListService.delete(idList);
         return "redirect:/";
     }
 
