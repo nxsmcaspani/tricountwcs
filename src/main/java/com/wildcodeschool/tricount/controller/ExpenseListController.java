@@ -27,14 +27,8 @@ public class ExpenseListController {
     }
 
     @PutMapping("/expenseslist")
-    public String updateExpensesList(Model model, @RequestParam Integer idList){
-        // do stuff
-        Optional<ExpenseList> optionalExpenseList = expenseListService.findById(idList);
-//        ExpenseList expenseList = new ExpenseList();
-        if (optionalExpenseList.isPresent()) {
-//            expenseList = optionalExpenseList.get();
-            expenseListService.delete(optionalExpenseList.get());
-        }
+    public String updateExpensesList(@RequestParam Integer idList){
+        expenseListService.delete(idList);
         return "redirect:/";
     }
 
