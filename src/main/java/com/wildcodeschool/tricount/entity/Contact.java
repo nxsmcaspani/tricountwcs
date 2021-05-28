@@ -21,7 +21,7 @@ public class Contact {
     private String name;
     private String email;
     
-    @ManyToMany (mappedBy = "contacts")
+        @ManyToMany (mappedBy = "contacts")
     private List<ExpenseList> expenseLists;
     
     @ManyToMany (mappedBy ="beneficiaries")
@@ -74,6 +74,6 @@ public class Contact {
     public void setOwnExpenses(List<Expense> aOwnExpenses) {
         ownExpenses = aOwnExpenses;
     }
-    
+
     
 }
