@@ -20,6 +20,13 @@ public class ExpenseListController {
         return "index";
     }
 
+    @GetMapping("/expenseslist")
+    public String getExpensesList(@RequestParam Integer idList){
+        expenseListService.getExpenseList(idList);
+        return "expenseslist";
+    }
+
+
     @PostMapping("/expenseslist")
     public String postExpensesList(@ModelAttribute ExpenseList expenseList) {
         expenseListService.save(expenseList);

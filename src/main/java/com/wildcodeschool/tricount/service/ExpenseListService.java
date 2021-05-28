@@ -1,7 +1,9 @@
 package com.wildcodeschool.tricount.service;
 
+import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
+import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 public class ExpenseListService {
     @Autowired
     private ExpenseListRepository expenseListRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     public ExpenseList save(ExpenseList expenseList){
         return expenseListRepository.save(expenseList);
@@ -27,4 +32,9 @@ public class ExpenseListService {
     public List<ExpenseList> findAll(){
         return expenseListRepository.findAll();
     }
+
+    public List<Expense> getExpenseList(Integer idList){
+        return expenseRepository.findAll();
+    }
+
 }
