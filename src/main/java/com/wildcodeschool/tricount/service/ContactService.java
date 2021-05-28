@@ -15,8 +15,8 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public void getAll(Model aModel) {
-        // TODO Auto-generated method stub
+    public void getAll(Model model) {
+        
         
     }
 
