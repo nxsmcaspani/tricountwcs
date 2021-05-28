@@ -1,6 +1,7 @@
 package com.wildcodeschool.tricount.controller;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,9 @@ public class ContactController {
     
     @GetMapping("/contacts")
     public String getAll(Model model) {
-        contactService.getAll(model);
+        List<Contact> contacts = new ArrayList<Contact>();
+        contacts = contactService.getAll();
+        model.addAttribute("contacts", contacts);
         return "contacts";
     }
 

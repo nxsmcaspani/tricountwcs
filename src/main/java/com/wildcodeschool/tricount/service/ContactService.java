@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,13 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public void getAll(Model aModel) {
-        // TODO Auto-generated method stub
+    public List<Contact> getAll() {
+        return contactRepository.findAll();
         
     }
 
-    public Model findById(int aIdContact, Model model) {
-        // TODO Auto-generated method stub
-        Optional<Contact> optionalContact = contactRepository.findById(aIdContact);
+    public Model findById(int idContact, Model model) {
+        Optional<Contact> optionalContact = contactRepository.findById(idContact);
         Contact contact = new Contact();
         if (optionalContact.isPresent()) {
             contact = optionalContact.get();
