@@ -1,9 +1,9 @@
 package com.wildcodeschool.tricount.repository;
 
-import com.wildcodeschool.tricount.controller.ExpensesList;
+import com.wildcodeschool.tricount.entity.ExpenseList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ExpensesListRepository extends JpaRepository<ExpensesList, Long>{
+public interface ExpenseListRepository extends JpaRepository<ExpenseList, Integer>{
 }

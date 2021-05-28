@@ -1,2 +1,4 @@
-package com.wildcodeschool.tricount.controller;public class ExpenseController {
+package com.wildcodeschool.tricount.controller;
+
+public class ExpenseController {
 }
