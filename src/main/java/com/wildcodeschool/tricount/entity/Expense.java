@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ public class Expense {
     private int id;
     private String name;
     private float amount;
+    private Date expenseDate;
     
     @ManyToOne
     @JoinColumn(name="expense_list_id", columnDefinition="int")
@@ -86,6 +88,14 @@ public class Expense {
 
     public void setAmount(float aAmount) {
         amount = aAmount;
+    }
+
+    public Date getExpenseDate() {
+        return expenseDate;
+    }
+
+    public void setExpenseDate(Date aExpenseDate) {
+        expenseDate = aExpenseDate;
     }
     
     
