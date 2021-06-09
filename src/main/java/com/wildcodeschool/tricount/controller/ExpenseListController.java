@@ -21,9 +21,9 @@ public class ExpenseListController {
     }
 
     @GetMapping("/expenseslist")
-    public String getExpensesList(@RequestParam Integer idList){
-        expenseListService.getExpenseList(idList);
-        return "expenseslist";
+    @ResponseBody
+    public ExpenseList getExpensesList(@RequestParam Integer id){
+        return expenseListService.getExpenseList(id);
     }
 
 
