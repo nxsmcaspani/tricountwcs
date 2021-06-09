@@ -7,7 +7,11 @@
 <link rel="stylesheet" href="css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="container">
+
+<body>
+<header th:replace="fragments/header.html :: head"> your header here</header>
+<section>
+<div class="container">
 	<h1 class="text-center text-primary m-4">My shared expenses</h1>
 
 	<th:block th:each="expenses, state : ${expenseslists}">
@@ -34,9 +38,11 @@
 				<button type="button" class="btn btn-lg btn-primary float-end">Add expense</button>
 			</div>
 		</div>
-<!-- 		Separator : hidden if is the last, visible otherwise  -->
-		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" th:classappend="${state.last} ? 'd-none' : 'd-block'">
-	</th:block>
-
+	</div>
+		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
+</div>
+</section>
+<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
 </body>
 </html>
+
