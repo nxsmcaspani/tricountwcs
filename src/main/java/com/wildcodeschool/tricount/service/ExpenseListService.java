@@ -29,6 +29,8 @@ public class ExpenseListService {
         }
     }
 
+    public Optional<ExpenseList> findById(Integer idList){ return expenseListRepository.findById(idList); }
+
     public List<ExpenseList> findAll(){
         return expenseListRepository.findAll();
     }
@@ -36,5 +38,4 @@ public class ExpenseListService {
     public List<Expense> getExpenseList(Integer idList){
         return expenseRepository.findAll();
     }
-
 }

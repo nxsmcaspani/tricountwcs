@@ -26,6 +26,12 @@ public class ExpenseListController {
         return "expenseslist";
     }
 
+    @GetMapping("/editlist")
+    public String editExpensesList(Model model, @RequestParam(required = false) Integer idList){
+//        Optional<ExpenseList> expenseList = expenseListService.findById(idList);
+        model.addAttribute("expenselist", expenseListService);
+        return "editexpenselist";
+    }
 
     @PostMapping("/expenseslist")
     public String postExpensesList(@ModelAttribute ExpenseList expenseList) {

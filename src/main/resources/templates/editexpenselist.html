@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>TriCount</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<header th:replace="fragments/header.html :: head">header</header>
+<section>
+  <div class="container">
+    <h1 class="text-center text-primary m-4" t<!--h:text="${expenseList} ? 'Edit Expense List': 'Create Expense List'"-->>Create Expense List</h1>
+    <form action="#"  method="POST" th:action="@{/expenseslist}" th:object="${expenselist}">
+      <input name="id" th:field="*{id}" type="hidden">
+      <label for="expense-list-name">Expense List Name:</label>
+      <input id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
+      <input type="submit" value="Send">
+    </form>
+  </div>
+</section>
+<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+</body>
+</html>
