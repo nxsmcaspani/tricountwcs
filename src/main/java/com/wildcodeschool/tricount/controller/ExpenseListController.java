@@ -1,13 +1,12 @@
 package com.wildcodeschool.tricount.controller;
 
+import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Controller
 public class ExpenseListController {
@@ -21,11 +20,17 @@ public class ExpenseListController {
     }
 
     @GetMapping("/expenseslist")
-    public String getExpensesList(@RequestParam Integer idList){
-        expenseListService.getExpenseList(idList);
-        return "expenseslist";
+    @ResponseBody
+    public ExpenseList getExpensesList(@RequestParam Integer id){
+        return expenseListService.getExpenseList(id);
     }
 
+    @GetMapping("/editlist")
+    public String editExpensesList(Model model, @RequestParam(required = false) Integer idList){
+//        Optional<ExpenseList> expenseList = expenseListService.findById(idList);
+        model.addAttribute("expenselist", new CreateOrUpdateExpenseListDto());
+        return "editexpenselist";
+    }
 
     @PostMapping("/expenseslist")
     public String postExpensesList(@ModelAttribute ExpenseList expenseList) {

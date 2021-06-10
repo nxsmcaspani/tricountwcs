@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Expense {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private float amount;

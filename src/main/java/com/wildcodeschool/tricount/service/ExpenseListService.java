@@ -7,6 +7,8 @@ import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,10 @@ public class ExpenseListService {
     private ExpenseRepository expenseRepository;
 
     public ExpenseList save(ExpenseList expenseList){
+        Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseList.getId());
+        if (!optionalExpenseList.isPresent()) {
+            expenseList.setDate(new Date());
+        }
         return expenseListRepository.save(expenseList);
     }
 
@@ -29,12 +35,17 @@ public class ExpenseListService {
         }
     }
 
+    public Optional<ExpenseList> findById(Integer idList){ return expenseListRepository.findById(idList); }
+
     public List<ExpenseList> findAll(){
         return expenseListRepository.findAll();
     }
 
-    public List<Expense> getExpenseList(Integer idList){
-        return expenseRepository.findAll();
+    public ExpenseList getExpenseList(Integer id) {
+        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(id);
+        if (optionalExpensesList.isPresent()) {
+            return optionalExpensesList.get();            
+        }
+        return null;
     }
-
 }
