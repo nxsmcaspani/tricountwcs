@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class ExpenseList {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String name;
     private Date date;
