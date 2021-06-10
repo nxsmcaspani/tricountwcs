@@ -12,7 +12,7 @@
 <header th:replace="fragments/header.html :: head">header</header>
 <section>
   <div class="container">
-    <h1 class="text-center text-primary m-4" t<!--h:text="${expenseList} ? 'Edit Expense List': 'Create Expense List'"-->>Create Expense List</h1>
+    <h1 class="text-center text-primary m-4" th:text="${expenselist.id} ? 'Edit Expense List': 'Create Expense List'">Create Expense List</h1>
     <form action="#"  method="POST" th:action="@{/expenseslist}" th:object="${expenselist}">
       <input name="id" th:field="*{id}" type="hidden">
       <label for="expense-list-name">Expense List Name:</label>

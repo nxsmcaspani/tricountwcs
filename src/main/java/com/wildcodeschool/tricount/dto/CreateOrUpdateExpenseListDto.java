@@ -1,10 +1,7 @@
 package com.wildcodeschool.tricount.dto;
-
-import com.wildcodeschool.tricount.entity.Contact;
-
 import java.util.List;
 
-public class CreateExpenseListDto {
+public class CreateOrUpdateExpenseListDto {
     private String name;
     private List<Integer> contactIds;
     private Integer id;
@@ -23,5 +20,13 @@ public class CreateExpenseListDto {
 
     public void setContactIds(List<Integer> contactIds) {
         this.contactIds = contactIds;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
