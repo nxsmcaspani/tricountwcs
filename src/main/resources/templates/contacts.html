@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<title>TriCount</title>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TriCount</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/css/icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="container">
-	
+
+<body>
+<header th:replace="fragments/header.html :: head"></header>
+<section>
+	<div class="container">
 	<h1 class="text-center text-primary m-4">Manage Contacts</h1>
 	<div class = "row mr-1">
 		<div class="col"></div>
@@ -67,23 +71,23 @@
 				<div class="col">
 					<div class="row">
 						<div class = "col" th:text="${contact.name}">Name</div>
-						<div class = "col col-md-auto"><input type="image" data-bs-toggle="modal" data-bs-target="#modal-edit_contact" id="btnEditContact" src="Images/crayon.jpg" alt="Edit" height="26px" width="26px" ></div>
+<!--						<div class = "col col-md-auto"><input type="image" data-bs-toggle="modal" data-bs-target="#modal-edit_contact" id="btnEditContact" src="Images/crayon.jpg" alt="Edit" height="26px" width="26px" ></div>-->
 					</div>
 					<div class="row">
 						<div class = "col" th:text="${contact.email}">Email</div>
 						<div class = "col col-md-auto"><a data-toggle="modal" data-target="#modal-warning" 
 							th:attr="data-target='#modal-warning'+${contact.name }">
-							<input type="image" id="btnDelContact" data-bs-toggle="modal" data-bs-target="#modal-del_contact" src="Images/delete.jpg" alt="Delete" height="26px" width="26px" ></a></div>
+<!--							<input type="image" id="btnDelContact" data-bs-toggle="modal" data-bs-target="#modal-del_contact" src="Images/delete.jpg" alt="Delete" height="26px" width="26px" ></a></div>-->
 					</div>
 
 					<!--  Modal Update -->
 					<div class="modal fade" id="modal-edit_contact" tabindex="-1" aria-labelledby="editContactLabel" aria-hidden="true">
 					  <div class="modal-dialog">
 					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title">Edit Contact</h5>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
+<!--					      <div class="modal-header">-->
+<!--					        <h5 class="modal-title">Edit Contact</h5>-->
+<!--					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--					      </div>-->
 					      <form action="/contact" method="post">
 						      <div class="modal-body">
 							      <div class="container-fluid">
@@ -146,7 +150,7 @@
 	</th:block>
 
 
-
+</div>
 
 </body>
 </html>

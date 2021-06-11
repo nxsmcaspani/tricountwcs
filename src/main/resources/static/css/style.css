@@ -5,6 +5,9 @@ body {
 hr:last-child {
 	visibility: hidden;
 }
+.pageTitleLink:hover {
+	text-decoration: none;
+}
 
 /*****
 Some buttons css
