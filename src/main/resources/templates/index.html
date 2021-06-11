@@ -19,8 +19,11 @@
 			<div class="row mt-5">
 				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
-					<h4 class="text-center"><button type="button" class="btn btn-labeled btn-danger">
-						<span class="btn-label"><i class="bi-trash"></i></span>Delete</button>
+					<h4 class="text-center">
+						<a th:href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}">
+							<button type="button" class="btn btn-labeled btn-danger">
+							<span class="btn-label"><i class="bi-trash"></i></span></button>
+						</a>
 					</h4>
 					<table class="table table-striped">
 						<thead>
