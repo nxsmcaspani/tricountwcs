@@ -18,7 +18,6 @@ public class ContactService {
 
     public List<Contact> getAll() {
         return contactRepository.findAll();
-        
     }
 
     public Model findById(int idContact, Model model) {
@@ -35,7 +34,24 @@ public class ContactService {
         return contactRepository.save(contact);
     }
     
-    
+    public Optional<Contact> findById(int idContact) {
+        return contactRepository.findById(idContact);
+    }
+
+    public void deleteById(int aIdContact) {
+        contactRepository.deleteById(aIdContact);
+        
+    }
+
+    public Contact save(Integer id, String name, String email) {
+        Contact contact;
+        if (id == null) {
+            contact = new Contact(name, email); 
+        } else {
+            contact = new Contact(id, name, email);
+        }
+        return contactRepository.save(contact);
+    }
     
     
 }

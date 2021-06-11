@@ -35,6 +35,16 @@ public class Contact {
         
     }
     
+    public Contact(String aName, String aEmail) {
+        this.name = aName;
+        this.email = aEmail;
+    }
+
+    public Contact(int aId, String aName, String aEmail) {
+        this.id = aId;
+        this.name = aName;
+        this.email = aEmail;    }
+
     public List<Expense> getExpenses() {
         return expenses;
     }
