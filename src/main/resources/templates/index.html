@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<title>TriCount</title>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+	<head>
+		<title>TriCount</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="bootstrap/css/icons/bootstrap-icons.css">
+		<link rel="stylesheet" href="css/style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
 
-<body>
-<header th:replace="fragments/header.html :: head"> your header here</header>
-<section>
-<div class="container">
-	<h1 class="text-center text-primary m-4">My shared expenses</h1>
+	<body>
+	<header th:replace="fragments/header.html :: head"> your header here</header>
+	<section>
+	<div class="container">
+		<h1 class="text-center text-primary m-4">My shared expenses</h1>
 
-	<th:block th:each="expenses, state : ${expenseslists}">
-		<div class="row mt-5">
-			<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
-				<h2 class="text-center text-warning" th:text="${expenses.name}">expenselist name</h2>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Last expenses</th>
-							<th>Made by</th>
-							<th>Amount</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="expense : ${expenses.expensesList}">
-							<td th:text="${expense.name}">Expense Name</td>
-							<td th:text="${expense.owner.name}">Expense owner</td>
-							<td th:text="${expense.amount}">Expense amount</td>
-						</tr>
-					</tbody>
-				</table>
-				<button type="button" class="btn btn-lg btn-primary float-end">Add expense</button>
+		<th:block th:each="expenses, state : ${expenseslists}">
+			<div class="row mt-5">
+				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
+					<h4 class="text-center"><button type="button" class="btn btn-labeled btn-danger">
+						<span class="btn-label"><i class="bi-trash"></i></span>Delete</button>
+					</h4>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Last expenses</th>
+								<th>Made by</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="expense : ${expenses.expensesList}">
+								<td th:text="${expense.name}">Expense Name</td>
+								<td th:text="${expense.owner.name}">Expense owner</td>
+								<td th:text="${expense.amount}">Expense amount</td>
+							</tr>
+						</tbody>
+					</table>
+					<button type="button" class="btn btn-lg btn-primary float-end">Add expense</button>
+				</div>
 			</div>
 		</div>
+			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
 	</div>
-		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
-</div>
-</section>
-<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
-</body>
+	</section>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+	</body>
 </html>
 

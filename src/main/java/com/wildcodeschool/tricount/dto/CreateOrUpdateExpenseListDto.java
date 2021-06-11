@@ -5,6 +5,7 @@ public class CreateOrUpdateExpenseListDto {
     private String name;
     private List<Integer> contactIds;
     private Integer id;
+//    private ContactDto contactDtoList;
 
     public String getName() {
         return name;
