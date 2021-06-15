@@ -45,12 +45,6 @@ public class ExpenseListController {
         return "redirect:/";
     }
 
-    @PutMapping("/expenseslist")
-    public String updateExpensesList(@ModelAttribute CreateOrUpdateExpenseListDto expenseListDto){
-        expenseListService.save(expenseListService.convertFromDtoToEntity(expenseListDto));
-        return "redirect:/";
-    }
-
 //    @DeleteMapping("/expenseslist")
     @GetMapping("/expenseslist/delete/{idList}")
 //    public String deleteExpensesList(Model model, @RequestParam Integer idList){

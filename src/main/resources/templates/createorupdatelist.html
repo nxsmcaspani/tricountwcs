@@ -12,9 +12,9 @@
 <header th:replace="fragments/header.html :: head">header</header>
 <section>
   <div class="container">
-    <h1 class="text-center text-primary m-4" th:text="${expenselistdto.id} ? 'Edit an expenses List': 'Create a shared expenses List'">Create Expense List</h1>
+    <h1 class="text-center text-primary m-4" th:text="${expenselistdto.id} ? 'Edit an expenses List': 'Create a shared expenses List'"></h1>
     <form action="#"  method="POST" th:action="@{/expenseslist}" th:object="${expenselistdto}">
-<!--      <input name="id" th:field="*{id}" type="hidden">-->
+      <input name="id" th:field="*{id}" type="hidden">
       <label for="expense-list-name">Expense List Name:</label>
       <input id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
       <input type="submit" value="Send">
