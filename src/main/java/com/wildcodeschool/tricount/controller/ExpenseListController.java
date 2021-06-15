@@ -29,22 +29,25 @@ public class ExpenseListController {
         return expenseListService.getExpenseList(id);
     }
 
-    @GetMapping("/editlist")
-    public String editExpensesList(Model model, @RequestParam(required = false) Integer idList){
-//        Optional<ExpenseList> expenseList = expenseListService.findById(idList);
-        model.addAttribute("expenselist", new CreateOrUpdateExpenseListDto());
-        return "editexpenselist";
+    @GetMapping(value = {"/createorupdatelist", "/createorupdatelist/{id}" })
+    public String editExpensesList(Model model, @PathVariable(required = false, name = "id") Integer idList){
+        if(idList != null){
+            model.addAttribute("expenselistdto", expenseListService.convertFromEntityToDto(idList));
+        } else {
+            model.addAttribute("expenselistdto", new CreateOrUpdateExpenseListDto());
+        }
+        return "createorupdatelist";
     }
 
     @PostMapping("/expenseslist")
-    public String postExpensesList(@ModelAttribute ExpenseList expenseList) {
-        expenseListService.save(expenseList);
+    public String postExpensesList(@ModelAttribute CreateOrUpdateExpenseListDto expenseListDto) {
+        expenseListService.save(expenseListService.convertFromDtoToEntity(expenseListDto));
         return "redirect:/";
     }
 
     @PutMapping("/expenseslist")
-    public String updateExpensesList(@ModelAttribute ExpenseList expenseList){
-        expenseListService.save(expenseList);
+    public String updateExpensesList(@ModelAttribute CreateOrUpdateExpenseListDto expenseListDto){
+        expenseListService.save(expenseListService.convertFromDtoToEntity(expenseListDto));
         return "redirect:/";
     }
 
@@ -56,7 +59,7 @@ public class ExpenseListController {
         if(optionalExpenseList.isPresent()) {
             expenseListService.delete(idList);
         } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+idList);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+idList);
         }
         return "redirect:/";
     }

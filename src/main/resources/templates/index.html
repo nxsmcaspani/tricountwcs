@@ -24,6 +24,10 @@
 							<button type="button" class="btn btn-labeled btn-danger">
 							<span class="btn-label"><i class="bi-trash"></i></span></button>
 						</a>
+						<a th:href="@{/createorupdatelist/{id}(id=${expenses.id})}">
+							<button type="button" class="btn btn-labeled btn-success">
+								<span class="btn-label"><i class="bi-pencil"></i></span></button>
+						</a>
 					</h4>
 					<table class="table table-striped">
 						<thead>
