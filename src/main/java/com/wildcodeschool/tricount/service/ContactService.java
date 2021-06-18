@@ -1,5 +1,7 @@
 package com.wildcodeschool.tricount.service;
+import com.wildcodeschool.tricount.dto.ContactDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +54,14 @@ public class ContactService {
         }
         return contactRepository.save(contact);
     }
-    
+
+    public ArrayList<ContactDto> getAllContactsAsDto(){
+        List<Contact> allContacts = contactRepository.findAll();
+        ArrayList<ContactDto> contactsDto = new ArrayList<>();
+        for (Contact contact : allContacts){
+            contactsDto.add(new ContactDto(contact.getId(), contact.getName(), contact.getEmail()));
+        }
+        return contactsDto;
+    }
     
 }

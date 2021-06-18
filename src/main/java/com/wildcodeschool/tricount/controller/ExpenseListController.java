@@ -2,6 +2,7 @@ package com.wildcodeschool.tricount.controller;
 
 import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
 import com.wildcodeschool.tricount.entity.ExpenseList;
+import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class ExpenseListController {
     @Autowired
     private ExpenseListService expenseListService;
 
+    @Autowired
+    private ContactService contactService;
+
     @GetMapping("/")
     public String getAll(Model model) {
         model.addAttribute("expenseslists", expenseListService.findAll());
@@ -31,11 +35,16 @@ public class ExpenseListController {
 
     @GetMapping(value = {"/createorupdatelist", "/createorupdatelist/{id}" })
     public String editExpensesList(Model model, @PathVariable(required = false, name = "id") Integer idList){
+        CreateOrUpdateExpenseListDto createOrUpdateExpenseListDto = new CreateOrUpdateExpenseListDto();
         if(idList != null){
-            model.addAttribute("expenselistdto", expenseListService.convertFromEntityToDto(idList));
+            createOrUpdateExpenseListDto = expenseListService.convertFromEntityToDto(idList);
+            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
+//            model.addAttribute("expenselistdto", );
         } else {
-            model.addAttribute("expenselistdto", new CreateOrUpdateExpenseListDto());
+            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
         }
+//        model.addAttribute("contacts", );
+        model.addAttribute("expenselistdto", createOrUpdateExpenseListDto);
         return "createorupdatelist";
     }
 

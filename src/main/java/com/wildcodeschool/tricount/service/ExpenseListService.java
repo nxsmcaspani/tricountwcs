@@ -67,6 +67,5 @@ public class ExpenseListService {
             dto.setName(expenseList.getName());
             return dto;
         } else return null;
-
     }
 }
