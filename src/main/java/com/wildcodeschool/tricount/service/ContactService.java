@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.wildcodeschool.tricount.dto.CreateOrUpdateContactDto;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.repository.ContactRepository;
 
@@ -16,42 +18,53 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public List<Contact> getAll() {
-        return contactRepository.findAll();
+    public List<CreateOrUpdateContactDto> getAll() {
+        List<CreateOrUpdateContactDto> lstContactsDto = new ArrayList<CreateOrUpdateContactDto>();
+        List<Contact> lstContact = contactRepository.findAll();
+        for (Contact contact : lstContact) {
+            lstContactsDto.add(convContactToDto(contact));
+        }
+        return lstContactsDto;
     }
 
     public Model findById(int idContact, Model model) {
         Optional<Contact> optionalContact = contactRepository.findById(idContact);
-        Contact contact = new Contact();
+        CreateOrUpdateContactDto contactDto = new CreateOrUpdateContactDto();
         if (optionalContact.isPresent()) {
-            contact = optionalContact.get();
+            contactDto = convContactToDto(optionalContact.get());
         }
-        model.addAttribute("contact", contact);
+        model.addAttribute("contact", contactDto);
         return model;
     }
 
-    public Contact save(Contact contact) {
-        return contactRepository.save(contact);
-    }
-    
-    public Optional<Contact> findById(int idContact) {
-        return contactRepository.findById(idContact);
+    public void save(CreateOrUpdateContactDto contactDto) {
+        contactRepository.save(convDtoToContact(contactDto));
     }
 
-    public void deleteById(int aIdContact) {
-        contactRepository.deleteById(aIdContact);
-        
-    }
-
-    public Contact save(Integer id, String name, String email) {
-        Contact contact;
-        if (id == null) {
-            contact = new Contact(name, email); 
+    public void delete(CreateOrUpdateContactDto dtoContact) {
+        System.out.println("delete dtoContact " + dtoContact.getId());
+        Optional<Contact> contact = contactRepository.findById(dtoContact.getId());
+        if (contact.isPresent()) {
+            contactRepository.delete(convDtoToContact(dtoContact));
         } else {
-            contact = new Contact(id, name, email);
+            System.out.println("Echec delete dtoContact ");
         }
-        return contactRepository.save(contact);
     }
     
+    private CreateOrUpdateContactDto convContactToDto(Contact contact) {
+        return new CreateOrUpdateContactDto(contact.getId(), contact.getName(), contact.getEmail());
+    }
+    
+    private Contact convDtoToContact(CreateOrUpdateContactDto contactDto) {
+        Contact contact;
+        if (contactDto.getId() != null) {
+            System.out.println("contactDto Id not null " + contactDto.getId());
+            contact = new Contact(contactDto.getId(), contactDto.getName(), contactDto.getEmail());
+        } else {
+            System.out.println("contactDto Id not null " + contactDto.getId());
+            contact = new Contact(contactDto.getName(), contactDto.getEmail());
+        }
+        return contact;
+    }
     
 }

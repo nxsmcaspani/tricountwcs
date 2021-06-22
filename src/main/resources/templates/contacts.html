@@ -11,6 +11,8 @@
 </head>
 <body class="container">
 	
+	<header th:replace="fragments/header.html :: head"> your header here</header>
+	
 	<h1 class="text-center text-primary m-4">Manage Contacts</h1>
 	<div class = "row mr-1">
 		<div class="col"></div>
@@ -26,7 +28,7 @@
 	        <h5 class="modal-title" id="newContactLabel">Create Contact</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      <form action="/contact" method="post">
+	      <form action="/contact" method="post" th:object="${contact}">
 	      <div class="modal-body">
 		      <div class="container-fluid">
 		        Enter informations for the contact:<br>
@@ -35,7 +37,7 @@
 		        		<label>Name:</label>
 		        	</div>
 			        <div class="col">
-			        	<input name="name" class="form-control" type="text" >
+			        	<input name="name" class="form-control" type="text" th:field="*{name}">
 			        </div>
 			    </div>
 		        <div class="row">
@@ -43,7 +45,7 @@
 				        <label>Email:</label>
 		    	    </div>
 		        	<div class="col">
-		        		<input name="email" class="form-control" type="text">
+		        		<input name="email" class="form-control" type="text" th:field="*{email}">
 		        	</div>
 		        </div>
 		      </div>
@@ -84,7 +86,7 @@
 					        <h5 class="modal-title">Edit Contact</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
-					      <form action="/contact" method="post">
+					      <form action="/contact" method="post" th:object="${contact}">
 						      <div class="modal-body">
 							      <div class="container-fluid">
 							        Update informations for the contact:<br>
@@ -124,11 +126,11 @@
 					        <h5 class="modal-title" id="delContactLabel">Delete Contact</h5>
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
-					      <form action="/contact" method="delete">
+					      <form action="/contact" method="delete" th:object="${contact}">
 						      <div class="modal-body">
 								<h3>Are you sure want to delete this contact?</h3>	      
 								</div>
-								<input class="d-none" type="number" name="id" th:value=${contact.id}>
+								<!-- <input class="d-none" type="number" name="id" th:value=${contact.id}>  -->  
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 						        <button type="submit" class="btn btn-warning" id="btnDelContactSave">Delete</button>
@@ -146,7 +148,7 @@
 	</th:block>
 
 
-
+<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
 
 </body>
 </html>
