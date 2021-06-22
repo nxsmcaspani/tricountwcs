@@ -6,6 +6,8 @@
 		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
 		<link rel="stylesheet" href="/css/style.css">
+		<script src="/js/jquery-3.2.1.slim.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 
@@ -16,15 +18,35 @@
 		<h1 class="text-center text-primary m-4">All shared expenses</h1>
 
 		<th:block th:each="expenses, state : ${expenseslistsdto}">
+<!--			Bootstrap modal div for confirmation windows pop-up -->
+			<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="deleteListLabel">Confirm Delete</h4>
+						</div>
+						<div class="modal-body">
+							<p>You are about to delete an expense list, this action cannot be undone.</p>
+							<p>Do you want to proceed?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+							<a class="btn btn-danger btn-ok">Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="row mt-5">
 				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
 					<h4 class="text-center">
-						<a class="text-decoration-none" th:href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}">
+						<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
 							<button type="button" class="btn btn-labeled btn-danger">
 							<span class="btn-label"><i class="bi-trash"></i></span></button>
 						</a>
-						<a class="text-decoration-none" th:href="@{/createorupdatelist/{id}(id=${expenses.id})}">
+						<a class="text-decoration-none" th:data-href="@{/createorupdatelist/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-labeled btn-success">
 								<span class="btn-label"><i class="bi-pencil"></i></span></button>
 						</a>
@@ -52,6 +74,14 @@
 			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
 	</div>
 	</section>
+
+<!--	bit of jquery to show the confirmation pop-up -->
+	<script>
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
+	</script>
+
 	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
 	</body>
 </html>
