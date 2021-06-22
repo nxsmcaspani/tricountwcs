@@ -18,41 +18,53 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public List<Contact> getAll() {
-        return contactRepository.findAll();
+    public List<ContactDto> getAll() {
+        List<ContactDto> lstContactsDto = new ArrayList<ContactDto>();
+        List<Contact> lstContact = contactRepository.findAll();
+        for (Contact contact : lstContact) {
+            lstContactsDto.add(convContactToDto(contact));
+        }
+        return lstContactsDto;
     }
 
     public Model findById(int idContact, Model model) {
         Optional<Contact> optionalContact = contactRepository.findById(idContact);
-        Contact contact = new Contact();
+        ContactDto contactDto = new ContactDto();
         if (optionalContact.isPresent()) {
-            contact = optionalContact.get();
+            contactDto = convContactToDto(optionalContact.get());
         }
-        model.addAttribute("contact", contact);
+        model.addAttribute("contact", contactDto);
         return model;
     }
 
-    public Contact save(Contact contact) {
-        return contactRepository.save(contact);
+    public void save(ContactDto contactDto) {
+        contactRepository.save(convDtoToContact(contactDto));
+    }
+
+    public void delete(ContactDto dtoContact) {
+        System.out.println("delete dtoContact " + dtoContact.getId());
+        Optional<Contact> contact = contactRepository.findById(dtoContact.getId());
+        if (contact.isPresent()) {
+            contactRepository.delete(convDtoToContact(dtoContact));
+        } else {
+            System.out.println("Echec delete dtoContact ");
+        }
     }
     
-    public Optional<Contact> findById(int idContact) {
-        return contactRepository.findById(idContact);
+    private ContactDto convContactToDto(Contact contact) {
+        return new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
     }
-
-    public void deleteById(int aIdContact) {
-        contactRepository.deleteById(aIdContact);
-        
-    }
-
-    public Contact save(Integer id, String name, String email) {
+    
+    private Contact convDtoToContact(ContactDto contactDto) {
         Contact contact;
-        if (id == null) {
-            contact = new Contact(name, email); 
+        if (contactDto.getId() != null) {
+            System.out.println("contactDto Id not null " + contactDto.getId());
+            contact = new Contact(contactDto.getId(), contactDto.getName(), contactDto.getEmail());
         } else {
-            contact = new Contact(id, name, email);
+            System.out.println("contactDto Id not null " + contactDto.getId());
+            contact = new Contact(contactDto.getName(), contactDto.getEmail());
         }
-        return contactRepository.save(contact);
+        return contact;
     }
 
     public ArrayList<ContactDto> getAllContactsAsDto(){

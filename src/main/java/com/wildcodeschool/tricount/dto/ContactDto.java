@@ -1,11 +1,11 @@
 package com.wildcodeschool.tricount.dto;
 
 public class ContactDto {
-    private int id;
+    private Integer id;
     private String name;
     private String email;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -34,4 +34,14 @@ public class ContactDto {
         this.name = name;
         this.email = email;
     }
+
+    public ContactDto(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public ContactDto() {
+
+    }
+    
 }
