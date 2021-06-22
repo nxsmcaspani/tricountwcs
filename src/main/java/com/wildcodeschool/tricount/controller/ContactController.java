@@ -31,22 +31,24 @@ public class ContactController {
         return "contacts";
     }
 
-    @GetMapping("/contact")
-    public String getContactById(Model model, @RequestParam int idContact) {
-        contactService.findById(idContact, model);
-        return "contact";
-    }
+//    @GetMapping("/contact")
+//    public String getContactById(Model model, @RequestParam int idContact) {
+//        System.out.println("start getContactById");
+//        contactService.findById(idContact, model);
+//        return "contact";
+//    }
 
     @PostMapping("/contact")
     public String postContact(@ModelAttribute ContactDto contactDto) {
+        System.out.println("start post Contact");
         contactService.save(contactDto);
         return "redirect:/contacts";
     }
     
-    @DeleteMapping("/contact")
+    @PostMapping("/del_contact")
     public String deleteContact(@ModelAttribute ContactDto contactDto) {
         System.out.println("start delete contact");
-        //contactService.delete(contactDto);
+        contactService.delete(contactDto);
         return "redirect:/contacts";
     }
     
