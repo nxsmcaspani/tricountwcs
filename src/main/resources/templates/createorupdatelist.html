@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>TriCount</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
+  <script src="/js/tom-select.complete.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/header.html :: head">header</header>
+<section>
+  <div class="container">
+    <h1 class="text-center text-primary m-4" th:text="${expenselistdto.id} ? 'Edit an expenses List': 'Create a shared expenses List'"></h1>
+    <form action="#"  method="POST" th:action="@{/expenseslist}" th:object="${expenselistdto}">
+      <input name="id" th:field="*{id}" type="hidden">
+      <label for="expense-list-name">Expense List Name:</label>
+      <input id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
+      <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
+        <option value="">Add a participant...</option>
+        <option th:each="contact : ${contactsdto}"
+                th:value="${contact.id}"
+                th:utext="${contact.name}"/>
+      </select>
+      <script>
+        var config = {};
+        new TomSelect('#contacts',config);
+      </script>
+      <br />
+      <input type="submit" value="Send">
+    </form>
+  </div>
+</section>
+<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+</body>
+</html>
