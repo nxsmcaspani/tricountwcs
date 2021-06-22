@@ -1,4 +1,5 @@
 package com.wildcodeschool.tricount.service;
+import com.wildcodeschool.tricount.dto.ContactDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.wildcodeschool.tricount.dto.CreateOrUpdateContactDto;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.repository.ContactRepository;
 
@@ -18,8 +18,8 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public List<CreateOrUpdateContactDto> getAll() {
-        List<CreateOrUpdateContactDto> lstContactsDto = new ArrayList<CreateOrUpdateContactDto>();
+    public List<ContactDto> getAll() {
+        List<ContactDto> lstContactsDto = new ArrayList<ContactDto>();
         List<Contact> lstContact = contactRepository.findAll();
         for (Contact contact : lstContact) {
             lstContactsDto.add(convContactToDto(contact));
@@ -29,7 +29,7 @@ public class ContactService {
 
     public Model findById(int idContact, Model model) {
         Optional<Contact> optionalContact = contactRepository.findById(idContact);
-        CreateOrUpdateContactDto contactDto = new CreateOrUpdateContactDto();
+        ContactDto contactDto = new ContactDto();
         if (optionalContact.isPresent()) {
             contactDto = convContactToDto(optionalContact.get());
         }
@@ -37,11 +37,11 @@ public class ContactService {
         return model;
     }
 
-    public void save(CreateOrUpdateContactDto contactDto) {
+    public void save(ContactDto contactDto) {
         contactRepository.save(convDtoToContact(contactDto));
     }
 
-    public void delete(CreateOrUpdateContactDto dtoContact) {
+    public void delete(ContactDto dtoContact) {
         System.out.println("delete dtoContact " + dtoContact.getId());
         Optional<Contact> contact = contactRepository.findById(dtoContact.getId());
         if (contact.isPresent()) {
@@ -51,11 +51,11 @@ public class ContactService {
         }
     }
     
-    private CreateOrUpdateContactDto convContactToDto(Contact contact) {
-        return new CreateOrUpdateContactDto(contact.getId(), contact.getName(), contact.getEmail());
+    private ContactDto convContactToDto(Contact contact) {
+        return new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
     }
     
-    private Contact convDtoToContact(CreateOrUpdateContactDto contactDto) {
+    private Contact convDtoToContact(ContactDto contactDto) {
         Contact contact;
         if (contactDto.getId() != null) {
             System.out.println("contactDto Id not null " + contactDto.getId());
@@ -65,6 +65,15 @@ public class ContactService {
             contact = new Contact(contactDto.getName(), contactDto.getEmail());
         }
         return contact;
+    }
+
+    public ArrayList<ContactDto> getAllContactsAsDto(){
+        List<Contact> allContacts = contactRepository.findAll();
+        ArrayList<ContactDto> contactsDto = new ArrayList<>();
+        for (Contact contact : allContacts){
+            contactsDto.add(new ContactDto(contact.getId(), contact.getName(), contact.getEmail()));
+        }
+        return contactsDto;
     }
     
 }

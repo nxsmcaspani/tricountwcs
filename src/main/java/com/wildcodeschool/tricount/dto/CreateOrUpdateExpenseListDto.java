@@ -1,10 +1,11 @@
 package com.wildcodeschool.tricount.dto;
-import java.util.List;
+import java.util.ArrayList;
 
 public class CreateOrUpdateExpenseListDto {
-    private String name;
-    private List<Integer> contactIds;
     private Integer id;
+    private String name;
+    private ArrayList<ContactDto> contacts;
+    private ArrayList<ContactDto> participants;
 
     public String getName() {
         return name;
@@ -14,12 +15,20 @@ public class CreateOrUpdateExpenseListDto {
         this.name = name;
     }
 
-    public List<Integer> getContactIds() {
-        return contactIds;
+    public ArrayList<ContactDto> getContacts() {
+        return contacts;
     }
 
-    public void setContactIds(List<Integer> contactIds) {
-        this.contactIds = contactIds;
+    public void setContacts(ArrayList<ContactDto> contacts) {
+        this.contacts = contacts;
+    }
+
+    public ArrayList<ContactDto> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(ArrayList<ContactDto> participants) {
+        this.participants = participants;
     }
 
     public Integer getId() {
@@ -29,4 +38,5 @@ public class CreateOrUpdateExpenseListDto {
     public void setId(Integer id) {
         this.id = id;
     }
+
 }

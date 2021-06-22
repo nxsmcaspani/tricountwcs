@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.wildcodeschool.tricount.service.ContactService;
-import com.wildcodeschool.tricount.dto.CreateOrUpdateContactDto;
+import com.wildcodeschool.tricount.dto.ContactDto;
 
 @Controller
 public class ContactController {
@@ -23,11 +23,11 @@ public class ContactController {
     
     @GetMapping("/contacts")
     public String getAll(Model model) {
-        List<CreateOrUpdateContactDto> contactsDto = new ArrayList<CreateOrUpdateContactDto>();
+        List<ContactDto> contactsDto = new ArrayList<ContactDto>();
         contactsDto = contactService.getAll();
         model.addAttribute("contacts", contactsDto);
-        model.addAttribute("contact", new CreateOrUpdateContactDto());
-        model.addAttribute("newcontact", new CreateOrUpdateContactDto());
+        model.addAttribute("contact", new ContactDto());
+        model.addAttribute("newcontact", new ContactDto());
         return "contacts";
     }
 
@@ -38,13 +38,13 @@ public class ContactController {
     }
 
     @PostMapping("/contact")
-    public String postContact(@ModelAttribute CreateOrUpdateContactDto contactDto) {
+    public String postContact(@ModelAttribute ContactDto contactDto) {
         contactService.save(contactDto);
         return "redirect:/contacts";
     }
     
     @DeleteMapping("/contact")
-    public String deleteContact(@ModelAttribute CreateOrUpdateContactDto contactDto) {
+    public String deleteContact(@ModelAttribute ContactDto contactDto) {
         System.out.println("start delete contact");
         //contactService.delete(contactDto);
         return "redirect:/contacts";

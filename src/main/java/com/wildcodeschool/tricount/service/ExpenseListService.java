@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
+import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
@@ -7,7 +8,7 @@ import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,6 @@ import java.util.Optional;
 public class ExpenseListService {
     @Autowired
     private ExpenseListRepository expenseListRepository;
-
-    @Autowired
-    private ExpenseRepository expenseRepository;
 
     public ExpenseList save(ExpenseList expenseList){
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseList.getId());
@@ -47,5 +45,27 @@ public class ExpenseListService {
             return optionalExpensesList.get();            
         }
         return null;
+    }
+
+//    public ExpenseList getById(Integer id) { return expenseListRepository.getById(id); }
+
+    public ExpenseList convertFromDtoToEntity(CreateOrUpdateExpenseListDto dto){
+        ExpenseList expenseListFromDto = new ExpenseList();
+        expenseListFromDto.setName(dto.getName());
+        if(dto.getId() != null){
+            expenseListFromDto.setId(dto.getId());
+        }
+        return expenseListFromDto;
+    }
+
+    public CreateOrUpdateExpenseListDto convertFromEntityToDto(Integer idList){
+        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
+        if (optionalExpensesList.isPresent()) {
+            ExpenseList expenseList = optionalExpensesList.get();
+            CreateOrUpdateExpenseListDto dto = new CreateOrUpdateExpenseListDto();
+            dto.setId(expenseList.getId());
+            dto.setName(expenseList.getName());
+            return dto;
+        } else return null;
     }
 }
