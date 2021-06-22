@@ -10,7 +10,6 @@ import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,8 +52,6 @@ public class ExpenseListService {
         }
         return null;
     }
-
-//    public ExpenseList getById(Integer id) { return expenseListRepository.getById(id); }
 
     public ExpenseList convertFromDtoToEntity(CreateOrUpdateExpenseListDto dto){
         ExpenseList expenseListFromDto = new ExpenseList();

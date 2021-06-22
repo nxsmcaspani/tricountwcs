@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,7 +25,11 @@ public class ExpenseListController {
 
     @GetMapping("/")
     public String getAll(Model model) {
-        model.addAttribute("expenseslists", expenseListService.findAll());
+        List<CreateOrUpdateExpenseListDto> expensesListsDto = new ArrayList<>();
+        for( ExpenseList expenseList : expenseListService.findAll()){
+            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId()));
+        }
+        model.addAttribute("expenseslistsdto", expensesListsDto);
         return "index";
     }
 

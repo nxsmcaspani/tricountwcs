@@ -15,7 +15,7 @@
 	<div class="container">
 		<h1 class="text-center text-primary m-4">All shared expenses</h1>
 
-		<th:block th:each="expenses, state : ${expenseslists}">
+		<th:block th:each="expenses, state : ${expenseslistsdto}">
 			<div class="row mt-5">
 				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
@@ -38,7 +38,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="expense : ${expenses.expensesList}">
+							<tr th:each="expense : ${expenses.idExpenses}">
 								<td th:text="${expense.name}">Expense Name</td>
 								<td th:text="${expense.owner.name}">Expense owner</td>
 								<td th:text="${expense.amount}">Expense amount</td>
