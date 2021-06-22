@@ -19,15 +19,15 @@
       <input name="id" th:field="*{id}" type="hidden">
       <label for="expense-list-name">Expense List Name:</label>
       <input id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
-      <select th:field="*{participants}" id="participants" name="participants[]" multiple placeholder="Add a participant..." autocomplete="on">
+      <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
         <option value="">Add a participant...</option>
-        <option th:each="contact : ${expenselistdto.contacts}"
+        <option th:each="contact : ${contactsdto}"
                 th:value="${contact.id}"
                 th:utext="${contact.name}"/>
       </select>
       <script>
         var config = {};
-        new TomSelect('#participants',config);
+        new TomSelect('#contacts',config);
       </script>
       <br />
       <input type="submit" value="Send">

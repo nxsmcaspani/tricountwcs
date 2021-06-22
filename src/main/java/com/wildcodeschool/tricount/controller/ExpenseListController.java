@@ -38,19 +38,17 @@ public class ExpenseListController {
         CreateOrUpdateExpenseListDto createOrUpdateExpenseListDto = new CreateOrUpdateExpenseListDto();
         if(idList != null){
             createOrUpdateExpenseListDto = expenseListService.convertFromEntityToDto(idList);
-            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
-//            model.addAttribute("expenselistdto", );
-        } else {
-            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
         }
-//        model.addAttribute("contacts", );
         model.addAttribute("expenselistdto", createOrUpdateExpenseListDto);
+        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         return "createorupdatelist";
     }
 
     @PostMapping("/expenseslist")
     public String postExpensesList(@ModelAttribute CreateOrUpdateExpenseListDto expenseListDto) {
-        expenseListService.save(expenseListService.convertFromDtoToEntity(expenseListDto));
+        System.out.println(expenseListDto);
+        expenseListDto.showContacts();
+        expenseListService.save(expenseListDto);
         return "redirect:/";
     }
 
