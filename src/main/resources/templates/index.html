@@ -46,7 +46,7 @@
 							<button type="button" class="btn btn-labeled btn-danger">
 							<span class="btn-label"><i class="bi-trash"></i></span></button>
 						</a>
-						<a class="text-decoration-none" th:data-href="@{/createorupdatelist/{id}(id=${expenses.id})}">
+						<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-labeled btn-success">
 								<span class="btn-label"><i class="bi-pencil"></i></span></button>
 						</a>

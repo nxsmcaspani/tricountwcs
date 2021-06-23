@@ -1,8 +1,9 @@
 package com.wildcodeschool.tricount.dto;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateOrUpdateExpenseListDto {
+public class UpdateExpenseListDto {
     private Integer id;
     private String name;
     private List<Integer> idContacts = new ArrayList<>();
