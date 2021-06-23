@@ -2,6 +2,7 @@ package com.wildcodeschool.tricount.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,12 @@ public class BalanceExpenseListService {
     
     
     public BalanceExpenseDto getDtoBalanceExpense(int idList) {
-        BalanceExpenseDto balDto = convExpenseListToBalanceDto(expenseListService.getExpenseList(idList));
-        return balDto; // expenseListService.convertFromEntityToDto(idList);
+        Optional<ExpenseList> exp = expenseListService.findById(idList);
+        if (exp.isPresent()) {
+            BalanceExpenseDto balDto = convExpenseListToBalanceDto(exp.get());
+            return balDto; // expenseListService.convertFromEntityToDto(idList);
+        }
+        return null;
     }
     
     
@@ -55,15 +60,18 @@ public class BalanceExpenseListService {
             }
         }
         balDto.setBalanceOk(checkBalanceOk(balDto.getLstContacts()));
+        System.out.println("Balance ok ? : " + balDto.isBalanceOk());
         return balDto;
     }
 
     private boolean checkBalanceOk(List<ContactForBalanceDto> lstContacts) {
         if (lstContacts.size() <2) {
+            System.out.println("inf 2, true");
             return true;
         }
         for (int i = 1; i < lstContacts.size(); i++) {
             if (lstContacts.get(i).getAmountDue() != lstContacts.get(i-1).getAmountDue()) {
+                System.out.println("val diff : " + lstContacts.get(i).getAmountDue() + " versus " + lstContacts.get(i-1).getAmountDue()); 
                 return false;
             }
         }

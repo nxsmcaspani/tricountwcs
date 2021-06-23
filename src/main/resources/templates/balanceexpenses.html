@@ -16,7 +16,7 @@
 			<h1 class="text-center text-primary m-4">Who owns who?</h1>
 		
 		<h2 class="text-primary m-4">List: <span th:text="${balExpenseDto.name}">list name</span></h2>
-		<h3 class="test-primary">Total spending: <span th:text="${balExpenseDto.total}">total</span></h3>
+		<h3 class="test-primary">Total spent: <span th:text="${balExpenseDto.total}">total</span></h3>
 		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 		<div class="col"> 
 			<div class="row">
@@ -35,7 +35,9 @@
 		</div>
 		</th:block>
 		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
-		<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+		<div class="col-md-12 text-center" th:unless="${balExpenseDto.balanceOk}">
+			<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+		</div>
 		
 		</div>
 	</section>
