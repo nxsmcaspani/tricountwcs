@@ -43,8 +43,8 @@
 					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
 					<h4 class="text-center">
 						<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
-							<button type="button" class="btn btn-labeled btn-success">
-								<span class="btn-label"><i class="bi-pencil"></i></span></button>
+							<button type="button" class="btn btn-labeled btn-primary">
+								<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
 						</a>
 						<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
 							<button type="button" class="btn btn-labeled btn-danger">
@@ -67,6 +67,12 @@
 							</tr>
 						</tbody>
 					</table>
+					<div class="align-items-end">
+						<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
+							<button type="button" class="btn btn-labeled btn-rounded btn-success" title="Add expense to this list">
+								<span class="btn-label"><i class="bi-plus-circle-fill"></i></span></button>
+						</a>
+					</div>
 <!--					<button type="button" class="btn btn-lg btn-primary float-end">Add expense</button>-->
 				</div>
 			</div>
