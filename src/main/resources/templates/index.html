@@ -42,13 +42,13 @@
 				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
 					<h4 class="text-center">
-						<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
-							<button type="button" class="btn btn-labeled btn-danger">
-							<span class="btn-label"><i class="bi-trash"></i></span></button>
-						</a>
 						<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-labeled btn-success">
 								<span class="btn-label"><i class="bi-pencil"></i></span></button>
+						</a>
+						<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
+							<button type="button" class="btn btn-labeled btn-danger">
+								<span class="btn-label"><i class="bi-trash"></i></span></button>
 						</a>
 					</h4>
 					<table class="table table-striped">

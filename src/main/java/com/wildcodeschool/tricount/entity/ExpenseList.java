@@ -1,6 +1,6 @@
 package com.wildcodeschool.tricount.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,7 +22,8 @@ public class ExpenseList {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String name;
-    private Date date;
+    private LocalDate date;
+
     
     @OneToMany (mappedBy="expenseList")
     @Column(columnDefinition="int")
@@ -62,15 +63,10 @@ public class ExpenseList {
     public void setContacts(List<Contact> aContacts) {
         contacts = aContacts;
     }
-
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
-
-    public void setDate(Date aDate) {
+    public void setDate(LocalDate aDate) {
         date = aDate;
     }
-    
-    
-    
 }

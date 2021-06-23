@@ -29,7 +29,7 @@ public class ExpenseListController {
     public String getAll(Model model) {
         List<ListExpenseListDto> expensesListsDto = new ArrayList<>();
         for( ExpenseList expenseList : expenseListService.findAll()){
-            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId()));
+            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId(), Boolean.TRUE));
         }
         model.addAttribute("expenseslistsdto", expensesListsDto);
         return "index";

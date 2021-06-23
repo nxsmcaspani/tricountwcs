@@ -16,8 +16,10 @@
     <div class="container">
         <h1 class="text-center text-primary m-4">Create a shared expenses List</h1>
         <form action="#"  method="POST" th:action="@{/newexpenseslist}" th:object="${createexpenselistdto}">
-            <label for="expense-list-name">Expense List Name:</label>
-            <input id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
+            <label for="expense-list-name">Expense List Name:</label><br /><br />
+            <input class="form-control" id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
+            <br /><hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
+            <label for="contacts">Add participants to the list:</label><br /><br />
             <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
                 <option value="">Add a participant...</option>
                 <option th:each="contact : ${contactsdto}"
@@ -28,8 +30,8 @@
                 var config = {};
                 new TomSelect('#contacts',config);
             </script>
-            <br />
-            <input type="submit" value="Create">
+            <br /><br />
+            <input type="submit" value="Create List" class="btn btn-primary">
         </form>
     </div>
 </section>

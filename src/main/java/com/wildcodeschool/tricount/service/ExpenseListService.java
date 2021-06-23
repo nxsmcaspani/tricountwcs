@@ -4,23 +4,33 @@ import com.wildcodeschool.tricount.dto.ListExpenseListDto;
 import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
 import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.Contact;
+import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ContactRepository;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
+import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseListService {
+    private final int NB_DISPLAYED_EXPENSES = 3;
+
     @Autowired
     private ExpenseListRepository expenseListRepository;
+
     @Autowired
     private ContactRepository contactRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private ExpenseService expenseService;
 
     public ExpenseList create(CreateExpenseListDto createExpenseListDto){
         ExpenseList expenseList;
@@ -64,16 +74,25 @@ public class ExpenseListService {
         return expenseListFromDto;
     }
 
-    public ListExpenseListDto convertFromEntityToDto(Integer idList){
+    public ListExpenseListDto convertFromEntityToDto(Integer idList, Boolean getLastThreeExpensesOnly){
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
         if (optionalExpensesList.isPresent()) {
             ExpenseList expenseList = optionalExpensesList.get();
             ListExpenseListDto dto = new ListExpenseListDto();
             dto.setId(expenseList.getId());
             dto.setName(expenseList.getName());
+            if(!getLastThreeExpensesOnly) {
+                dto.setExpenses(expenseList.getExpensesList());
+            } else {
+                dto.setExpenses(expenseList.getExpensesList().stream()
+                        .sorted(Comparator.comparing(Expense::getExpenseDate).reversed())
+                        .limit(NB_DISPLAYED_EXPENSES)
+                        .collect(Collectors.toList()));
+            }
             return dto;
         } else return null;
     }
+
     public UpdateExpenseListDto fromEntityToDtoForUpdate(Integer idList){
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
         if (optionalExpensesList.isPresent()) {
@@ -93,7 +112,7 @@ public class ExpenseListService {
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseListDto.getId());
         if (optionalExpenseList.isPresent()) {
             expenseList = optionalExpenseList.get();
-            expenseList.setDate(new Date());
+            expenseList.setDate(LocalDate.now());
             expenseList.setName(expenseListDto.getName());
             List<Contact> participants = new ArrayList<>();
             for(Integer id : expenseListDto.getIdContacts()){
@@ -111,7 +130,7 @@ public class ExpenseListService {
         ExpenseList expenseList;
         expenseList = new ExpenseList();
         expenseList.setName(expenseListDto.getName());
-        expenseList.setDate(new Date());
+        expenseList.setDate(LocalDate.now());
         List<Contact> contactList = new ArrayList<>();
         for(Integer id : expenseListDto.getIdContacts()){
             Optional<Contact> optionalContact = contactRepository.findById(id);

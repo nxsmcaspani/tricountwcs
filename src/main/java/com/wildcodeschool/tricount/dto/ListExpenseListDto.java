@@ -1,11 +1,13 @@
 package com.wildcodeschool.tricount.dto;
+import com.wildcodeschool.tricount.entity.Expense;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListExpenseListDto {
     private Integer id;
     private String name;
-    private List<Integer> idExpenses = new ArrayList<>();
+    private List<Expense> expenses = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -23,12 +25,11 @@ public class ListExpenseListDto {
         this.id = id;
     }
 
-    public List<Integer> getIdExpenses() {
-        return idExpenses;
+    public List<Expense> getIdExpenses() {
+        return expenses;
     }
 
-    public void setIdExpenses(List<Integer> idExpenses) {
-        this.idExpenses = idExpenses;
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
-
 }

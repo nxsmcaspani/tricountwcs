@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Expense {
     private int id;
     private String name;
     private float amount;
-    private Date expenseDate;
+    private LocalDate expenseDate;
     
     @ManyToOne
     @JoinColumn(name="expense_list_id", columnDefinition="int")
@@ -90,11 +91,11 @@ public class Expense {
         amount = aAmount;
     }
 
-    public Date getExpenseDate() {
+    public LocalDate getExpenseDate() {
         return expenseDate;
     }
 
-    public void setExpenseDate(Date aExpenseDate) {
+    public void setExpenseDate(LocalDate aExpenseDate) {
         expenseDate = aExpenseDate;
     }
     
