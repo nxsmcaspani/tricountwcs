@@ -1,16 +1,15 @@
 package com.wildcodeschool.tricount.service;
 
-import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
+import com.wildcodeschool.tricount.dto.ListExpenseListDto;
+import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
+import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.Contact;
-import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ContactRepository;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
-import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,13 +22,15 @@ public class ExpenseListService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public ExpenseList save(CreateOrUpdateExpenseListDto expenseListDto){
+    public ExpenseList create(CreateExpenseListDto createExpenseListDto){
         ExpenseList expenseList;
-        if(expenseListDto.getId() != null) {
-            expenseList = updateExpenseList(expenseListDto);
-        } else {
-            expenseList = createExpenseList(expenseListDto);
-        }
+        expenseList = createExpenseList(createExpenseListDto);
+        return expenseListRepository.save(expenseList);
+    }
+
+    public ExpenseList update(UpdateExpenseListDto updateExpenseListDto){
+        ExpenseList expenseList;
+        expenseList = updateExpenseList(updateExpenseListDto);
         return expenseListRepository.save(expenseList);
     }
 
@@ -54,9 +55,7 @@ public class ExpenseListService {
         return null;
     }
 
-//    public ExpenseList getById(Integer id) { return expenseListRepository.getById(id); }
-
-    public ExpenseList convertFromDtoToEntity(CreateOrUpdateExpenseListDto dto){
+    public ExpenseList convertFromDtoToEntity(ListExpenseListDto dto){
         ExpenseList expenseListFromDto = new ExpenseList();
         expenseListFromDto.setName(dto.getName());
         if(dto.getId() != null){
@@ -65,11 +64,21 @@ public class ExpenseListService {
         return expenseListFromDto;
     }
 
-    public CreateOrUpdateExpenseListDto convertFromEntityToDto(Integer idList){
+    public ListExpenseListDto convertFromEntityToDto(Integer idList){
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
         if (optionalExpensesList.isPresent()) {
             ExpenseList expenseList = optionalExpensesList.get();
-            CreateOrUpdateExpenseListDto dto = new CreateOrUpdateExpenseListDto();
+            ListExpenseListDto dto = new ListExpenseListDto();
+            dto.setId(expenseList.getId());
+            dto.setName(expenseList.getName());
+            return dto;
+        } else return null;
+    }
+    public UpdateExpenseListDto fromEntityToDtoForUpdate(Integer idList){
+        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
+        if (optionalExpensesList.isPresent()) {
+            ExpenseList expenseList = optionalExpensesList.get();
+           UpdateExpenseListDto dto = new UpdateExpenseListDto();
             dto.setId(expenseList.getId());
             dto.setName(expenseList.getName());
             for(Contact contact : expenseList.getContacts()) {
@@ -79,9 +88,8 @@ public class ExpenseListService {
         } else return null;
     }
 
-    private ExpenseList updateExpenseList(CreateOrUpdateExpenseListDto expenseListDto) {
+    private ExpenseList updateExpenseList(UpdateExpenseListDto expenseListDto) {
         ExpenseList expenseList;
-        System.out.println(expenseListDto.getId());
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseListDto.getId());
         if (optionalExpenseList.isPresent()) {
             expenseList = optionalExpenseList.get();
@@ -99,7 +107,7 @@ public class ExpenseListService {
         return expenseList;
     }
 
-    private ExpenseList createExpenseList(CreateOrUpdateExpenseListDto expenseListDto) {
+    private ExpenseList createExpenseList(CreateExpenseListDto expenseListDto) {
         ExpenseList expenseList;
         expenseList = new ExpenseList();
         expenseList.setName(expenseListDto.getName());
