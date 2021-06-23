@@ -27,9 +27,9 @@ public class ExpenseService {
         return mapExpenseToReadExpenseDTO(expense);
     }
 
-    public void create(CreateExpenseDTO expenseDTO) {
+    public Expense create(CreateExpenseDTO expenseDTO) {
         Expense expense = mapExpenseDTOToExpense(expenseDTO);
-        repo.save(expense);
+        return repo.save(expense);
     }
 
     public static ReadExpenseDTO mapExpenseToReadExpenseDTO(Expense expense) {
