@@ -51,7 +51,7 @@ public class ContactService {
         }
     }
     
-    private ContactDto convContactToDto(Contact contact) {
+    public ContactDto convContactToDto(Contact contact) {
         return new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
     }
     

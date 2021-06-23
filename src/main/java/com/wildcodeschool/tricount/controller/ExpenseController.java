@@ -34,9 +34,10 @@ public class ExpenseController {
         return dto;
     }
 
-    @GetMapping("/expense")
-    public String getCreateExpensePage(Model model) {
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+    @GetMapping("/createexpense/{id}")
+    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+        model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
+//        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         return "createexpense";
     }
 

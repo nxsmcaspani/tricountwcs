@@ -1,9 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
-import com.wildcodeschool.tricount.dto.ListExpenseListDto;
-import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
-import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
-import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
+import com.wildcodeschool.tricount.dto.*;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
@@ -28,6 +25,9 @@ public class ExpenseListService {
 
     @Autowired
     private ExpenseService expenseService;
+
+    @Autowired
+    private ContactService contactService;
 
     public ExpenseList create(CreateExpenseListDto createExpenseListDto){
         ExpenseList expenseList;
@@ -106,6 +106,22 @@ public class ExpenseListService {
             }
             dto.setReadExpenseDTOS(readExpenseDTO);
             return dto;
+        } else return null;
+    }
+
+    public ReadExpenseListDto fromEntityIdToDtoForRead(Integer idList){
+        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
+        if (optionalExpensesList.isPresent()) {
+            ExpenseList expenseList = optionalExpensesList.get();
+            ReadExpenseListDto readExpenseListDto = new ReadExpenseListDto();
+            List<ContactDto> contactDtoList = new ArrayList<>();
+            readExpenseListDto.setId(expenseList.getId());
+            readExpenseListDto.setName(expenseList.getName());
+            for(Contact contact : expenseList.getContacts()) {
+                contactDtoList.add(contactService.convContactToDto(contact));
+            }
+            readExpenseListDto.setContactDtoList(contactDtoList);
+            return readExpenseListDto;
         } else return null;
     }
 

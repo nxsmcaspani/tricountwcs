@@ -4,6 +4,8 @@ import com.wildcodeschool.tricount.entity.Contact;
 
 public class CreateExpenseDTO {
     private String name;
+    private ReadExpenseListDto readExpenseListDto;
+    private Integer expenseListId;
     private Contact owner;
     private float amount;
 
@@ -14,6 +16,22 @@ public class CreateExpenseDTO {
     }
 
     public CreateExpenseDTO() {
+    }
+
+    public ReadExpenseListDto getReadExpenseListDto() {
+        return readExpenseListDto;
+    }
+
+    public void setReadExpenseListDto(ReadExpenseListDto readExpenseListDto) {
+        this.readExpenseListDto = readExpenseListDto;
+    }
+
+    public Integer getExpenseListId() {
+        return expenseListId;
+    }
+
+    public void setExpenseListId(Integer expenseListId) {
+        this.expenseListId = expenseListId;
     }
 
     public String getName() {
