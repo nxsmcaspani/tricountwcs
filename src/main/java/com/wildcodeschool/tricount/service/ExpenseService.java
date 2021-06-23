@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ExpenseService {
     public static Expense mapExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
         Expense exp = new Expense();
         exp.setAmount(expenseDTO.getAmount());
-        exp.setExpenseDate(new Date());
+        exp.setExpenseDate(LocalDate.now());
         exp.setName(expenseDTO.getName());
         exp.setOwner(expenseDTO.getOwner());
         return exp;
