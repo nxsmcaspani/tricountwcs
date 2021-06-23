@@ -38,6 +38,7 @@ public class BalanceExpenseListService {
     private BalanceExpenseDto convExpenseListToBalanceDto(ExpenseList exp) {
         BalanceExpenseDto balDto = new BalanceExpenseDto();
         balDto.setName(exp.getName());
+        balDto.setIdOfExpenseList(exp.getId());
         List<ContactForBalanceDto> lstCt = new ArrayList<ContactForBalanceDto>();
         for (Contact ct : exp.getContacts()) {
             lstCt.add(new ContactForBalanceDto(ct.getId(), ct.getName(), ct.getEmail()));
@@ -49,8 +50,6 @@ public class BalanceExpenseListService {
             for (ContactForBalanceDto ctDto : balDto.getLstContacts()) {
                 if (ctDto.getId()== dep.getOwner().getId()) {
                     ctDto.setAmountSpend(ctDto.getAmountSpend() + dep.getAmount());
-                    // TODO: si le owner pas présent dans les bénéficiaires, retirer le commentaire et faire +1 aussi aux bénefs
-                    // ctDto.setAmountDue(dep.getAmount() / dep.getBeneficiaries().size() + 1);
                 }
                 for (Contact ct : dep.getBeneficiaries()) {
                     if (ctDto.getId() == ct.getId()) {
@@ -76,6 +75,12 @@ public class BalanceExpenseListService {
             }
         }
         return true;
+    }
+
+
+    public void executeBalance(BalanceExpenseDto aBalExpenseDto) {
+        // TODO Auto-generated method stub
+        
     }
     
     
