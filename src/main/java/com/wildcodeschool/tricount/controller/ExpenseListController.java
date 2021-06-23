@@ -1,6 +1,8 @@
 package com.wildcodeschool.tricount.controller;
 
-import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
+import com.wildcodeschool.tricount.dto.ListExpenseListDto;
+import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
+import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseListService;
@@ -11,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,40 +27,46 @@ public class ExpenseListController {
 
     @GetMapping("/")
     public String getAll(Model model) {
-        model.addAttribute("expenseslists", expenseListService.findAll());
+        List<ListExpenseListDto> expensesListsDto = new ArrayList<>();
+        for( ExpenseList expenseList : expenseListService.findAll()){
+            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId()));
+        }
+        model.addAttribute("expenseslistsdto", expensesListsDto);
         return "index";
     }
 
-    @GetMapping("/expenseslist")
-    @ResponseBody
-    public ExpenseList getExpensesList(@RequestParam Integer id){
-        return expenseListService.getExpenseList(id);
+    @GetMapping("/createlist")
+    public String editExpensesList(Model model){
+        CreateExpenseListDto createExpenseListDto = new CreateExpenseListDto();
+        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        model.addAttribute("createexpenselistdto", createExpenseListDto);
+        return "createexpenselist";
     }
 
-    @GetMapping(value = {"/createorupdatelist", "/createorupdatelist/{id}" })
-    public String editExpensesList(Model model, @PathVariable(required = false, name = "id") Integer idList){
-        CreateOrUpdateExpenseListDto createOrUpdateExpenseListDto = new CreateOrUpdateExpenseListDto();
-        if(idList != null){
-            createOrUpdateExpenseListDto = expenseListService.convertFromEntityToDto(idList);
-            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
-//            model.addAttribute("expenselistdto", );
-        } else {
-            createOrUpdateExpenseListDto.setContacts(contactService.getAllContactsAsDto());
-        }
-//        model.addAttribute("contacts", );
-        model.addAttribute("expenselistdto", createOrUpdateExpenseListDto);
-        return "createorupdatelist";
+    @GetMapping("/updatelist/{id}")
+    public String showExpensesList(Model model, @PathVariable(name = "id") Integer idList){
+        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
+        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        model.addAttribute("updateexpenselistdto", updateexpenselistdto);
+        return "updateexpenselist";
     }
 
-    @PostMapping("/expenseslist")
-    public String postExpensesList(@ModelAttribute CreateOrUpdateExpenseListDto expenseListDto) {
-        expenseListService.save(expenseListService.convertFromDtoToEntity(expenseListDto));
+    @PostMapping("/newexpenseslist")
+    public String newExpensesList(@ModelAttribute CreateExpenseListDto createExpenseListDto) {
+        expenseListService.create(createExpenseListDto);
         return "redirect:/";
     }
 
-//    @DeleteMapping("/expenseslist")
+    @PostMapping("/updateexpenseslist")
+    public String updateExpensesList(Model model, @ModelAttribute UpdateExpenseListDto UpdateExpenseListDto) {
+        expenseListService.update(UpdateExpenseListDto);
+        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
+        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        model.addAttribute("updateexpenselistdto", updateexpenselistdto);
+        return "updateexpenselist";
+    }
+
     @GetMapping("/expenseslist/delete/{idList}")
-//    public String deleteExpensesList(Model model, @RequestParam Integer idList){
     public String deleteExpensesList(@PathVariable Integer idList){
         Optional<ExpenseList> optionalExpenseList = expenseListService.findById(idList);
         if(optionalExpenseList.isPresent()) {
