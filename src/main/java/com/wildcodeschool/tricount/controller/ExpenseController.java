@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.controller;
 
+import com.wildcodeschool.tricount.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,21 @@ public class ExpenseController {
     
     @Autowired
     ExpenseService expenseService;
+
+    @Autowired
+    ContactService contactService;
     
     @GetMapping("/expense/{id}")
     @ResponseBody
     public ReadExpenseDTO getExpense(@PathVariable int id) {
         ReadExpenseDTO dto = expenseService.getById(id);
         return dto;
+    }
+
+    @GetMapping("/expense")
+    public String  getCreateExpensePage(Model model) {
+        model.addAttribute("contactsdto",contactService.getAllContactsAsDto());
+        return "createexpense";
     }
     
     @PostMapping("/expense")
