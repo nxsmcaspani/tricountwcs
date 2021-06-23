@@ -11,11 +11,11 @@ public class ReadExpenseDTO {
     private int id;
     private String name;
     private Contact owner;
-    private Date expenseDate;
+    private LocalDate expenseDate;
     private float amount;
     
     
-    public ReadExpenseDTO(int aId, String aName, Contact aOwner, Date aExpenseDate, float aAmount) {
+    public ReadExpenseDTO(int aId, String aName, Contact aOwner, LocalDate aExpenseDate, float aAmount) {
         super();
         id = aId;
         name = aName;
@@ -42,10 +42,10 @@ public class ReadExpenseDTO {
     public void setOwner(Contact aOwner) {
         owner = aOwner;
     }
-    public Date getExpenseDate() {
+    public LocalDate getExpenseDate() {
         return expenseDate;
     }
-    public void setExpenseDate(Date aExpenseDate) {
+    public void setExpenseDate(LocalDate aExpenseDate) {
         expenseDate = aExpenseDate;
     }
     public float getAmount() {
