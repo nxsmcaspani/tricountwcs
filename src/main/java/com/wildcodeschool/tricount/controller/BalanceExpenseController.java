@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.wildcodeschool.tricount.dto.CreateOrUpdateExpenseListDto;
+import com.wildcodeschool.tricount.dto.BalanceExpenseDto;
 import com.wildcodeschool.tricount.service.BalanceExpenseListService;
 
 @Controller
@@ -18,8 +18,8 @@ public class BalanceExpenseController {
     
     @GetMapping("balanceexpenses/{idList}")
     public String balanceExpenses(Model model, @PathVariable int idList) {
-        CreateOrUpdateExpenseListDto createOrUpdateExpenseListDto = balanceExpenseListService.getDtoExpenseList(idList);
-        model.addAttribute("expenselistdto", createOrUpdateExpenseListDto);
+        BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(idList);
+        model.addAttribute("balExpenseDto", balExpenseDto);
         return "balanceexpenses";
     }
     

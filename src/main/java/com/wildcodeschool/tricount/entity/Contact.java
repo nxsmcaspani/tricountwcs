@@ -85,5 +85,18 @@ public class Contact {
         ownExpenses = aOwnExpenses;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if( ! (obj instanceof Contact) ) return false;
+        Contact other = (Contact) obj;
+        return this.id == other.id;
+
+    }
+ 
+    @Override
+    public int hashCode() {
+        return name == null? 0 : name.length() + email.length() + id; // Ugly but correct!
+    }
     
 }

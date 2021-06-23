@@ -15,17 +15,17 @@
 		<div class="container">
 			<h1 class="text-center text-primary m-4">Who owns who?</h1>
 		
-		List: <div th:text="${expensesList.name}">list name</div>
-		Total spending: <div th:text="${expensesList.total}">total</div>
-		
-		<th:block th:each="contact, status : ${expenseslist.contacts}">
+		<h2 class="text-primary m-4">List: <span th:text="${balExpenseDto.name}">list name</span></h2>
+		<h3 class="test-primary">Total spending: <span th:text="${balExpenseDto.total}">total</span></h3>
+		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
+		<th:block th:each="contact, status : ${balExpenseDto.lstContacts}">
 		<div class="col">
 			<div class="row">
-				<div class = "col" th:text="${contact.name}">Name</div>
-				<div class = "col" th:text="${contact.name}">Solde</div>
+				<div class = "col" th:text="${contact.key.name}">Name</div>
+				<div class = "col" th:text="${contact.value}">Solde</div>
 			</div>
 		</div>
-		
+		<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 		<button type="submit" class="btn btn-primary">Rebalance Spending</button>
 		
 		</div>
