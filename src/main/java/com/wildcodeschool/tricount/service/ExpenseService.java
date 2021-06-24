@@ -73,12 +73,13 @@ public class ExpenseService {
         return dto;
     }
 
-    public static Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
+    public Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
         Expense exp = new Expense();
         exp.setAmount(expenseDTO.getAmount());
-        exp.setExpenseDate(LocalDate.now());
+        exp.setExpenseDate(expenseDTO.getExpenseDate());
         exp.setName(expenseDTO.getName());
         exp.setOwner(expenseDTO.getOwner());
+        exp.setExpenseList(expenseListService.getExpenseList(expenseDTO.getExpenseListId()));
         return exp;
     }
 

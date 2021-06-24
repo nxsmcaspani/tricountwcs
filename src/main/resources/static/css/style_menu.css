@@ -8,6 +8,10 @@
 text-align: center;
 
 }
+.pageTitle:hover{
+    text-decoration: none;
+}
+
 .footer{
     text-align: center;
 }

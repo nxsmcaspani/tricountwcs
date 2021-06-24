@@ -1,6 +1,9 @@
 package com.wildcodeschool.tricount.dto;
 
 import com.wildcodeschool.tricount.entity.Contact;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 public class CreateExpenseDTO {
     private String name;
@@ -8,6 +11,8 @@ public class CreateExpenseDTO {
     private Integer expenseListId;
     private Contact owner;
     private float amount;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expenseDate;
 
     public CreateExpenseDTO(String name, Contact owner, float amount) {
         this.name = name;
@@ -58,4 +63,11 @@ public class CreateExpenseDTO {
         amount = aAmount;
     }
 
+    public LocalDate getExpenseDate() {
+        return expenseDate;
+    }
+
+    public void setExpenseDate(LocalDate expenseDate) {
+        this.expenseDate = expenseDate;
+    }
 }
