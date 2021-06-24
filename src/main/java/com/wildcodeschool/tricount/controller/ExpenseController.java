@@ -18,6 +18,8 @@ import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.service.ExpenseService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 @Controller
 public class ExpenseController {
@@ -34,17 +36,18 @@ public class ExpenseController {
         return dto;
     }
 
-    @GetMapping("/expense")
-    public String getCreateExpensePage(Model model) {
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+    @GetMapping("/createexpense/{id}")
+    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+        model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
+//        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         return "createexpense";
     }
 
     @PostMapping("/expense")
-    @ResponseBody
-    public ResponseEntity<Expense> postExpense(@ModelAttribute CreateExpenseDTO dto) {
-        Expense exp = expenseService.create(dto);
-        return new ResponseEntity<Expense>(exp, HttpStatus.CREATED);
+    public String postExpense(Model model, @ModelAttribute CreateExpenseDTO dto) {
+        Integer idList = dto.getExpenseListId();
+        expenseService.create(dto);
+        return "redirect:/updatelist/"+idList;
     }
 
     @PostMapping("/expense/update")

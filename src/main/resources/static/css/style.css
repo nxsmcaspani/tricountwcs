@@ -5,7 +5,7 @@ body {
 hr:last-child {
 	visibility: hidden;
 }
-.pageTitleLink:hover {
+.pageTitleLink, .pageTitleLink:hover {
 	text-decoration: none;
 }
 
