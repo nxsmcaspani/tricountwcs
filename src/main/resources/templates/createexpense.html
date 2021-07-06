@@ -10,58 +10,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<header th:replace="fragments/header.html :: head"> your header here</header>
+<header th:replace="fragments/header.html :: head">header</header>
     <section>
         <div class="container">
-            <h1 class="text-center text-primary m-4">Create an expense </h1>
-            <form action="#"  method="POST" th:action="@{/expense}" >
+            <h1 class="text-center text-warning" th:text="${createexpensedto.readExpenseListDto.name}"></h1>
+            <h2 class="text-center text-primary m-4">Create an expense </h2>
+            <form action="#"  method="POST" th:action="@{/expense}" th:object="${createexpensedto}">
+                <input name="expenseListId" th:field="*{expenseListId}" type="hidden">
                 <div class="modal-body">
                 <div class="row justify-content-center">
                     <div class="col-2 col-sm-2">
                         <label for="expense-name"> Expense Name:</label>
                     </div>
                     <div class="col-2 col-sm-2">
-                        <input id="expense-name" name="name" placeholder="Expense Name"  type="text">
+                        <input id="expense-name" th:field="*{name}" name="name" placeholder="Expense Name" type="text">
                     </div>
-                </div>
+                </div><br />
 
                <div class="row justify-content-center">
-                            <div class="col-2 col-sm-2">
-                                <label for="owner">Expense Owner:</label>
-                            </div>
-                            <div class="col-2 col-sm-2">
-                                <select class="custom-select" required th:field="*{contactsdto}"  type="text">
-                                    <option value="">Expense Owner</option>
-                                    <option th:each="contact : ${contactsdto}"
-                                            th:value="${contact.id}"
-                                            th:utext="${contact.name}"/>
-                                </select>
-                            </div>
-               </div>
+                    <div class="col-2 col-sm-2">
+                        <label for="owner">Expense Owner:</label>
+                    </div>
+                    <div class="col-2 col-sm-2">
+                        <select class="custom-select" required th:field="*{owner}"  id="owner" type="text">
+                            <option value="">Expense Owner</option>
+                            <option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
+                                    th:value="${contact.id}"
+                                    th:utext="${contact.name}"/>
+                        </select>
+                    </div>
+               </div><br />
 
                <div class="row justify-content-center">
-                                <div class="col-2 col-sm-2">
-                                    <label for="date">Expense date:</label>
-                                </div>
-                                <div class="col-2 col-sm-2">
-                                    <input id="date" name="date" placeholder="Expense Date"  type="date">
-                                </div>
-               </div>
+                    <div class="col-2 col-sm-2">
+                        <label for="expensedate">Expense date:</label>
+                    </div>
+                    <div class="col-2 col-sm-2">
+                        <input id="expensedate" name="expensedate" th:field="*{expenseDate}" placeholder="Expense Date"  type="date">
+                    </div>
+               </div><br />
 
 
                <div class="row justify-content-center">
-                               <div class="col-2 col-sm-2">
-                                   <label for="amount">Expense Amount:</label>
-                               </div>
-                               <div class="col-2 col-sm-2">
-                                   <input id="amount" name="amount" placeholder="Expense Amount"  type="text">
-                               </div>
-               </div>
+                   <div class="col-2 col-sm-2">
+                       <label for="amount">Expense Amount:</label>
+                   </div>
+                   <div class="col-2 col-sm-2">
+                       <input id="amount" name="amount" placeholder="Expense Amount"  type="text">
+                   </div>
+               </div><br />
                 <br />
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Create</button>
-                                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
             </form>
         </div>
     </section>

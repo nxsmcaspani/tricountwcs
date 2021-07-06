@@ -1,14 +1,11 @@
 package com.wildcodeschool.tricount.service;
 
-import com.wildcodeschool.tricount.dto.ListExpenseListDto;
-import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
-import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
+import com.wildcodeschool.tricount.dto.*;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ContactRepository;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
-import com.wildcodeschool.tricount.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +24,10 @@ public class ExpenseListService {
     private ContactRepository contactRepository;
 
     @Autowired
-    private ExpenseRepository expenseRepository;
+    private ExpenseService expenseService;
 
     @Autowired
-    private ExpenseService expenseService;
+    private ContactService contactService;
 
     public ExpenseList create(CreateExpenseListDto createExpenseListDto){
         ExpenseList expenseList;
@@ -97,13 +94,34 @@ public class ExpenseListService {
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
         if (optionalExpensesList.isPresent()) {
             ExpenseList expenseList = optionalExpensesList.get();
-           UpdateExpenseListDto dto = new UpdateExpenseListDto();
+            UpdateExpenseListDto dto = new UpdateExpenseListDto();
+            List<ReadExpenseDTO> readExpenseDTO = new ArrayList<>();
             dto.setId(expenseList.getId());
             dto.setName(expenseList.getName());
             for(Contact contact : expenseList.getContacts()) {
                 dto.getIdContacts().add(contact.getId());
             }
+            for(Expense expense : expenseList.getExpensesList()){
+                readExpenseDTO.add(expenseService.mapExpenseToReadExpenseDTO(expense));
+            }
+            dto.setReadExpenseDTOS(readExpenseDTO);
             return dto;
+        } else return null;
+    }
+
+    public ReadExpenseListDto fromEntityIdToDtoForRead(Integer idList){
+        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
+        if (optionalExpensesList.isPresent()) {
+            ExpenseList expenseList = optionalExpensesList.get();
+            ReadExpenseListDto readExpenseListDto = new ReadExpenseListDto();
+            List<ContactDto> contactDtoList = new ArrayList<>();
+            readExpenseListDto.setId(expenseList.getId());
+            readExpenseListDto.setName(expenseList.getName());
+            for(Contact contact : expenseList.getContacts()) {
+                contactDtoList.add(contactService.convContactToDto(contact));
+            }
+            readExpenseListDto.setContactDtoList(contactDtoList);
+            return readExpenseListDto;
         } else return null;
     }
 

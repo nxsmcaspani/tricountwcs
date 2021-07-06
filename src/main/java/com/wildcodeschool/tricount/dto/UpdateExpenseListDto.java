@@ -7,7 +7,7 @@ public class UpdateExpenseListDto {
     private Integer id;
     private String name;
     private List<Integer> idContacts = new ArrayList<>();
-    private List<Integer> idExpenses = new ArrayList<>();
+    private List<ReadExpenseDTO> readExpenseDTOS = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -33,17 +33,12 @@ public class UpdateExpenseListDto {
         this.idContacts = idContacts;
     }
 
-    public List<Integer> getIdExpenses() {
-        return idExpenses;
+    public List<ReadExpenseDTO> getReadExpenseDTOS() {
+        return readExpenseDTOS;
     }
 
-    public void setIdExpenses(List<Integer> idExpenses) {
-        this.idExpenses = idExpenses;
+    public void setReadExpenseDTOS(List<ReadExpenseDTO> readExpenseDTOS) {
+        this.readExpenseDTOS = readExpenseDTOS;
     }
 
-    public void showContacts(){
-        for(int contact : this.idContacts) {
-            System.out.println(contact);
-        }
-    }
 }

@@ -20,6 +20,9 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository repo;
 
+    @Autowired
+    private ExpenseListService expenseListService;
+
     public List<Expense> getAll() {
         return repo.findAll();
     }
@@ -49,11 +52,18 @@ public class ExpenseService {
         return false;
     }
 
+    // Method called when accessing the expense creation form
+    public CreateExpenseDTO mapGetCreateExpenseToDTO(Integer idList){
+        CreateExpenseDTO createExpenseDTO = new CreateExpenseDTO();
+        createExpenseDTO.setExpenseListId(idList);
+        createExpenseDTO.setReadExpenseListDto(expenseListService.fromEntityIdToDtoForRead(idList));
+        return createExpenseDTO;
+    }
+
     public static ReadExpenseDTO mapExpenseToReadExpenseDTO(Expense expense) {
         if (expense == null) {
             return null;
         }
-
         ReadExpenseDTO dto = new ReadExpenseDTO(
                 expense.getId(),
                 expense.getName(),
@@ -63,12 +73,13 @@ public class ExpenseService {
         return dto;
     }
 
-    public static Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
+    public Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
         Expense exp = new Expense();
         exp.setAmount(expenseDTO.getAmount());
-        exp.setExpenseDate(LocalDate.now());
+        exp.setExpenseDate(expenseDTO.getExpenseDate());
         exp.setName(expenseDTO.getName());
         exp.setOwner(expenseDTO.getOwner());
+        exp.setExpenseList(expenseListService.getExpenseList(expenseDTO.getExpenseListId()));
         return exp;
     }
 
