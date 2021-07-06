@@ -33,7 +33,6 @@ public class BalanceExpenseController {
     @PostMapping("balanceexpenses/")
     public String executeBalanceExpenses(@ModelAttribute BalanceExpenseDto balExpenseDto) {
         
-        
         return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList();
     }
     
