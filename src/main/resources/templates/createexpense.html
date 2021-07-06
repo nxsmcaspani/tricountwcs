@@ -1,112 +1,109 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>TriCount</title>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TriCount</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/tom-select.complete.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<header th:replace="fragments/header.html :: head">header</header>
-    <section>
-        <div class="container">
-
-            <h1 class="text-center text-primary m-4">Create an expense </h1>
-            <form action="#"  method="POST" th:action="@{/expense}" >
-                <div class="form-group">
-
-            <h1 class="text-center text-warning" th:text="${createexpensedto.readExpenseListDto.name}"></h1>
-            <h2 class="text-center text-primary m-4">Create an expense </h2>
-            <form action="#"  method="POST" th:action="@{/expense}" th:object="${createexpensedto}">
-                <input name="expenseListId" th:field="*{expenseListId}" type="hidden">
-                <div class="modal-body">
-
-                <div class="row justify-content-center">
-                    <div class="col-2 col-sm-2">
-                        <label for="expense-name"> Expense Name</label>
-                    </div>
-                    <div class="col-2 col-sm-2">
-                        <input id="expense-name" th:field="*{name}" name="name" placeholder="Expense Name" type="text">
-                    </div>
-                </div><br />
-
-               <div class="row justify-content-center">
-
-                            <div class="col-2 col-sm-2">
-                                <label for="owner">Expense Owner</label>
-                            </div>
-                            <div class="col-2 col-sm-2">
-                                <select class="custom-select" required th:field="*{contactsdto}"  type="text">
-                                    <option value="">Expense Owner</option>
-                                    <option th:each="contact : ${contactsdto}"
-                                            th:value="${contact.id}"
-                                            th:utext="${contact.name}"/>
-                                </select>
-                            </div>
-               </div>
-
-               <div class="row justify-content-center">
-                                <div class="col-2 col-sm-2">
-                                    <label for="date">Expense Date</label>
-                                </div>
-                                <div class="col-2 col-sm-2">
-                                    <input id="date" name="date" placeholder="Expense Date"  type="date">
-                                </div>
-               </div>
 
 
-               <div class="row justify-content-center">
-                               <div class="col-2 col-sm-2">
-                                   <label for="amount">Expense Amount</label>
-                               </div>
-                               <div class="col-2 col-sm-2">
-                                   <input id="amount" name="amount" placeholder="Expense Amount"  type="text">
-                               </div>
-               </div>
+	<header th:replace="fragments/header.html :: head">header</header>
+	<section>
+		<div class="container">
+			<h1 class="text-center text-warning"
+				th:text="${createexpensedto.readExpenseListDto.name}"></h1>
+			<h2 class="text-center text-primary m-4">Create an expense</h2>
+			<form action="#" method="POST"
+					th:action="@{/expense}"
+					th:object="${createexpensedto}">
+				<input name="expenseListId" th:field="*{expenseListId}" type="hidden">
+				<div class="modal-body">
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="expense-name"> Expense Name:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="expense-name" th:field="*{name}" name="name" placeholder="Expense Name" type="text">
+						</div>
+					</div>
+					<br />
 
-                    <div class="col-2 col-sm-2">
-                        <label for="owner">Expense Owner:</label>
-                    </div>
-                    <div class="col-2 col-sm-2">
-                        <select class="custom-select" required th:field="*{owner}"  id="owner" type="text">
-                            <option value="">Expense Owner</option>
-                            <option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
-                                    th:value="${contact.id}"
-                                    th:utext="${contact.name}"/>
-                        </select>
-                    </div>
-               </div><br />
-
-               <div class="row justify-content-center">
-                    <div class="col-2 col-sm-2">
-                        <label for="expensedate">Expense date:</label>
-                    </div>
-                    <div class="col-2 col-sm-2">
-                        <input id="expensedate" name="expensedate" th:field="*{expenseDate}" placeholder="Expense Date"  type="date">
-                    </div>
-               </div><br />
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="owner">Expense Owner:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<select class="custom-select" required th:field="*{owner}"
+								id="owner" type="text">
+								<option value="">Expense Owner</option>
+								<option
+									th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
+									th:value="${contact.id}" th:utext="${contact.name}" />
+							</select>
+						</div>
+					</div>
+					<br />
 
 
-               <div class="row justify-content-center">
-                   <div class="col-2 col-sm-2">
-                       <label for="amount">Expense Amount:</label>
-                   </div>
-                   <div class="col-2 col-sm-2">
-                       <input id="amount" name="amount" placeholder="Expense Amount"  type="text">
-                   </div>
-               </div><br />
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="expensedate">Expense date:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="expensedate" name="expensedate"
+								th:field="*{expenseDate}" placeholder="Expense Date" type="date">
+						</div>
+					</div>
+					<br />
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="amount">Expense Amount:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="amount" name="amount" placeholder="Expense Amount"
+								type="text">
+						</div>
+					</div>
+					<br />
 
-                <br />
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </div>
-            </form>
-        </div>
-    </section>
-<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2 offset-2 offset-sm-2">
+							<label for="beneficiaries">Beneficiaries :</label>
+						</div>
+						<div class="col-4 col-sm-4">
+							<select  id="beneficiaries" name="idBeneficiaries[]" multiple autocomplete="on">
+								<option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
+										th:value="${contact.id}"
+										th:utext="${contact.name}"
+										th:selected="true"/>
+							</select>
+							<script>
+								var config = {};
+								new TomSelect('#beneficiaries',config);
+							</script>
+						</div>
+					</div>
+					<br />
+					
+					<br />
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Create</button>
+					</div>
+					<br>
+
+			</form>
+		</div>
+	</section>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
 </body>
 </html>
