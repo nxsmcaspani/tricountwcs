@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,10 +29,17 @@ public class BalanceExpenseController {
         return "balanceexpenses";
     }
     
-    @PostMapping("balanceexpenses/")
-    public String executeBalanceExpenses(@ModelAttribute BalanceExpenseDto balExpenseDto) {
-        
+    @PostMapping("balanceexpenses/{id}")
+    public String executeBalanceExpenses(@PathVariable int id) {
+        System.out.println("executeBalanceExpenses idList sur " + id);
+        BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(id);
+        if (balExpenseDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+id);
+        }
+        balanceExpenseListService.executeBalance(balExpenseDto);
+        System.out.println("post mapping balanceexpenses, redirect to : redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList());
         return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList();
     }
+    
     
 }
