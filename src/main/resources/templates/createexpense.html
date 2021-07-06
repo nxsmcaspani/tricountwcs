@@ -18,61 +18,65 @@
 			<h1 class="text-center text-warning"
 				th:text="${createexpensedto.readExpenseListDto.name}"></h1>
 			<h2 class="text-center text-primary m-4">Create an expense</h2>
+			
 			<form action="#" method="POST"
-					th:action="@{/expense}"
-					th:object="${createexpensedto}">
+				  th:action="@{/expense}"
+				  th:object="${createexpensedto}">
 				<input name="expenseListId" th:field="*{expenseListId}" type="hidden">
 				<div class="modal-body">
+				
+					<!-- Expense Name -->
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
-							<label for="expense-name"> Expense Name:</label>
+							<label for="expense-name">Expense Name:</label>
 						</div>
 						<div class="col-2 col-sm-2">
-							<input id="expense-name" th:field="*{name}" name="name" placeholder="Expense Name" type="text">
+							<input id="expense-name" required th:field="*{name}" name="name" placeholder="Expense Name" type="text">
 						</div>
 					</div>
 					<br />
 
+					<!-- Expense Owner -->
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
 							<label for="owner">Expense Owner:</label>
 						</div>
 						<div class="col-2 col-sm-2">
-							<select class="custom-select" required th:field="*{owner}"
-								id="owner" type="text">
+							<select class="custom-select" required th:field="*{owner}" id="owner" type="text">
 								<option value="">Expense Owner</option>
-								<option
-									th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
-									th:value="${contact.id}" th:utext="${contact.name}" />
+								<option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
+										th:value="${contact.id}"
+										th:utext="${contact.name}" />
 							</select>
 						</div>
 					</div>
 					<br />
 
+					<!-- Expense Date -->
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
 							<label for="expensedate">Expense date:</label>
 						</div>
 						<div class="col-2 col-sm-2">
-							<input id="expensedate" name="expensedate"
-								th:field="*{expenseDate}" placeholder="Expense Date" type="date">
+							<input id="expensedate" name="expensedate" required th:field="*{expenseDate}" placeholder="Expense Date" type="date">
 						</div>
 					</div>
 					<br />
 
 
+					<!-- Expense Amount -->
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
 							<label for="amount">Expense Amount:</label>
 						</div>
 						<div class="col-2 col-sm-2">
-							<input id="amount" name="amount" placeholder="Expense Amount"
-								type="text">
+							<input id="amount" name="amount" required placeholder="Expense Amount" type="text">
 						</div>
 					</div>
 					<br />
 
 
+					<!-- Expense Beneficiaries -->
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2 offset-2 offset-sm-2">
 							<label for="beneficiaries">Beneficiaries :</label>
