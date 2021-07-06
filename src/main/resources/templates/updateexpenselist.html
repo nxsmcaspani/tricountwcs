@@ -34,50 +34,6 @@
       <br /><br />
       <input type="submit" value="Update List" class="btn btn-primary">
     </form><br /><br />
-
-    <hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
-    <h2 class="text-center text-warning">All expenses</h2>
-      <a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${id})}">
-        <button type="button" class="btn btn-labeled btn-rounded btn-success" title="Add expense to this list">
-          <span class="btn-label"><i class="bi-plus-circle-fill"></i></span></button>
-      </a>
-<!--    <th:block >-->
-      <div class="row mt-5">
-<!--        <div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">-->
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>Expense name</th>
-              <th>Made by</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:object="${updateexpenselistdto}" th:each="readexpensedto, state : ${updateexpenselistdto.readExpenseDTOS}">
-<!--            <tr th:each="readexpensedto : ${readexpensedto.id}">-->
-              <td th:text="${readexpensedto.name}">Expense Name</td>
-              <td th:text="${readexpensedto.owner.name}">Expense owner</td>
-              <td th:text="${readexpensedto.amount}">Expense amount</td>
-              <td th:text="${readexpensedto.expenseDate}">Expense date</td>
-              <td>
-                <a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${readexpensedto.id})}">
-                  <button type="button" class="btn btn-labeled btn-success">
-                    <span class="btn-label"><i class="bi-pencil"></i></span></button>
-                </a>
-                <a class="text-decoration-none" th:href="@{/expenseslist/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
-                  <button type="button" class="btn btn-labeled btn-danger">
-                    <span class="btn-label"><i class="bi-trash"></i></span></button>
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-<!--        </div>-->
-      </div>
-  </div>
-
   </div>
 </section>
 <footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>

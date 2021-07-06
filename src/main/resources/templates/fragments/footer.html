@@ -14,8 +14,16 @@
 </head>
 
 <body>  
-<footer class="wrapper flex-grow-1" th:fragment="tail">
+<footer class="footer" th:fragment="tail">
     <h6 class="text-center text-warning text-bold"> Tricount Corporate<br> Wild code school 2021</h6>
+  <script>
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "12%";
+    }
+  </script>
 </footer>
 </body>
 
