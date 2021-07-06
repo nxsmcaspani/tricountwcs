@@ -1,16 +1,18 @@
 package com.wildcodeschool.tricount.service;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wildcodeschool.tricount.dto.ContactDto;
 import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
 import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
+import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.repository.ExpenseRepository;
 
@@ -18,32 +20,35 @@ import com.wildcodeschool.tricount.repository.ExpenseRepository;
 public class ExpenseService {
 
     @Autowired
-    private ExpenseRepository repo;
+    private ExpenseRepository expenseRepo;
+    
+    @Autowired
+    private ContactService contactService;
 
     public List<Expense> getAll() {
-        return repo.findAll();
+        return expenseRepo.findAll();
     }
 
     public ReadExpenseDTO getById(int id) {
-        Expense expense = repo.getById(id);
+        Expense expense = expenseRepo.getById(id);
         return mapExpenseToReadExpenseDTO(expense);
     }
 
     public Expense create(CreateExpenseDTO expenseDTO) {
         Expense expense = mapCreateExpenseDTOToExpense(expenseDTO);
-        return repo.save(expense);
+        return expenseRepo.save(expense);
     }
 
     public Expense update(UpdateExpenseDTO dto) {
-        Expense expense = repo.getById(dto.getId());
+        Expense expense = expenseRepo.getById(dto.getId());
         expense = mapUpdatExpenseDTOToExpense(dto, expense);
-        return repo.save(expense);
+        return expenseRepo.save(expense);
     }
     
     public Boolean delete(int id) {
-        Optional<Expense> expense = repo.findById(id);
+        Optional<Expense> expense = expenseRepo.findById(id);
         if (expense.isPresent()) {
-            repo.deleteById(id);
+            expenseRepo.deleteById(id);
             return true;
         }
         return false;
@@ -63,16 +68,22 @@ public class ExpenseService {
         return dto;
     }
 
-    public static Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
+    public Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
         Expense exp = new Expense();
         exp.setAmount(expenseDTO.getAmount());
         exp.setExpenseDate(LocalDate.now());
         exp.setName(expenseDTO.getName());
-        exp.setOwner(expenseDTO.getOwner());
+        exp.setOwner(contactService.convDtoToContact(expenseDTO.getOwner()));
+        
+        List<Contact> beneficiaries = new ArrayList<Contact>();
+        for (ContactDto contactDto : expenseDTO.getBeneficiaries()) {
+            beneficiaries.add(contactService.convDtoToContact(contactDto));
+        }
+        exp.setBeneficiaries(beneficiaries);
         return exp;
     }
 
-    private static Expense mapUpdatExpenseDTOToExpense(UpdateExpenseDTO dto, Expense current) {
+    private Expense mapUpdatExpenseDTOToExpense(UpdateExpenseDTO dto, Expense current) {
         current.setName(dto.getName());
         current.setAmount(dto.getAmount());
         current.setOwner(dto.getOwner());

@@ -1,16 +1,18 @@
 package com.wildcodeschool.tricount.dto;
 
-import com.wildcodeschool.tricount.entity.Contact;
+import java.util.List;
 
 public class CreateExpenseDTO {
     private String name;
-    private Contact owner;
+    private ContactDto owner;
     private float amount;
+    private List<ContactDto> beneficiaries;
 
-    public CreateExpenseDTO(String name, Contact owner, float amount) {
+    public CreateExpenseDTO(String name, ContactDto owner, float amount, List<ContactDto> contacts) {
         this.name = name;
         this.owner = owner;
         this.amount = amount;
+        this.beneficiaries = contacts;
     }
 
     public CreateExpenseDTO() {
@@ -24,11 +26,11 @@ public class CreateExpenseDTO {
         name = aName;
     }
 
-    public Contact getOwner() {
+    public ContactDto getOwner() {
         return owner;
     }
 
-    public void setOwner(Contact aOwner) {
+    public void setOwner(ContactDto aOwner) {
         owner = aOwner;
     }
 
@@ -40,4 +42,11 @@ public class CreateExpenseDTO {
         amount = aAmount;
     }
 
+    public List<ContactDto> getBeneficiaries() {
+        return beneficiaries;
+    }
+
+    public void setBeneficiaries(List<ContactDto> beneficiaries) {
+        this.beneficiaries = beneficiaries;
+    }
 }

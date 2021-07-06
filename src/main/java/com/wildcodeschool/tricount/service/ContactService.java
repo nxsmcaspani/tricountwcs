@@ -51,11 +51,11 @@ public class ContactService {
         }
     }
     
-    private ContactDto convContactToDto(Contact contact) {
+    public ContactDto convContactToDto(Contact contact) {
         return new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
     }
     
-    private Contact convDtoToContact(ContactDto contactDto) {
+    public Contact convDtoToContact(ContactDto contactDto) {
         Contact contact;
         if (contactDto.getId() != null) {
             System.out.println("contactDto Id not null " + contactDto.getId());
