@@ -27,6 +27,14 @@ public class ContactService {
         return lstContactsDto;
     }
 
+    public Contact findById(int idContact) {
+        Optional<Contact> optionalContact = contactRepository.findById(idContact);
+        if (optionalContact.isPresent()) {
+            return optionalContact.get();
+        }
+        return null;
+    }
+
     public Model findById(int idContact, Model model) {
         Optional<Contact> optionalContact = contactRepository.findById(idContact);
         ContactDto contactDto = new ContactDto();
