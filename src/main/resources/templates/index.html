@@ -7,7 +7,13 @@
 	<section>
 		<th id="content" class="p-4 p-md-5 pt-5">
 			<h1 class="text-center text-primary m-4">All shared expenses</h1>
-
+			<div>
+				<a class="text-decoration-none" href="/createlist">
+					<button type="button" class="btn btn-labeled btn-rounded btn-light text-white" title="Create expense list">
+						<span class="btn-label"><i class="bi-plus-circle-fill"></i>Create a shared expense list</span>
+					</button>
+				</a>
+			</div>
 			<th:block th:each="expenses, state : ${expenseslistsdto}">
 	<!--			Bootstrap modal div for confirmation windows pop-up -->
 				<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
@@ -79,13 +85,6 @@
 				</div>
 			</th:block>
 			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
-			<div>
-				<a class="text-decoration-none" href="/createlist">
-					<button type="button" class="btn btn-labeled btn-rounded btn-light text-white" title="Create expense list">
-						<span class="btn-label"><i class="bi-plus-circle-fill"></i>Create a shared expense list</span>
-					</button>
-				</a>
-			</div>
 		</div>
 	</section>
 
