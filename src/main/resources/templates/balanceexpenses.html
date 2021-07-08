@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head>
+		<title>TriCount</title>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+
+	<body>
+	<header th:replace="fragments/header.html :: head"></header>
+	<section>
+		<div class="container">
+			<!-- <form action="/balanceexpenses" method="post" name="balanceId" th:value="${balExpenseDto.idOfExpenseList}">  -->
+			<form action= "#" th:action="@{'/balanceexpenses/{id}'(id=${balExpenseDto.idOfExpenseList})}" th:method="post">
+				<h1 class="text-center text-primary m-4">Who owns who? <span th:text="${balExpenseDto.idOfExpenseList}">id</span></h1>
+				<h2 class="text-primary m-4">List: <span th:text="${balExpenseDto.name}">list name</span></h2>
+				<h3 class="test-primary">Total spent: <span th:text="${balExpenseDto.total}">total</span></h3>
+				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
+				<div class="col"> 
+					<div class="row">
+						<div class = "col" ><b>Name</b></div>
+						<div class = "col" ><b>Amount due</b></div>
+						<div class = "col" ><b>Amount spent</b></div>
+					</div>
+				</div>
+				<th:block th:each="contact, status : ${balExpenseDto.lstContacts}">
+				<div class="col">
+					<div class="row">
+						<div class = "col" th:text="${contact.name}">Name</div>
+						<div class = "col" th:text="${contact.amountDue}">Dépenses beneficiées</div>
+						<div class = "col" th:text="${contact.amountSpend}">Dépenses faites</div>
+					</div>
+				</div>
+				</th:block>
+				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
+				<div class="col-md-12 text-center" th:unless="${balExpenseDto.balanceOk}">
+					<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+				</div>
+			</form>
+		</div>
+	</section>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+	</body>
+</html>
+

@@ -1,0 +1,17 @@
+body {
+	
+}
+
+hr:last-child {
+	visibility: hidden;
+}
+.pageTitleLink, .pageTitleLink:hover {
+	text-decoration: none;
+}
+
+/*****
+Some buttons css
+ */
+.btn-label {position: relative;display: inline-block;padding: 6px 12px;border-radius: 4px 0 0 4px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.btn { margin-bottom:10px; }

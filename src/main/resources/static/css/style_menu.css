@@ -1,0 +1,17 @@
+
+
+.collapse{
+    width: 15rem;
+}
+.pageTitle{
+    
+text-align: center;
+
+}
+.pageTitle:hover{
+    text-decoration: none;
+}
+
+.footer{
+    text-align: center;
+}
