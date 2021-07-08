@@ -1,24 +1,25 @@
 package com.wildcodeschool.tricount.controller;
 
+import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
+import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
+import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
+import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.service.ContactService;
+import com.wildcodeschool.tricount.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
-import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
-import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
-import com.wildcodeschool.tricount.entity.Expense;
-import com.wildcodeschool.tricount.service.ExpenseService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+//import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.ModelAttribute;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Controller
@@ -37,9 +38,10 @@ public class ExpenseController {
     }
 
     @GetMapping("/createexpense/{id}")
-    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request) {
         model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
-//        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previouspage", referer);
         return "createexpense";
     }
 
@@ -47,7 +49,7 @@ public class ExpenseController {
     public String postExpense(Model model, @ModelAttribute CreateExpenseDTO dto) {
         Integer idList = dto.getExpenseListId();
         expenseService.create(dto);
-        return "redirect:/updatelist/"+idList;
+        return "redirect:/expenselistdetails/"+idList;
     }
 
     @PostMapping("/expense/update")
@@ -57,13 +59,28 @@ public class ExpenseController {
         return new ResponseEntity<Expense>(exp, HttpStatus.OK);
     }
 
-    @DeleteMapping("/expense/{id}")
-    @ResponseBody
-    public ResponseEntity<Integer> deleteExpense(@PathVariable int id) {
-        Boolean isRemoved = expenseService.delete(id);
-        if (!isRemoved) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    @GetMapping("/expense/delete/{id}")
+    public String deleteExpense(@PathVariable int id){
+        ReadExpenseDTO  readExpenseDTO= expenseService.getById(id);
+
+        if (readExpenseDTO !=null){
+            expenseService.delete(id);
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense  not found "+id);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return "redirect:/";
     }
+
+
+   // @DeleteMapping("/expense/{id}")
+    //@ResponseBody
+    //public ResponseEntity<Integer> deleteExpense(@PathVariable int id) {
+      //  Boolean isRemoved = expenseService.delete(id);
+        //if (!isRemoved) {
+         //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       // }
+        //return new ResponseEntity<>(HttpStatus.OK);
+
+    //
 }

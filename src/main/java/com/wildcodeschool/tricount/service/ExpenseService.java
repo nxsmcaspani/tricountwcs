@@ -1,20 +1,17 @@
 package com.wildcodeschool.tricount.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
 import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.repository.ExpenseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseService {
@@ -48,13 +45,11 @@ public class ExpenseService {
         return repo.save(expense);
     }
     
-    public Boolean delete(int id) {
+    public void delete(int id) {
         Optional<Expense> expense = repo.findById(id);
         if (expense.isPresent()) {
             repo.deleteById(id);
-            return true;
         }
-        return false;
     }
 
     // Method called when accessing the expense creation form

@@ -44,7 +44,7 @@ public class ExpenseListService {
     public void delete(Integer idList){
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(idList);
         if (optionalExpenseList.isPresent()) {
-            expenseListRepository.delete(optionalExpenseList.get());
+            expenseListRepository.deleteById(optionalExpenseList.get().getId());
         }
     }
 
