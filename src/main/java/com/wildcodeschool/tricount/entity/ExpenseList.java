@@ -1,5 +1,6 @@
 package com.wildcodeschool.tricount.entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 

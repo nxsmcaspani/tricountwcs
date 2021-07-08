@@ -35,15 +35,18 @@
 						<div class="col-2 col-sm-2">
 							<select class="custom-select" required th:field="*{owner}" id="owner" type="text">
 								<option value="">Expense Owner</option>
+
 								<option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
 										th:value="${contact.id}"
 										th:utext="${contact.name}" />
+
 							</select>
 						</div>
 					</div>
 					<br />
 
 					<!-- Expense Date -->
+
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
 							<label for="expensedate">Expense date:</label>
@@ -53,7 +56,6 @@
 						</div>
 					</div>
 					<br />
-
 
 					<!-- Expense Amount -->
 					<div class="row justify-content-center">

@@ -98,7 +98,7 @@
 									        <label>Email:</label>
 							    	    </div>
 							        	<div class="col">
-							        		<input name="email" class="form-control" type="text" th:value=${contact.email}>
+							        		<input name="email" class="form-control" type="text" th:value=${contact.email} placeholder="email@domain.com" pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}">
 							        	</div>
 							        	<input class="d-none" type="number" name="id" th:value=${contact.id}>
 							        </div>
