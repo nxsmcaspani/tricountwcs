@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-	<head>
-		<title>TriCount</title>
-		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
-		<link rel="stylesheet" href="/css/style.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<head th:replace="fragments/header.html :: head">
 	</head>
-
 	<body>
-	<header th:replace="fragments/header.html :: head"></header>
+	<header th:replace="fragments/header.html :: header"></header>
 	<section>
 		<div class="container">
 			<!-- <form action="/balanceexpenses" method="post" name="balanceId" th:value="${balExpenseDto.idOfExpenseList}">  -->
@@ -42,7 +35,7 @@
 			</form>
 		</div>
 	</section>
-	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 	</body>
 </html>
 
