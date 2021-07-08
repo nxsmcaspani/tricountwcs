@@ -1,6 +1,7 @@
 package com.wildcodeschool.tricount.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
 import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
+import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.repository.ExpenseRepository;
 
@@ -22,6 +24,9 @@ public class ExpenseService {
 
     @Autowired
     private ExpenseListService expenseListService;
+
+    @Autowired
+    private ContactService contactService;
 
     public List<Expense> getAll() {
         return repo.findAll();
@@ -80,6 +85,12 @@ public class ExpenseService {
         exp.setName(expenseDTO.getName());
         exp.setOwner(expenseDTO.getOwner());
         exp.setExpenseList(expenseListService.getExpenseList(expenseDTO.getExpenseListId()));
+        
+        ArrayList<Contact> beneficiaries = new ArrayList<Contact>();
+        for (Integer id : expenseDTO.getIdBeneficiaries()) {
+            beneficiaries.add(contactService.findById(id));
+        }
+        exp.setBeneficiaries(beneficiaries);
         return exp;
     }
 

@@ -4,12 +4,15 @@ import com.wildcodeschool.tricount.entity.Contact;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CreateExpenseDTO {
     private String name;
     private ReadExpenseListDto readExpenseListDto;
     private Integer expenseListId;
     private Contact owner;
+    private ArrayList<Integer> idBeneficiaries = new ArrayList<>();
+
     private float amount;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expenseDate;
@@ -53,6 +56,14 @@ public class CreateExpenseDTO {
 
     public void setOwner(Contact aOwner) {
         owner = aOwner;
+    }
+
+    public ArrayList<Integer> getIdBeneficiaries() {
+        return idBeneficiaries;
+    }
+
+    public void setIdBeneficiaries(ArrayList<Integer> aIdBeneficiaries) {
+        idBeneficiaries = aIdBeneficiaries;
     }
 
     public float getAmount() {

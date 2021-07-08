@@ -18,7 +18,8 @@ import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.service.ExpenseService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
@@ -37,9 +38,10 @@ public class ExpenseController {
     }
 
     @GetMapping("/createexpense/{id}")
-    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+    public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request) {
         model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
-//        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previouspage", referer);
         return "createexpense";
     }
 
@@ -47,7 +49,7 @@ public class ExpenseController {
     public String postExpense(Model model, @ModelAttribute CreateExpenseDTO dto) {
         Integer idList = dto.getExpenseListId();
         expenseService.create(dto);
-        return "redirect:/updatelist/"+idList;
+        return "redirect:/expenselistdetails/"+idList;
     }
 
     @PostMapping("/expense/update")
@@ -57,7 +59,7 @@ public class ExpenseController {
         return new ResponseEntity<Expense>(exp, HttpStatus.OK);
     }
 
-    @DeleteMapping("/expense/{id}")
+    @DeleteMapping("/expense/delete/{id}")
     @ResponseBody
     public ResponseEntity<Integer> deleteExpense(@PathVariable int id) {
         Boolean isRemoved = expenseService.delete(id);
