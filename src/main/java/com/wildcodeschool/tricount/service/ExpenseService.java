@@ -46,10 +46,7 @@ public class ExpenseService {
     }
     
     public void delete(int id) {
-        Optional<Expense> expense = repo.findById(id);
-        if (expense.isPresent()) {
-            repo.deleteById(id);
-        }
+        repo.deleteById(id);
     }
 
     // Method called when accessing the expense creation form
