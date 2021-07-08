@@ -1,18 +1,8 @@
 package com.wildcodeschool.tricount.entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "expense")
@@ -26,11 +16,11 @@ public class Expense {
     private LocalDate expenseDate;
     
     @ManyToOne
-    @JoinColumn(name="expense_list_id", columnDefinition="int")
+    @JoinColumn(name="expenselistid", columnDefinition="int")
     private ExpenseList expenseList;
 
     @ManyToOne
-    @JoinColumn(name="contact_id", columnDefinition="int")
+    @JoinColumn(name="ownerid", columnDefinition="int")
     private Contact owner;
     
     @ManyToMany

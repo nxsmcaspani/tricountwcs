@@ -66,10 +66,28 @@
                   <button type="button" class="btn btn-labeled btn-success">
                     <span class="btn-label"><i class="bi-pencil"></i></span></button>
                 </a>
-                <a class="text-decoration-none" th:href="@{/expenseslist/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
-                  <button type="button" class="btn btn-labeled btn-danger">
-                    <span class="btn-label"><i class="bi-trash"></i></span></button>
-                </a>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="deleteListLabel">Confirm Delete</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>You are about to delete an expense, this action cannot be undone.</p>
+                        <p>Do you want to proceed?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger btn-ok">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  <a class="text-decoration-none" th:data-href="@{/expense/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
+                    <button type="button" class="btn btn-labeled btn-danger">
+                      <span class="btn-label"><i class="bi-trash"></i></span></button>
+                  </a>
               </td>
             </tr>
             </tbody>
@@ -80,6 +98,11 @@
 
   </div>
 </section>
+<script>
+  $('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+  });
+</script>
 <footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
 </body>
 </html>

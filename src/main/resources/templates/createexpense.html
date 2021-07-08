@@ -45,7 +45,8 @@
 								<option value="">Expense Owner</option>
 								<option
 									th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
-									th:value="${contact.id}" th:utext="${contact.name}" />
+									th:value="${contact.id}" th:utext="${contact.name}"
+									th:selected="true"/>
 							</select>
 						</div>
 					</div>
