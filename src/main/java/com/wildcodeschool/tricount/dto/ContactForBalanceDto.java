@@ -1,17 +1,23 @@
 package com.wildcodeschool.tricount.dto;
 
-public class ContactForBalanceDto {
+import com.wildcodeschool.tricount.entity.Contact;
+
+public class ContactForBalanceDto implements Comparable<ContactForBalanceDto> {
 
     private int id;
     private String name;
     private String email;
     private float amountDue;
     private float amountSpend;
-
+    
     public Integer getId() {
         return id;
     }
 
+    public Contact toContact() {
+        return new Contact(this.id, this.name, this.email);
+    }
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -54,6 +60,18 @@ public class ContactForBalanceDto {
         amountSpend = aAmountSpend;
     }
 
+    public float getSolde() {
+        return amountSpend - amountDue;
+    }
     
-    
+    @Override
+    public int compareTo(ContactForBalanceDto other) {
+        if (this.getSolde() < other.getSolde()) {
+            return -1;
+        }
+        if (this.getSolde() == other.getSolde()) {
+            return 0;
+        }
+        return 1;        
+    }
 }

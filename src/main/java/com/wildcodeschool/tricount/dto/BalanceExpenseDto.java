@@ -9,6 +9,7 @@ public class BalanceExpenseDto {
     private List<ContactForBalanceDto> lstContacts = new ArrayList<ContactForBalanceDto>();
     private Float total = 0f;
     private boolean balanceOk = false;
+    private int idOfExpenseList;
     
     public String getName() {
         return name;
@@ -40,6 +41,14 @@ public class BalanceExpenseDto {
 
     public void setBalanceOk(boolean aBalanceOk) {
         balanceOk = aBalanceOk;
+    }
+
+    public int getIdOfExpenseList() {
+        return idOfExpenseList;
+    }
+
+    public void setIdOfExpenseList(int aIdOfExpenseList) {
+        idOfExpenseList = aIdOfExpenseList;
     }
     
 }
