@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.*;
+
 @Entity
 @Table(name = "expense")
 public class Expense {
@@ -15,15 +17,15 @@ public class Expense {
     private float amount;
     private LocalDate expenseDate;
     
-    @ManyToOne
-    @JoinColumn(name="expenselistid", columnDefinition="int")
+    @ManyToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name="expense_list_id", columnDefinition="int")
     private ExpenseList expenseList;
 
-    @ManyToOne
-    @JoinColumn(name="ownerid", columnDefinition="int")
+    @ManyToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name="contact_id", columnDefinition="int")
     private Contact owner;
     
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL)
     @JoinTable(name="beneficiary", 
         joinColumns = @JoinColumn(name="expense_id", columnDefinition="int"), 
         inverseJoinColumns = @JoinColumn(name = "contact_id", columnDefinition="int"))

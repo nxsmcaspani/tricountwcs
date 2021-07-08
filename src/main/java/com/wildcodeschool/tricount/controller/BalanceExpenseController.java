@@ -19,7 +19,7 @@ public class BalanceExpenseController {
     BalanceExpenseListService balanceExpenseListService;
     
     
-    @GetMapping("balanceexpenses/{idList}")
+    @GetMapping("/balanceexpenses/{idList}")
     public String balanceExpenses(Model model, @PathVariable int idList) {
         BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(idList);
         if (balExpenseDto == null) {
@@ -29,7 +29,7 @@ public class BalanceExpenseController {
         return "balanceexpenses";
     }
     
-    @PostMapping("balanceexpenses/{id}")
+    @PostMapping("/balanceexpenses/{id}")
     public String executeBalanceExpenses(@PathVariable int id) {
         System.out.println("executeBalanceExpenses idList sur " + id);
         BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(id);

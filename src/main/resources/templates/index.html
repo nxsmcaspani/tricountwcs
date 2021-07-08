@@ -1,84 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-	<head>
-		<title>TriCount</title>
-		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
-		<link rel="stylesheet" href="/css/style.css">
-		<script src="/js/jquery-3.2.1.slim.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<head th:replace="fragments/header.html :: head">
 	</head>
-
 	<body>
-	<header th:replace="fragments/header.html :: head"></header>
+	<header th:replace="fragments/header.html :: header"></header>
 	<section>
-	<div class="container">
-		<h1 class="text-center text-primary m-4">All shared expenses</h1>
+		<th id="content" class="p-4 p-md-5 pt-5">
+			<h1 class="text-center text-primary m-4">All shared expenses</h1>
 
-		<th:block th:each="expenses, state : ${expenseslistsdto}">
-<!--			Bootstrap modal div for confirmation windows pop-up -->
-			<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" id="deleteListLabel">Confirm Delete</h4>
-						</div>
-						<div class="modal-body">
-							<p>You are about to delete an expense list, this action cannot be undone.</p>
-							<p>Do you want to proceed?</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-							<a class="btn btn-danger btn-ok">Delete</a>
+			<th:block th:each="expenses, state : ${expenseslistsdto}">
+	<!--			Bootstrap modal div for confirmation windows pop-up -->
+				<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="deleteListLabel">Confirm Delete</h4>
+							</div>
+							<div class="modal-body">
+								<p>You are about to delete an expense list, this action cannot be undone.</p>
+								<p>Do you want to proceed?</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								<a class="btn btn-danger btn-ok">Delete</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<div class="row mt-5">
-				<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
-					<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
-					<h4 class="text-center">
-						<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
-							<button type="button" class="btn btn-labeled btn-primary">
-								<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
-						</a>
-						<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
-							<button type="button" class="btn btn-labeled btn-danger">
-								<span class="btn-label"><i class="bi-trash"></i></span></button>
-						</a>
-					</h4>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Last expenses</th>
-								<th>Made by</th>
-								<th>Amount</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="expense : ${expenses.idExpenses}">
-								<td th:text="${expense.name}">Expense Name</td>
-								<td th:text="${expense.owner.name}">Expense owner</td>
-								<td th:text="${expense.amount}">Expense amount</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="align-items-end">
-						<a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${expenses.id})}">
-							<button type="button" class="btn btn-labeled btn-rounded btn-success" title="Add expense to this list">
-								<span class="btn-label"><i class="bi-plus-circle-fill"></i></span></button>
-						</a>
+				<div class="row mt-5">
+					<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+						<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
+						<h4 class="text-center">
+							<a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${expenses.id})}">
+								<button type="button" class="btn btn-labeled btn-success">
+									<span class="btn-label"><i class="bi-pencil"></i> Edit List</span></button>
+							</a>
+							<a class="text-decoration-none" th:href="@{/expenselistdetails/{id}(id=${expenses.id})}">
+								<button type="button" class="btn btn-labeled btn-primary">
+									<span class="btn-label"><i class="bi-binoculars-fill"></i> List details</span></button>
+							</a>
+							<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-toggle="modal" data-target="#confirm-delete">
+								<button type="button" class="btn btn-labeled btn-danger">
+									<span class="btn-label"><i class="bi-trash"></i> Delete List</span></button>
+							</a>
+						</h4>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Last expenses</th>
+									<th>Made by</th>
+									<th>Amount</th>
+									<th>View</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="expense : ${expenses.idExpenses}">
+									<td th:text="${expense.name}">Expense Name</td>
+									<td th:text="${expense.owner.name}">Expense owner</td>
+									<td th:text="${expense.amount}">Expense amount</td>
+									<td>
+										<a class="text-decoration-none" th:href="@{/expense/{id}(id=${expense.id})}">
+											<button type="button" class="btn btn-labeled btn-success">
+												<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="align-items-end">
+							<a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${expenses.id})}">
+								<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white" title="Add an expense to this list">
+									<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
+								</button>
+							</a>
+						</div>
 					</div>
-<!--					<button type="button" class="btn btn-lg btn-primary float-end">Add expense</button>-->
 				</div>
+			</th:block>
+			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
+			<div>
+				<a class="text-decoration-none" href="/createlist">
+					<button type="button" class="btn btn-labeled btn-rounded btn-light text-white" title="Create expense list">
+						<span class="btn-label"><i class="bi-plus-circle-fill"></i>Create a shared expense list</span>
+					</button>
+				</a>
 			</div>
 		</div>
-			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
-	</div>
 	</section>
 
 <!--	bit of jquery to show the confirmation pop-up -->
@@ -87,8 +95,7 @@
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
 	</script>
-
-	<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 	</body>
 </html>
 

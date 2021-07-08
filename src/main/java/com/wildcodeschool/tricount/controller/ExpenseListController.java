@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,19 +52,29 @@ public class ExpenseListController {
         return "updateexpenselist";
     }
 
+    @GetMapping("/expenselistdetails/{id}")
+    public String showExpensesListDetails(Model model, @PathVariable(name = "id") Integer idList){
+        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
+        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        model.addAttribute("updateexpenselistdto", updateexpenselistdto);
+        return "expenselistdetails";
+    }
+
     @PostMapping("/newexpenseslist")
     public String newExpensesList(@ModelAttribute CreateExpenseListDto createExpenseListDto) {
         expenseListService.create(createExpenseListDto);
         return "redirect:/";
     }
 
+    // Using HttpServletRequest to redirect to page the update was done from (either updatelist or pagedetails)
     @PostMapping("/updateexpenseslist")
-    public String updateExpensesList(Model model, @ModelAttribute UpdateExpenseListDto UpdateExpenseListDto) {
+    public String updateExpensesList(Model model, @ModelAttribute UpdateExpenseListDto UpdateExpenseListDto, HttpServletRequest request) {
         expenseListService.update(UpdateExpenseListDto);
         UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
-        return "updateexpenselist";
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
     }
 
     @GetMapping("/expenseslist/delete/{idList}")
