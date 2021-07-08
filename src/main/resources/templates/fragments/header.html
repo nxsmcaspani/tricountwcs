@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head  th:fragment="head">
     <title>TriCount</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/8e8aa578fc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/style_menu.css">
 </head>
 
 <body>
-<header th:fragment="head">
+<header th:fragment="header">
     <div class="pos-f-t bootstrap navbar-dark bg-primary">
         <span class="menuaccess" onclick="openNav()">&#9776; Menu</span>
         <a href="/" class="pageTitleLink"><h1 class="pageTitle text-warning">TriCount<br>Manage your money</h1></a>
