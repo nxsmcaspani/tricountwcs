@@ -18,15 +18,15 @@
                     th:value="${contact.id}"
                     th:utext="${contact.name}"/>
           </select>
-          <script>
-            var config = {};
-            new TomSelect('#contacts',config);
-          </script>
           <br /><br />
           <input type="submit" value="Update List" class="btn btn-primary">
         </form><br /><br />
       </div>
     </section>
     <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+    <script>
+      var config = {};
+      new TomSelect('#contacts',config);
+    </script>
   </body>
 </html>

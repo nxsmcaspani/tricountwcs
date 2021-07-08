@@ -17,15 +17,15 @@ public class Expense {
     private float amount;
     private LocalDate expenseDate;
     
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="expense_list_id", columnDefinition="int")
     private ExpenseList expenseList;
 
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="contact_id", columnDefinition="int")
     private Contact owner;
     
-    @ManyToMany( cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="beneficiary", 
         joinColumns = @JoinColumn(name="expense_id", columnDefinition="int"), 
         inverseJoinColumns = @JoinColumn(name = "contact_id", columnDefinition="int"))
