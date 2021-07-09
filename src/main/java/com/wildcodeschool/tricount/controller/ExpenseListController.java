@@ -47,10 +47,12 @@ public class ExpenseListController {
     }
 
     @GetMapping("/updatelist/{id}")
-    public String showExpensesList(Model model, @PathVariable(name = "id") Integer idList){
+    public String showExpensesList(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request){
         UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previous", referer);
         return "updateexpenselist";
     }
 
