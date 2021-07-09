@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <title>TriCount</title>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
-    <script src="/js/tom-select.complete.js"></script>
+<head th:replace="fragments/header.html :: head">
 </head>
-
 <body>
-<header th:replace="fragments/header.html :: head">header</header>
+<header th:replace="fragments/header.html :: header"></header>
 <section>
     <div class="container">
         <h1 class="text-center text-primary m-4">Create a shared expenses List</h1>
@@ -26,15 +18,15 @@
                         th:value="${contact.id}"
                         th:utext="${contact.name}"/>
             </select>
-            <script>
-                var config = {};
-                new TomSelect('#contacts',config);
-            </script>
             <br /><br />
             <input type="submit" value="Create List" class="btn btn-primary">
         </form>
     </div>
 </section>
-<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
+<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+<script>
+    var config = {};
+    new TomSelect('#contacts',config);
+</script>
 </body>
 </html>

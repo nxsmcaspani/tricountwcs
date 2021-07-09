@@ -85,7 +85,7 @@ public class ExpenseListController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+idList);
         }
-        return "redirect:/";
+            return "redirect:/";
     }
 
 }

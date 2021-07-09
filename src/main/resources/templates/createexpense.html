@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<title>TriCount</title>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="/js/tom-select.complete.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-	<header th:replace="fragments/header.html :: head">header</header>
-	<section>
+	<head th:replace="fragments/header.html :: head">
+	</head>
+	<body>
+		<header th:replace="fragments/header.html :: header"></header>
+		<section>
 		<div class="container">
 			<h1 class="text-center text-warning"
 				th:text="${createexpensedto.readExpenseListDto.name}"></h1>
@@ -44,15 +35,18 @@
 						<div class="col-2 col-sm-2">
 							<select class="custom-select" required th:field="*{owner}" id="owner" type="text">
 								<option value="">Expense Owner</option>
+
 								<option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
 										th:value="${contact.id}"
 										th:utext="${contact.name}" />
+
 							</select>
 						</div>
 					</div>
 					<br />
 
 					<!-- Expense Date -->
+
 					<div class="row justify-content-center">
 						<div class="col-2 col-sm-2">
 							<label for="expensedate">Expense date:</label>
@@ -62,7 +56,6 @@
 						</div>
 					</div>
 					<br />
-
 
 					<!-- Expense Amount -->
 					<div class="row justify-content-center">
@@ -88,23 +81,23 @@
 										th:utext="${contact.name}"
 										th:selected="true"/>
 							</select>
-							<script>
-								var config = {};
-								new TomSelect('#beneficiaries',config);
-							</script>
 						</div>
 					</div>
 					<br />
 					
 					<br />
 					<div class="modal-footer">
-						<a href="/" class="btn secondary" role="button">Cancel</a>
+						<a href="/" class="btn btn-secondary" role="button">Cancel</a>
 						<button type="submit" class="btn btn-primary">Create</button>
 					</div>
 					<br>
-
 			</form>
 		</div>
 	</section>
+		<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+		<script>
+			var config = {};
+			new TomSelect('#beneficiaries',config);
+		</script>
 </body>
 </html>
