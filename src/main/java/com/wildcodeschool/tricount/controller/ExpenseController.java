@@ -33,7 +33,7 @@ public class ExpenseController {
     @GetMapping("/expense/{id}")
     @ResponseBody
     public ReadExpenseDTO getExpense(@PathVariable int id) {
-        ReadExpenseDTO dto = expenseService.getById(id);
+        ReadExpenseDTO dto = expenseService.getReadExpenseDTOById(id);
         return dto;
     }
 
@@ -44,6 +44,14 @@ public class ExpenseController {
         model.addAttribute("previouspage", referer);
         return "createexpense";
     }
+    
+    @GetMapping("/updateexpense/{id}")
+    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+        Expense exp = expenseService.getById(idList);
+        UpdateExpenseDTO dto = ExpenseService.mapGetUpdateExpenseDTO(exp);
+        model.addAttribute("updateexpensedto", dto);
+        return "updateexpense";
+    }
 
     @PostMapping("/expense")
     public String postExpense(Model model, @ModelAttribute CreateExpenseDTO dto) {
@@ -53,10 +61,9 @@ public class ExpenseController {
     }
 
     @PostMapping("/expense/update")
-    @ResponseBody
-    public ResponseEntity<Expense> postExpense(@ModelAttribute UpdateExpenseDTO dto) {
+    public String postExpense(@ModelAttribute UpdateExpenseDTO dto) {
         Expense exp = expenseService.update(dto);
-        return new ResponseEntity<Expense>(exp, HttpStatus.OK);
+        return "redirect:/updatelist/" + dto.getExpenseListId();
     }
 
 
