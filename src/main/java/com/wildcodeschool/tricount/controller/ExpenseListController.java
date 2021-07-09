@@ -37,10 +37,12 @@ public class ExpenseListController {
     }
 
     @GetMapping("/createlist")
-    public String editExpensesList(Model model){
+    public String editExpensesList(Model model, HttpServletRequest request){
         CreateExpenseListDto createExpenseListDto = new CreateExpenseListDto();
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("createexpenselistdto", createExpenseListDto);
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previous", referer);
         return "createexpenselist";
     }
 
@@ -53,10 +55,12 @@ public class ExpenseListController {
     }
 
     @GetMapping("/expenselistdetails/{id}")
-    public String showExpensesListDetails(Model model, @PathVariable(name = "id") Integer idList){
+    public String showExpensesListDetails(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request){
         UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previous", referer);
         return "expenselistdetails";
     }
 

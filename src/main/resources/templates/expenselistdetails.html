@@ -20,6 +20,7 @@
         </select>
         <br /><br />
         <input type="submit" value="Update List" class="btn btn-primary">
+        <a th:href="${previous}" class="btn btn-secondary" role="button">Cancel</a>
       </form><br /><br />
 
       <hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
@@ -29,7 +30,7 @@
             <span class="btn-label"><i class="bi bi-plus-circle"></i> Add an expense</span></button>
         </a>
         <a class="text-decoration-none" th:href="@{/balanceexpenses/{idList}(idList=${id})}">
-          <button type="button" class="btn btn-labeled btn-rounded btn-light text-white" title="Balance expenses between participants">
+          <button type="button" class="btn btn-labeled btn-rounded btn-primary text-white" title="Balance expenses between participants">
             <span class="btn-label"><i class="fa fa-balance-scale" aria-hidden="true"></i> Balance expenses</span></button>
         </a>
 
@@ -46,7 +47,6 @@
               </thead>
               <tbody>
               <tr th:object="${updateexpenselistdto}" th:each="readexpensedto, state : ${updateexpenselistdto.readExpenseDTOS}">
-  <!--            <tr th:each="readexpensedto : ${readexpensedto.id}">-->
                 <td th:text="${readexpensedto.name}">Expense Name</td>
                 <td th:text="${readexpensedto.owner.name}">Expense owner</td>
                 <td th:text="${readexpensedto.amount}">Expense amount</td>
@@ -64,7 +64,6 @@
               </tr>
               </tbody>
             </table>
-  <!--        </div>-->
         </div>
     </div>
 
