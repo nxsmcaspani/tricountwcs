@@ -52,6 +52,9 @@ public class ExpenseList {
     public List<Contact> getContacts() {
         return contacts;
     }
+    public List<Integer> getContactsIds(){
+        return contacts.stream().forEach();
+    }
     public void setContacts(List<Contact> aContacts) {
         contacts = aContacts;
     }

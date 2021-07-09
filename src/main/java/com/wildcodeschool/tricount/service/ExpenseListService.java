@@ -140,7 +140,13 @@ public class ExpenseListService {
                 Optional<Contact> OptionalContact = contactRepository.findById(id);
                 OptionalContact.ifPresent(newParticipants::add);
             }
-            expenseList.setContacts(newParticipants);
+            Collections.sort(newParticipants);
+            Collections.sort(oldParticipants);
+            if(!newParticipants.equals(oldParticipants)){
+                oldParticipants.removeAll(newParticipants);
+                expenseList.setContacts(newParticipants);
+            }
+
         } else {
             throw new RuntimeException("Expense List Id not found.");
         }
