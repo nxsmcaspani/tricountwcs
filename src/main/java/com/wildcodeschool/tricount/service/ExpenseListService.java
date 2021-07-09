@@ -42,10 +42,7 @@ public class ExpenseListService {
     }
 
     public void delete(Integer idList){
-        Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(idList);
-        if (optionalExpenseList.isPresent()) {
-            expenseListRepository.delete(optionalExpenseList.get());
-        }
+        expenseListRepository.deleteById(idList);
     }
 
     public Optional<ExpenseList> findById(Integer idList){ return expenseListRepository.findById(idList); }
@@ -132,12 +129,12 @@ public class ExpenseListService {
             expenseList = optionalExpenseList.get();
             expenseList.setDate(LocalDate.now());
             expenseList.setName(expenseListDto.getName());
-            List<Contact> participants = new ArrayList<>();
+            List<Contact> newParticipants = new ArrayList<>();
             for(Integer id : expenseListDto.getIdContacts()){
                 Optional<Contact> OptionalContact = contactRepository.findById(id);
-                OptionalContact.ifPresent(participants::add);
+                OptionalContact.ifPresent(newParticipants::add);
             }
-            expenseList.setContacts(participants);
+            expenseList.setContacts(newParticipants);
         } else {
             throw new RuntimeException("Expense List Id not found.");
         }

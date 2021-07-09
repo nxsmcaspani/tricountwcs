@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
   <title>TriCount</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
@@ -76,10 +77,11 @@
           </table>
 <!--        </div>-->
       </div>
-  </div>
-
-  </div>
-</section>
-<footer class="footer" th:replace="fragments/footer.html :: tail"> your footer here</footer>
-</body>
+    </section>
+    <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+    <script>
+      var config = {};
+      new TomSelect('#contacts',config);
+    </script>
+  </body>
 </html>
