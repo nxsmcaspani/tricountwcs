@@ -8,7 +8,6 @@ import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +70,7 @@ public class ExpenseController {
 
     @GetMapping("/expense/delete/{id}")
     public String deleteExpense(@PathVariable int id){
-        ReadExpenseDTO  readExpenseDTO= expenseService.getById(id);
+        Expense readExpenseDTO= expenseService.getById(id);
 
         if (readExpenseDTO !=null){
             expenseService.delete(id);
