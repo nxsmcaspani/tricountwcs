@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+	<head th:replace="fragments/header.html :: head">
+	</head>
+	<body>
+		<header th:replace="fragments/header.html :: header"></header>
+		<section>
+		<div class="container">
+<!-- 			<h1 class="text-center text-warning"
+				th:text="${updateexpensedto.readExpenseListDto.name}"></h1> -->
+			<h2 class="text-center text-primary m-4">Update an expense</h2>
+			
+			<form action="#" method="POST"
+				  th:action="@{/expense/update}"
+				  th:object="${updateexpensedto}">
+				<input name="expenseListId" th:field="*{expenseListId}" type="hidden">
+				<input name="id" th:field="*{id}" type="hidden">
+				<div class="modal-body">
+				
+					<!-- Expense Name -->
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="expense-name">Expense Name:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="expense-name" required th:field="*{name}" name="name" type="text">
+						</div>
+					</div>
+					<br />
+
+					<!-- Expense Owner -->
+ 					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="owner">Expense Owner:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<select class="custom-select" required id="ownerId" name="ownerId" type="text">
+								<option value="">Expense Owner</option>
+								<option th:each="contact : ${updateexpensedto.ownerList}"
+										th:value="${contact.id}"
+										th:utext="${contact.name}"
+										th:selected="${contact.selected}"/>
+							</select>
+						</div>
+					</div>
+					<br />
+
+					<!-- Expense Date -->
+ 					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="expensedate">Expense date:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="expensedate" name="expensedate" required th:field="*{date}" type="date">
+						</div>
+					</div>
+					<br />
+
+
+					<!-- Expense Amount -->
+					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2">
+							<label for="amount">Expense Amount:</label>
+						</div>
+						<div class="col-2 col-sm-2">
+							<input id="amount" name="amount" th:field="*{amount}" required type="text">
+						</div>
+					</div>
+					<br />
+
+
+					<!-- Expense Beneficiaries -->
+<!-- 					<div class="row justify-content-center">
+						<div class="col-2 col-sm-2 offset-2 offset-sm-2">
+							<label for="beneficiaries">Beneficiaries :</label>
+						</div>
+						<div class="col-4 col-sm-4">
+							<select  id="beneficiaries" name="idBeneficiaries[]" multiple autocomplete="on">
+								<option th:each="contact : ${updateexpensedto.readExpenseListDto.contactDtoList}"
+										th:value="${contact.id}"
+										th:utext="${contact.name}"
+										th:selected="true"/>
+							</select>
+							<script>
+								var config = {};
+								new TomSelect('#beneficiaries',config);
+							</script>
+						</div>
+					</div> -->
+					<br />
+					
+					<br />
+					<div class="modal-footer">
+						<a href="/" class="btn secondary" role="button">Cancel</a>
+						<button type="submit" class="btn btn-primary">Update</button>
+					</div>
+					<br>
+			</form>
+		</div>
+	</section>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+<!--	 Put TomSelect Js code (for config) below the fragment :: -->
+</body>
+</html>

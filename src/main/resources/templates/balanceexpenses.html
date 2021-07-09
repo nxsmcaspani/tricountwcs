@@ -8,7 +8,7 @@
 		<div class="container">
 			<!-- <form action="/balanceexpenses" method="post" name="balanceId" th:value="${balExpenseDto.idOfExpenseList}">  -->
 			<form action= "#" th:action="@{'/balanceexpenses/{id}'(id=${balExpenseDto.idOfExpenseList})}" th:method="post">
-				<h1 class="text-center text-primary m-4">Who owns who? <span th:text="${balExpenseDto.idOfExpenseList}">id</span></h1>
+				<h1 class="text-center text-primary m-4">Who owns who?</h1>
 				<h2 class="text-primary m-4">List: <span th:text="${balExpenseDto.name}">list name</span></h2>
 				<h3 class="test-primary">Total spent: <span th:text="${balExpenseDto.total}">total</span></h3>
 				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
