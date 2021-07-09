@@ -9,7 +9,7 @@
 			<h1 class="text-center text-primary m-4">All shared expenses</h1>
 			<div class="text-center">
 				<a class="text-decoration-none" href="/createlist">
-					<button type="button" class="btn btn-labeled btn-rounded btn-info text-white" title="Create expense list">
+					<button type="button" class="btn btn-labeled btn-rounded btn-success text-white" title="Create expense list">
 						<span class="btn-label"><i class="bi-plus-circle-fill"></i> Create a shared expense list</span>
 					</button>
 				</a>
@@ -68,7 +68,7 @@
 									<td th:text="${expense.amount}">Expense amount</td>
 									<td>
 										<a class="text-decoration-none" th:href="@{/expense/{id}(id=${expense.id})}">
-											<button type="button" class="btn btn-labeled btn-success">
+											<button type="button" class="btn btn-labeled btn-primary">
 												<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
 										</a>
 									</td>
@@ -90,13 +90,6 @@
 	</section>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
-	<!--	bit of jquery to show the confirmation pop-up -->
-<!--	<script>-->
-<!--		$('#confirm-delete').on('show.bs.modal', function(e) {-->
-<!--			console.log("Coucou");-->
-<!--			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));-->
-<!--		});-->
-<!--	</script>-->
 	</body>
 </html>
 

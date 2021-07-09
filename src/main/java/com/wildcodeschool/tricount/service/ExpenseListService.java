@@ -129,7 +129,13 @@ public class ExpenseListService {
             expenseList = optionalExpenseList.get();
             expenseList.setDate(LocalDate.now());
             expenseList.setName(expenseListDto.getName());
+            /**
+                Here comes the tricky part, we need in case of removal, drop the expenses related
+                and update the beneficiaries ..
+             -- TODO
+             */
             List<Contact> newParticipants = new ArrayList<>();
+            List<Contact> oldParticipants = expenseList.getContacts();
             for(Integer id : expenseListDto.getIdContacts()){
                 Optional<Contact> OptionalContact = contactRepository.findById(id);
                 OptionalContact.ifPresent(newParticipants::add);

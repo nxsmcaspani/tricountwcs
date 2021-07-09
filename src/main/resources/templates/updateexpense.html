@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<title>TriCount</title>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="/js/tom-select.complete.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-	<header th:replace="fragments/header.html :: head">header</header>
-	<section>
+	<head th:replace="fragments/header.html :: head">
+	</head>
+	<body>
+		<header th:replace="fragments/header.html :: header"></header>
+		<section>
 		<div class="container">
 <!-- 			<h1 class="text-center text-warning"
 				th:text="${updateexpensedto.readExpenseListDto.name}"></h1> -->
@@ -104,9 +95,10 @@
 						<button type="submit" class="btn btn-primary">Update</button>
 					</div>
 					<br>
-
 			</form>
 		</div>
 	</section>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+<!--	 Put TomSelect Js code (for config) below the fragment :: -->
 </body>
 </html>
