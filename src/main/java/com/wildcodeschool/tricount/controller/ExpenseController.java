@@ -32,15 +32,22 @@ public class ExpenseController {
     @GetMapping("/expense/{id}")
     @ResponseBody
     public ReadExpenseDTO getExpense(@PathVariable int id) {
-        ReadExpenseDTO dto = expenseService.getById(id);
+        ReadExpenseDTO dto = expenseService.getReadExpenseDTOById(id);
         return dto;
     }
 
     @GetMapping("/createexpense/{id}")
     public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
         model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
-//        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         return "createexpense";
+    }
+    
+    @GetMapping("/updateexpense/{id}")
+    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
+        Expense exp = expenseService.getById(idList);
+        UpdateExpenseDTO dto = ExpenseService.mapGetUpdateExpenseDTO(exp);
+        model.addAttribute("updateexpensedto", dto);
+        return "updateexpense";
     }
 
     @PostMapping("/expense")
@@ -51,10 +58,9 @@ public class ExpenseController {
     }
 
     @PostMapping("/expense/update")
-    @ResponseBody
-    public ResponseEntity<Expense> postExpense(@ModelAttribute UpdateExpenseDTO dto) {
+    public String postExpense(@ModelAttribute UpdateExpenseDTO dto) {
         Expense exp = expenseService.update(dto);
-        return new ResponseEntity<Expense>(exp, HttpStatus.OK);
+        return "redirect:/updatelist/" + dto.getExpenseListId();
     }
 
     @DeleteMapping("/expense/{id}")

@@ -62,7 +62,7 @@
               <td th:text="${readexpensedto.amount}">Expense amount</td>
               <td th:text="${readexpensedto.expenseDate}">Expense date</td>
               <td>
-                <a class="text-decoration-none" th:href="@{/updatelist/{id}(id=${readexpensedto.id})}">
+                <a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
                   <button type="button" class="btn btn-labeled btn-success">
                     <span class="btn-label"><i class="bi-pencil"></i></span></button>
                 </a>
