@@ -1,83 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head th:replace="fragments/header.html :: head">
+    </head>
+    <body>
+        <header th:replace="fragments/header.html :: header"></header>
+        <section>
+          <div class="container">
+            <h1 class="text-center text-primary m-4">Expense List details</h1>
+            <form action="#" method="POST" th:action="@{/updateexpenseslist}" th:object="${updateexpenselistdto}">
+              <input name="id" th:field="*{id}" type="hidden">
+              <label for="expense-list-name">Expense List Name:</label><br />
+              <input class="form-control" id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text"><br />
+              <label for="contacts">Participants of the list:</label><br />
+              <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
+                <option value="">Add a participant...</option>
+                <option th:each="contact : ${contactsdto}"
+                        th:value="${contact.id}"
+                        th:utext="${contact.name}"/>
+              </select>
+              <br /><br />
+                <input type="submit" value="Update List" class="btn btn-primary">
+                <a th:href="${previous}" class="btn btn-secondary" role="button">Cancel</a>
+            </form><br /><br />
 
-<head>
-  <title>TriCount</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/css/tom-select.bootstrap5.css">
-  <script src="/js/tom-select.complete.js"></script>
-  <link rel="stylesheet" href="/bootstrap/css/icons/bootstrap-icons.css">
-</head>
-
-<body>
-<header th:replace="fragments/header.html :: head">header</header>
-<section>
-  <div class="container">
-    <h1 class="text-center text-primary m-4">Expense List details</h1>
-    <form action="#" method="POST" th:action="@{/updateexpenseslist}" th:object="${updateexpenselistdto}">
-      <input name="id" th:field="*{id}" type="hidden">
-      <label for="expense-list-name">Expense List Name:</label><br />
-      <input class="form-control" id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text"><br />
-      <label for="contacts">Participants of the list:</label><br />
-      <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
-        <option value="">Add a participant...</option>
-        <option th:each="contact : ${contactsdto}"
-                th:value="${contact.id}"
-                th:utext="${contact.name}"/>
-      </select>
-      <script>
-        var config = {};
-        new TomSelect('#contacts',config);
-      </script>
-      <br /><br />
-      <input type="submit" value="Update List" class="btn btn-primary">
-    </form><br /><br />
-
-    <hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
-    <h2 class="text-center text-warning">All expenses</h2>
-      <a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${id})}">
-        <button type="button" class="btn btn-labeled btn-rounded btn-success" title="Add expense to this list">
-          <span class="btn-label"><i class="bi-plus-circle-fill"></i></span></button>
-      </a>
-<!--    <th:block >-->
-      <div class="row mt-5">
-<!--        <div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">-->
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>Expense name</th>
-              <th>Made by</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:object="${updateexpenselistdto}" th:each="readexpensedto, state : ${updateexpenselistdto.readExpenseDTOS}">
-<!--            <tr th:each="readexpensedto : ${readexpensedto.id}">-->
-              <td th:text="${readexpensedto.name}">Expense Name</td>
-              <td th:text="${readexpensedto.owner.name}">Expense owner</td>
-              <td th:text="${readexpensedto.amount}">Expense amount</td>
-              <td th:text="${readexpensedto.expenseDate}">Expense date</td>
-              <td>
-                <a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
-                  <button type="button" class="btn btn-labeled btn-success">
-                    <span class="btn-label"><i class="bi-pencil"></i></span></button>
-                </a>
-                <a class="text-decoration-none" th:href="@{/expenseslist/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
-                  <button type="button" class="btn btn-labeled btn-danger">
-                    <span class="btn-label"><i class="bi-trash"></i></span></button>
-                </a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-<!--        </div>-->
-      </div>
-    </section>
     <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
     <script>
       var config = {};
