@@ -6,7 +6,6 @@ import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
 import com.wildcodeschool.tricount.service.ContactService;
-import com.wildcodeschool.tricount.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,16 +26,16 @@ public class ExpenseListMapper {
     ContactService contactService;
 
     @Autowired
-    ExpenseService expenseService;
+    ExpenseMapper expenseMapper;
 
-//    public ExpenseList convertFromDtoToEntity(ListExpenseListDto dto){
-//        ExpenseList expenseListFromDto = new ExpenseList();
-//        expenseListFromDto.setName(dto.getName());
-//        if(dto.getId() != null){
-//            expenseListFromDto.setId(dto.getId());
-//        }
-//        return expenseListFromDto;
-//    }
+    public ExpenseList convertFromDtoToEntity(ListExpenseListDto dto){
+        ExpenseList expenseListFromDto = new ExpenseList();
+        expenseListFromDto.setName(dto.getName());
+        if(dto.getId() != null){
+            expenseListFromDto.setId(dto.getId());
+        }
+        return expenseListFromDto;
+    }
 
     public ListExpenseListDto convertFromEntityToDto(Integer idList, Boolean getLastThreeExpensesOnly){
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
@@ -69,7 +68,7 @@ public class ExpenseListMapper {
                 dto.getIdContacts().add(contact.getId());
             }
             for(Expense expense : expenseList.getExpensesList()){
-                readExpenseDTO.add(expenseService.mapExpenseToReadExpenseDTO(expense));
+                readExpenseDTO.add(expenseMapper.mapExpenseToReadExpenseDTO(expense));
             }
             dto.setReadExpenseDTOS(readExpenseDTO);
             return dto;
