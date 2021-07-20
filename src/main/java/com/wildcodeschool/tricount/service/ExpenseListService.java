@@ -156,6 +156,7 @@ public class ExpenseListService {
         for(Integer id : expenseListDto.getIdContacts()){
             Optional<Contact> optionalContact = contactRepository.findById(id);
             Contact contact = optionalContact.orElseThrow(RuntimeException::new); // Java 8 so that we get a contact else throws an exception
+            System.out.println("Contact trouvé : " + contact.getId() + " - " + contact.getName());
             contactList.add(contact);
         }
         expenseList.setContacts(contactList);
