@@ -1,9 +1,9 @@
 package com.wildcodeschool.tricount.controller;
 
 import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
-import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Expense;
+import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
 import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import com.wildcodeschool.tricount.service.ExpenseService;
@@ -13,15 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.servlet.http.HttpServletRequest;
-
-//import org.springframework.web.bind.annotation.DeleteMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -31,6 +23,9 @@ public class ExpenseController {
 
     @Autowired
     ContactService contactService;
+
+    @Autowired
+    ExpenseListMapper expenseListMapper;
 
     @Autowired
     ExpenseListService expenseListService;
@@ -47,7 +42,7 @@ public class ExpenseController {
     public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idExpense) {
         UpdateExpenseDTO dto = expenseService.mapGetUpdateExpenseDTO(idExpense);
         model.addAttribute("updateexpensedto", dto);
-        model.addAttribute("contactsdto", expenseListService.getAllContactsAsDto(dto.getExpenseListId()));
+        model.addAttribute("contactsdto", expenseListMapper.getAllContactsAsDto(dto.getExpenseListId()));
         return "updateexpense";
     }
 
@@ -68,7 +63,6 @@ public class ExpenseController {
     @GetMapping("/expense/delete/{id}")
     public String deleteExpense(@PathVariable int id){
         Expense readExpenseDTO= expenseService.getById(id);
-
         if (readExpenseDTO !=null){
             expenseService.delete(id);
         }else {
@@ -77,15 +71,4 @@ public class ExpenseController {
         return "redirect:/";
     }
 
-
-   // @DeleteMapping("/expense/{id}")
-    //@ResponseBody
-    //public ResponseEntity<Integer> deleteExpense(@PathVariable int id) {
-      //  Boolean isRemoved = expenseService.delete(id);
-        //if (!isRemoved) {
-         //   return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       // }
-        //return new ResponseEntity<>(HttpStatus.OK);
-
-    //
 }
