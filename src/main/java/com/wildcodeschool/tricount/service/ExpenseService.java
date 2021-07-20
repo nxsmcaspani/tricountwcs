@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class ExpenseService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private ExpenseListMapper expenseListMapper;
 
     @Autowired
     private ExpenseListService expenseListService;
@@ -64,6 +68,7 @@ public class ExpenseService {
     }
     
     public void delete(int id) {
+        System.out.println("Deleting Expense Id: "+id);
         expenseRepository.deleteById(id);
     }
 
@@ -71,7 +76,7 @@ public class ExpenseService {
     public CreateExpenseDTO mapGetCreateExpenseToDTO(Integer idList){
         CreateExpenseDTO createExpenseDTO = new CreateExpenseDTO();
         createExpenseDTO.setExpenseListId(idList);
-        createExpenseDTO.setReadExpenseListDto(expenseListService.fromEntityIdToDtoForRead(idList));
+        createExpenseDTO.setReadExpenseListDto(expenseListMapper.fromEntityIdToDtoForRead(idList));
         return createExpenseDTO;
     }
 

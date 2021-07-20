@@ -4,6 +4,7 @@ import com.wildcodeschool.tricount.dto.ListExpenseListDto;
 import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
 import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.ExpenseList;
+import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
 import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,21 @@ import java.util.Optional;
 @Controller
 public class ExpenseListController {
     @Autowired
+    private ExpenseListMapper expenseListMapper;
+
+    @Autowired
     private ExpenseListService expenseListService;
 
     @Autowired
     private ContactService contactService;
 
+
+
     @GetMapping("/")
     public String getAll(Model model) {
         List<ListExpenseListDto> expensesListsDto = new ArrayList<>();
         for( ExpenseList expenseList : expenseListService.findAll()){
-            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId(), Boolean.TRUE));
+            expensesListsDto.add(expenseListMapper.convertFromEntityToDto(expenseList.getId(), Boolean.TRUE));
         }
         model.addAttribute("expenseslistsdto", expensesListsDto);
         return "index";
@@ -48,7 +54,7 @@ public class ExpenseListController {
 
     @GetMapping("/expenselistdetails/{id}")
     public String showExpensesListDetails(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request){
-        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
+        UpdateExpenseListDto updateexpenselistdto = expenseListMapper.fromEntityToDtoForUpdate(idList);
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
         String referer = request.getHeader("Referer");
@@ -66,7 +72,7 @@ public class ExpenseListController {
     @PostMapping("/updateexpenseslist")
     public String updateExpensesList(Model model, @ModelAttribute UpdateExpenseListDto UpdateExpenseListDto, HttpServletRequest request) {
         expenseListService.update(UpdateExpenseListDto);
-        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
+        UpdateExpenseListDto updateexpenselistdto = expenseListMapper.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
         model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
         String referer = request.getHeader("Referer");
