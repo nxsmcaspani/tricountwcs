@@ -4,6 +4,7 @@ import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
+import com.wildcodeschool.tricount.mappers.ExpenseMapper;
 import com.wildcodeschool.tricount.service.ContactService;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import com.wildcodeschool.tricount.service.ExpenseService;
@@ -30,9 +31,12 @@ public class ExpenseController {
     @Autowired
     ExpenseListService expenseListService;
 
+    @Autowired
+    ExpenseMapper expenseMapper;
+
     @GetMapping("/createexpense/{id}")
     public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request) {
-        model.addAttribute("createexpensedto", expenseService.mapGetCreateExpenseToDTO(idList));
+        model.addAttribute("createexpensedto", expenseMapper.mapGetCreateExpenseToDTO(idList));
         String referer = request.getHeader("Referer");
         model.addAttribute("previouspage", referer);
         return "createexpense";
@@ -40,7 +44,7 @@ public class ExpenseController {
     
     @GetMapping("/updateexpense/{id}")
     public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idExpense) {
-        UpdateExpenseDTO dto = expenseService.mapGetUpdateExpenseDTO(idExpense);
+        UpdateExpenseDTO dto = expenseMapper.mapGetUpdateExpenseDTO(idExpense);
         model.addAttribute("updateexpensedto", dto);
         model.addAttribute("contactsdto", expenseListMapper.getAllContactsAsDto(dto.getExpenseListId()));
         return "updateexpense";
