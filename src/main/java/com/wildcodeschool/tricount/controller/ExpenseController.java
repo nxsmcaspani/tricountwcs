@@ -5,6 +5,7 @@ import com.wildcodeschool.tricount.dto.ReadExpenseDTO;
 import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.service.ContactService;
+import com.wildcodeschool.tricount.service.ExpenseListService;
 import com.wildcodeschool.tricount.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,8 @@ public class ExpenseController {
     @Autowired
     ContactService contactService;
 
-    @GetMapping("/expense/{id}")
-    @ResponseBody
-    public ReadExpenseDTO getExpense(@PathVariable int id) {
-        ReadExpenseDTO dto = expenseService.getReadExpenseDTOById(id);
-        return dto;
-    }
+    @Autowired
+    ExpenseListService expenseListService;
 
     @GetMapping("/createexpense/{id}")
     public String getCreateExpensePage(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request) {
@@ -47,10 +44,10 @@ public class ExpenseController {
     }
     
     @GetMapping("/updateexpense/{id}")
-    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idList) {
-        Expense exp = expenseService.getById(idList);
-        UpdateExpenseDTO dto = ExpenseService.mapGetUpdateExpenseDTO(exp);
+    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idExpense) {
+        UpdateExpenseDTO dto = expenseService.mapGetUpdateExpenseDTO(idExpense);
         model.addAttribute("updateexpensedto", dto);
+        model.addAttribute("contactsdto", expenseListService.getAllContactsAsDto(dto.getExpenseListId()));
         return "updateexpense";
     }
 
@@ -63,8 +60,8 @@ public class ExpenseController {
 
     @PostMapping("/expense/update")
     public String postExpense(@ModelAttribute UpdateExpenseDTO dto) {
-        Expense exp = expenseService.update(dto);
-        return "redirect:/updatelist/" + dto.getExpenseListId();
+        expenseService.update(dto);
+        return "redirect:/expenselistdetails/" + dto.getExpenseListId();
     }
 
 
