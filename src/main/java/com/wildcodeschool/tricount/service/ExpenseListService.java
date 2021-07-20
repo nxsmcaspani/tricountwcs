@@ -122,6 +122,15 @@ public class ExpenseListService {
         } else return null;
     }
 
+    public ArrayList<ContactDto> getAllContactsAsDto(Integer expenseListId){
+        ExpenseList expenseList = expenseListRepository.getById(expenseListId);
+        ArrayList<ContactDto> contactsDto = new ArrayList<>();
+        for (Contact contact : expenseList.getContacts()){
+            contactsDto.add(new ContactDto(contact.getId(), contact.getName(), contact.getEmail()));
+        }
+        return contactsDto;
+    }
+
     private ExpenseList updateExpenseList(UpdateExpenseListDto expenseListDto) {
         ExpenseList expenseList;
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseListDto.getId());
@@ -129,24 +138,26 @@ public class ExpenseListService {
             expenseList = optionalExpenseList.get();
             expenseList.setDate(LocalDate.now());
             expenseList.setName(expenseListDto.getName());
-            /**
-                Here comes the tricky part, we need in case of removal, drop the expenses related
-                and update the beneficiaries ..
-             -- TODO
-             */
-            List<Contact> newParticipants = new ArrayList<>();
-            List<Contact> oldParticipants = expenseList.getContacts();
-            for(Integer id : expenseListDto.getIdContacts()){
-                Optional<Contact> OptionalContact = contactRepository.findById(id);
-                OptionalContact.ifPresent(newParticipants::add);
-            }
-            Collections.sort(newParticipants);
-            Collections.sort(oldParticipants);
-            if(!newParticipants.equals(oldParticipants)){
-                oldParticipants.removeAll(newParticipants);
+            List<Integer> newParticipantsIds = expenseListDto.getIdContacts();
+            List<Integer> oldParticipantsIds = expenseList.getContactsIds();
+            Collections.sort(newParticipantsIds);
+            Collections.sort(oldParticipantsIds);
+            if(!newParticipantsIds.equals(oldParticipantsIds)){
+                List<Integer> removedParticipantsIds = oldParticipantsIds;
+                removedParticipantsIds.removeAll(newParticipantsIds);
+                /** Case when a participant has been removed we delete expenses done by him
+                 * and remove him from the beneficiaries of other expenses
+                 */
+                if(removedParticipantsIds.size() > 0){
+                    System.out.println("To do!!");
+                }
+                List<Contact> newParticipants = new ArrayList<>();
+                for(Integer id : newParticipantsIds){
+                    Optional<Contact> OptionalContact = contactRepository.findById(id);
+                    OptionalContact.ifPresent(newParticipants::add);
+                }
                 expenseList.setContacts(newParticipants);
             }
-
         } else {
             throw new RuntimeException("Expense List Id not found.");
         }
