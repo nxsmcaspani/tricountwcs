@@ -1,8 +1,6 @@
 package com.wildcodeschool.tricount.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -18,18 +16,12 @@ import com.wildcodeschool.tricount.dto.UpdateExpenseDTO;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.repository.ExpenseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExpenseService {
 
     @Autowired
-    private ExpenseRepository repo;
+    private ExpenseRepository expenseRepository;
 
     @Autowired
     private ExpenseListService expenseListService;
@@ -37,12 +29,13 @@ public class ExpenseService {
     @Autowired
     private ContactService contactService;
 
+
     public List<Expense> getAll() {
-        return repo.findAll();
+        return expenseRepository.findAll();
     }
     
     public Expense getById(int id) {
-        Expense expense = repo.getById(id);
+        Expense expense = expenseRepository.getById(id);
         return expense;
     }
 
@@ -53,22 +46,25 @@ public class ExpenseService {
 
     public Expense create(CreateExpenseDTO expenseDTO) {
         Expense expense = mapCreateExpenseDTOToExpense(expenseDTO);
-        return repo.save(expense);
+        return expenseRepository.save(expense);
     }
 
     public Expense update(UpdateExpenseDTO dto) {
-        Expense expense = repo.getById(dto.getId());
+        Expense expense = expenseRepository.getById(dto.getId());
         expense.setAmount(dto.getAmount());
         expense.setName(dto.getName());
-        Contact owner = contactService.findById(dto.getOwnerId());
-        expense.setOwner(owner);
-//        List<Contact> benef = expense.getBeneficiaries();
-//        expense = mapUpdatExpenseDTOToExpense(dto, expense);
-        return repo.save(expense);
+        expense.setExpenseDate(dto.getDate());
+        expense.setOwner(contactService.findById(dto.getOwnerId()));
+        List<Contact> beneficiaries = new ArrayList<>();
+        for(Integer contact : dto.getBeneficiariesIds()){
+            beneficiaries.add(contactService.findById(contact));
+        }
+        expense.setBeneficiaries(beneficiaries);
+        return expenseRepository.save(expense);
     }
     
     public void delete(int id) {
-        repo.deleteById(id);
+        expenseRepository.deleteById(id);
     }
 
     // Method called when accessing the expense creation form
@@ -111,34 +107,23 @@ public class ExpenseService {
     private static Expense mapUpdatExpenseDTOToExpense(UpdateExpenseDTO dto, Expense current) {
         current.setName(dto.getName());
         current.setAmount(dto.getAmount());
-        current.setOwner(mapToContact(dto.getOwner()));
-        current.setBeneficiaries(mapToListOfContact(dto.getBeneficiaries()));
+//        current.setOwner(mapToContact(dto.getOwner()));
+//        current.setBeneficiaries(mapToListOfContact(dto.getBeneficiariesIds()));
         return current;
     }
 
-    public static UpdateExpenseDTO mapGetUpdateExpenseDTO(Expense expense) {
+    public UpdateExpenseDTO mapGetUpdateExpenseDTO(Integer idExpense) {
+        Expense expense = expenseRepository.getById(idExpense);
         UpdateExpenseDTO dto = new UpdateExpenseDTO(
                 expense.getId(),
                 expense.getName(),
-                mapToContactDto(expense.getOwner()),
+                expense.getOwnerId(),
                 expense.getAmount(),
                 expense.getExpenseDate());
-        
-        List<Contact> beneficiaries = expense.getBeneficiaries();
-        List<ContactDto> ownerListOfContactDto = mapToListOfContactDto(beneficiaries);
-        List<ContactForUpdateExpenseDto> ownerList = mapToContactForUpdateExpenseDto(ownerListOfContactDto);
-        selectContact(ownerList, mapToContactDto(expense.getOwner()));
-        dto.setOwnerList(ownerList);
-        
-        List<ContactDto> listOfBeneficiaries = mapToListOfContactDto(expense.getBeneficiaries());
-        dto.setBeneficiaries(listOfBeneficiaries);
-        
-        Integer expenseListId = expense.getExpenseList().getId();
-        dto.setExpenseListId(expenseListId);
+        dto.setExpenseListId(expense.getExpenseList().getId());
+        dto.setBeneficiariesIds(expense.getBeneficiariesIds());
         return dto;
     }
-    
-
 
     public static Contact mapToContact(ContactDto dto) {
         Contact contact = new Contact();
@@ -187,14 +172,5 @@ public class ExpenseService {
         }
         return list;
     }
-    
-    private static void selectContact(List<ContactForUpdateExpenseDto> ownerList, ContactDto contact) {
-        // TODO Auto-generated method stub
-        for (Iterator<ContactForUpdateExpenseDto> iterator = ownerList.iterator(); iterator.hasNext();) {
-            ContactForUpdateExpenseDto contactForUpdateExpenseDto = iterator.next();
-            if (contactForUpdateExpenseDto.getId() == contact.getId()) {
-                contactForUpdateExpenseDto.setSelected(true);
-            }
-        }
-    }
+
 }
