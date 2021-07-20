@@ -44,7 +44,7 @@ public class BalanceExpenseListService {
     /**
      * Conversion d'une ExpenseList en BalanceExpenseDto pour page Balance
      * @param ExpenseList
-     * @return void => alimente la variable BalanceExpenseDto de la classe
+     * @return BalanceExpenseDto
      */
     private BalanceExpenseDto convExpenseListToBalanceDto(ExpenseList expList) {
         BalanceExpenseDto balDto = new BalanceExpenseDto();
@@ -63,6 +63,10 @@ public class BalanceExpenseListService {
         }
         balDto.setBalanceOk(checkBalanceOk(balDto.getLstContacts()));
         System.out.println("Balance ok ? : " + balDto.isBalanceOk());
+        for (ContactForBalanceDto ct : balDto.getLstContacts()) {
+            ct.setAmountSpendHorsBalance(ct.getAmountSpend());
+        }
+        calculeBalance(balDto);
         return balDto;
     }
     
@@ -72,8 +76,9 @@ public class BalanceExpenseListService {
      */
     private void repartitionUneDepense(Expense exp, BalanceExpenseDto balDto) {
         convContactToDto(exp.getOwner(), balDto).setAmountSpend(convContactToDto(exp.getOwner(), balDto).getAmountSpend() + exp.getAmount());
+        System.out.println("Depense Spend : " +exp.getAmount() + " ajouté à : " + exp.getOwner().getName() + ", total spend : " + convContactToDto(exp.getOwner(), balDto).getAmountSpend());
         float montant = arrondi2decimales(exp.getAmount() / exp.getBeneficiaries().size());
-        System.out.println("Montant calculé : " + montant);
+        System.out.println("Montant divisé calculé : " + montant);
         float compl = 0f;
         if (montant * exp.getBeneficiaries().size() != exp.getAmount()) {
             compl = arrondi2decimales(exp.getAmount() - (montant * exp.getBeneficiaries().size()));
@@ -81,8 +86,8 @@ public class BalanceExpenseListService {
         }
         for (Contact ct : exp.getBeneficiaries()) {
             convContactToDto(ct, balDto).setAmountDue(convContactToDto(ct, balDto).getAmountDue() + montant + compl);
+            System.out.println("Ajout Due à " + convContactToDto(ct, balDto).getName() + " montant " + montant + " & compl " + compl + ", total due : " + convContactToDto(ct, balDto).getAmountDue());
             compl = 0f;
-            System.out.println("Ajout Due à " + convContactToDto(ct, balDto).getName() + " montant " + (montant + compl));
         }
     }
     
@@ -129,32 +134,21 @@ public class BalanceExpenseListService {
     }
 
     /**
-     * Fait les expenses pour équilibrer la balance Dto
+     * Calcule les expenses pour équilibrer la balance Dto
      */
-    public void executeBalance(BalanceExpenseDto balExpenseDto) {
-        // pour chaque contactDto : amount Spend - amount Due
-        // reste un solde positif ou négatif : 
-        //     test : +10
-        //     test3 : -10
-        // la somme des soldes doit faire 0
-        
-        // on doit générer des expenses 1 vers 1
-        
-        List<CreateExpenseDTO> lstExpenses = new ArrayList<CreateExpenseDTO>();
-        
+    public void calculeBalance(BalanceExpenseDto balExpenseDto) {
+        // on fait 2 groupes, ceux qui doivent et ceux à qui ont doit
         Set<ContactForBalanceDto> tstContactsSpend = new TreeSet<ContactForBalanceDto>();
         Set<ContactForBalanceDto> tstContactsDue = new TreeSet<ContactForBalanceDto>();
-    //    System.out.println("Nbre contacts : " + balExpenseDto.getLstContacts().size());
+        // On met chaque contact dans l'un ou l'autre, ou nulle part s'il est à 0  
         for (ContactForBalanceDto contact : balExpenseDto.getLstContacts()) {
-    //        System.out.println("contact : " + contact.getName() + " due " + contact.getAmountDue() + " spend : " + contact.getAmountSpend() + " solde : " +contact.getSolde());
+            System.out.println("Contact : " + contact.getName() + " balance : " + contact.getSolde());
             if (contact.getSolde() > 0) {
                 tstContactsSpend.add(contact);
-    //            System.out.println("ajouté au Spend");
+                System.out.println("Contact : " + contact.getName() + " ajouté à Spend, total Spend : " + tstContactsSpend.size());
             } else if (contact.getSolde() < 0) {
                 tstContactsDue.add(contact);
-    //            System.out.println("ajouté au Due");
-            } else {
-    //            System.out.println("non ajouté, solde 0 ?");
+                System.out.println("Contact : " + contact.getName() + " ajouté à Due, total Due"  + tstContactsDue.size());
             }
         }
         System.out.println("Création des dues " + tstContactsDue.size() + " et des spend : " + tstContactsSpend.size());
@@ -162,12 +156,11 @@ public class BalanceExpenseListService {
             Set<ContactForBalanceDto> toRemove = new TreeSet<ContactForBalanceDto>();
             for (ContactForBalanceDto ctd : tstContactsDue) {
                 float montant = Math.min(cts.getSolde(), Math.abs(ctd.getSolde()));
-                Contact owner = contactService.findById(ctd.getId());
-                CreateExpenseDTO expense = new CreateExpenseDTO(LABEL_BALANCE, owner, montant);
+                System.out.println("Traitement de " + ctd.getName() + " pour montant " + montant);
+                CreateExpenseDTO expense = new CreateExpenseDTO(LABEL_BALANCE, contactService.findById(ctd.getId()), montant, 
+                        LocalDate.now(), balExpenseDto.getIdOfExpenseList());
                 expense.getIdBeneficiaries().add(cts.getId());
-                expense.setExpenseDate(LocalDate.now());
-                expense.setExpenseListId(balExpenseDto.getIdOfExpenseList());
-                lstExpenses.add(expense);
+                balExpenseDto.getLstExpenseDto().add(expense);
                 cts.setAmountDue(montant);
                 ctd.setAmountSpend(montant);
                 if (ctd.getSolde() == 0)
@@ -177,11 +170,17 @@ public class BalanceExpenseListService {
             }
             tstContactsDue.removeAll(toRemove);
         }
-        // System.out.println("Fin des balances, expenses créées : " + lstExpenses.size());
-        for (CreateExpenseDTO expense : lstExpenses) {
-            // System.out.println("Expense : " + expense.getAmount() + " from " + expense.getOwner().getName() + " id : " + expense.getOwner().getId());
+        System.out.println("Fin des balances, expenses créées : " + balExpenseDto.getLstExpenseDto().size());
+    }
+    
+    /**
+     * Applique les expenses pour équilibrer la balance Dto
+     */
+    public void executeBalance(BalanceExpenseDto balExpenseDto) {
+        for (CreateExpenseDTO expense : balExpenseDto.getLstExpenseDto()) {
             expenseService.create(expense);
         }
     }
+
 
 }

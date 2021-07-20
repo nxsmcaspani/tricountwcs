@@ -6,9 +6,9 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
 
     private float amountDue;
     private float amountSpend;
+    private float amountSpendHorsBalance;
     
     public Contact toContact() {
-        System.out.println("toContact : " + this.getId());
         return new Contact(this.getId(), this.getName(), this.getEmail());
     }
     
@@ -29,7 +29,15 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
     }
 
     public void setAmountSpend(float aAmountSpend) {
-        amountSpend = aAmountSpend;
+        this.amountSpend = aAmountSpend;
+    }
+
+    public float getAmountSpendHorsBalance() {
+        return amountSpendHorsBalance;
+    }
+
+    public void setAmountSpendHorsBalance(float amountSpendHorsBalance) {
+        this.amountSpendHorsBalance = amountSpendHorsBalance;
     }
 
     public float getSolde() {
@@ -42,8 +50,12 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
             return -1;
         }
         if (this.getSolde() == other.getSolde()) {
+            if (this.getId() != other.getId()) {
+                return -1;
+            }
             return 0;
         }
         return 1;        
     }
+
 }

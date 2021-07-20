@@ -10,6 +10,8 @@ public class BalanceExpenseDto {
     private Float total = 0f;
     private boolean balanceOk = false;
     private int idOfExpenseList;
+    private List<CreateExpenseDTO> lstExpenseDto = new ArrayList<CreateExpenseDTO>();
+    
     
     public String getName() {
         return name;
@@ -50,5 +52,14 @@ public class BalanceExpenseDto {
     public void setIdOfExpenseList(int aIdOfExpenseList) {
         idOfExpenseList = aIdOfExpenseList;
     }
+
+    public List<CreateExpenseDTO> getLstExpenseDto() {
+        return lstExpenseDto;
+    }
+
+    public void setLstExpenseDto(List<CreateExpenseDTO> aLstExpenseDto) {
+        lstExpenseDto = aLstExpenseDto;
+    }
+
     
 }

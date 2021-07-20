@@ -23,14 +23,32 @@
 				<div class="col">
 					<div class="row">
 						<div class = "col" th:text="${contact.name}">Name</div>
-						<div class = "col" th:text="${contact.amountDue}">Dépenses beneficiées</div>
-						<div class = "col" th:text="${contact.amountSpend}">Dépenses faites</div>
+						<div class = "col" th:text="${contact.amountDue}">Depenses beneficiaires</div>
+						<div class = "col" th:text="${contact.amountSpendHorsBalance}">Depenses faites</div>
 					</div>
 				</div>
 				</th:block>
 				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
-				<div class="col-md-12 text-center" th:unless="${balExpenseDto.balanceOk}">
-					<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+				<div th:unless="${balExpenseDto.balanceOk}">
+					<h3 class="test-primary">How to rebalance: </h3>
+					<div class="col"> 
+						<div class="row">
+							<div class = "col" ><b>Name</b></div>
+							<div class = "col" ><b>Amount due</b></div>
+							<div class = "col" ><b>To</b></div>
+						</div>
+					</div>
+					<th:block th:each="createExpenseDto, status : ${balExpenseDto.lstExpenseDto}">
+						<div class="row">
+							<div class = "col" th:text="${createExpenseDto.owner.name}">doit</div>
+							<div class = "col" th:text="${createExpenseDto.amount}">montant</div>
+							<div class = "col" >a qui</div>
+						</div>
+					</th:block>
+					<div class="col-md-12 text-center" >
+						<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+					</div>
+					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 				</div>
 			</form>
 		</div>
