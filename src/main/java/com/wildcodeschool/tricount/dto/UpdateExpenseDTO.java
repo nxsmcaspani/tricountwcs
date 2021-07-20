@@ -5,49 +5,42 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.wildcodeschool.tricount.entity.Contact;
-
 public class UpdateExpenseDTO {
     private int id;
     private String name;
-    private ContactDto owner;
     private float amount;
     private Integer expenseListId;
     private Integer ownerId;
-    private List<ContactForUpdateExpenseDto> ownerList;
-    private List<ContactDto> beneficiaries;
-    private List<ContactDto> expensesListContacts;
+    private List<Integer> beneficiariesIds;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-    public UpdateExpenseDTO(int id, String name, ContactDto owner, float amount, LocalDate date) {
+    public UpdateExpenseDTO(int id, String name, Integer ownerId, float amount, LocalDate date) {
         this.id = id;
         this.name = name;
-        this.owner = owner;
+        this.ownerId = ownerId;
         this.amount = amount;
         this.date = date;
     }
-    
+
+    public List<Integer> getBeneficiariesIds() {
+        return beneficiariesIds;
+    }
+    public void setBeneficiariesIds(List<Integer> beneficiariesIds) {
+        this.beneficiariesIds = beneficiariesIds;
+    }
     public int getId() {
         return id;
     }
-
     public void setId(int aId) {
         id = aId;
     }
-
     public String getName() {
         return name;
     }
     public void setName(String aName) {
         name = aName;
-    }
-    public ContactDto getOwner() {
-        return owner;
-    }
-    public void setOwner(ContactDto aOwner) {
-        owner = aOwner;
     }
     public float getAmount() {
         return amount;
@@ -55,54 +48,23 @@ public class UpdateExpenseDTO {
     public void setAmount(float aAmount) {
         amount = aAmount;
     }
-
-    public List<ContactDto> getBeneficiaries() {
-        return beneficiaries;
-    }
-
-    public void setBeneficiaries(List<ContactDto> aBeneficiaries) {
-        beneficiaries = aBeneficiaries;
-    }
-
     public LocalDate getDate() {
         return date;
     }
-
     public void setDate(LocalDate aDate) {
         date = aDate;
     }
-
-    public List<ContactForUpdateExpenseDto> getOwnerList() {
-        return ownerList;
-    }
-
-    public void setOwnerList(List<ContactForUpdateExpenseDto> aOwnerList) {
-        ownerList = aOwnerList;
-    }
-
-    public List<ContactDto> getExpensesListContacts() {
-        return expensesListContacts;
-    }
-
-    public void setExpensesListContacts(List<ContactDto> aExpensesListContacts) {
-        expensesListContacts = aExpensesListContacts;
-    }
-
     public Integer getOwnerId() {
         return ownerId;
     }
-
-    public void setOwnerId(Integer aOwnerId) {
-        ownerId = aOwnerId;
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
-
     public Integer getExpenseListId() {
         return expenseListId;
     }
-
     public void setExpenseListId(Integer aExpenseListId) {
         expenseListId = aExpenseListId;
     }
-    
-    
+
 }

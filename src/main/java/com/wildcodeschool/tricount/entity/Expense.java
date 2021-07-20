@@ -3,6 +3,7 @@ package com.wildcodeschool.tricount.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -63,12 +64,20 @@ public class Expense {
         return owner;
     }
 
+    public Integer getOwnerId(){
+        return owner.getId();
+    }
+
     public void setOwner(Contact aOwner) {
         owner = aOwner;
     }
 
     public List<Contact> getBeneficiaries() {
         return beneficiaries;
+    }
+
+    public List<Integer> getBeneficiariesIds(){
+        return beneficiaries.stream().map(Contact::getId).collect(Collectors.toList());
     }
 
     public void setBeneficiaries(List<Contact> aBeneficiaries) {
