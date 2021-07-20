@@ -29,9 +29,6 @@ public class ExpenseController {
     ExpenseListMapper expenseListMapper;
 
     @Autowired
-    ExpenseListService expenseListService;
-
-    @Autowired
     ExpenseMapper expenseMapper;
 
     @GetMapping("/createexpense/{id}")
@@ -43,15 +40,17 @@ public class ExpenseController {
     }
     
     @GetMapping("/updateexpense/{id}")
-    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idExpense) {
+    public String getUpdateExpensePage(Model model, @PathVariable(name = "id") Integer idExpense, HttpServletRequest request) {
         UpdateExpenseDTO dto = expenseMapper.mapGetUpdateExpenseDTO(idExpense);
         model.addAttribute("updateexpensedto", dto);
         model.addAttribute("contactsdto", expenseListMapper.getAllContactsAsDto(dto.getExpenseListId()));
+        String referer = request.getHeader("Referer");
+        model.addAttribute("previous", referer);
         return "updateexpense";
     }
 
     @PostMapping("/expense")
-    public String postExpense(Model model, @ModelAttribute CreateExpenseDTO dto) {
+    public String postExpense(@ModelAttribute CreateExpenseDTO dto) {
         Integer idList = dto.getExpenseListId();
         expenseService.create(dto);
         return "redirect:/expenselistdetails/"+idList;
@@ -62,7 +61,6 @@ public class ExpenseController {
         expenseService.update(dto);
         return "redirect:/expenselistdetails/" + dto.getExpenseListId();
     }
-
 
     @GetMapping("/expense/delete/{id}")
     public String deleteExpense(@PathVariable int id){

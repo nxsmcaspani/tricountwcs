@@ -28,15 +28,6 @@ public class ExpenseListMapper {
     @Autowired
     ExpenseMapper expenseMapper;
 
-    public ExpenseList convertFromDtoToEntity(ListExpenseListDto dto){
-        ExpenseList expenseListFromDto = new ExpenseList();
-        expenseListFromDto.setName(dto.getName());
-        if(dto.getId() != null){
-            expenseListFromDto.setId(dto.getId());
-        }
-        return expenseListFromDto;
-    }
-
     public ListExpenseListDto convertFromEntityToDto(Integer idList, Boolean getLastThreeExpensesOnly){
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
         if (optionalExpensesList.isPresent()) {
