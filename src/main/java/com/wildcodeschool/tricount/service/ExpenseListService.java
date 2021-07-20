@@ -143,13 +143,30 @@ public class ExpenseListService {
             Collections.sort(newParticipantsIds);
             Collections.sort(oldParticipantsIds);
             if(!newParticipantsIds.equals(oldParticipantsIds)){
-                List<Integer> removedParticipantsIds = oldParticipantsIds;
-                removedParticipantsIds.removeAll(newParticipantsIds);
-                /** Case when a participant has been removed we delete expenses done by him
+                oldParticipantsIds.removeAll(newParticipantsIds);
+                /**
+                 * Case when a participant has been removed
+                 * we delete expenses done by him
                  * and remove him from the beneficiaries of other expenses
                  */
-                if(removedParticipantsIds.size() > 0){
-                    System.out.println("To do!!");
+                if(oldParticipantsIds.size() > 0){
+                    System.out.println("#DEBUG: Some contacts were removed from the list, impacting expenses...");
+                    for (Integer idContact : oldParticipantsIds) {
+                        for(Expense expense : expenseList.getExpensesList()) {
+                            List<Contact> expenseBeneficiaries= expense.getBeneficiaries();
+                            System.out.println("#DEBUG: For expense Id ["+expense.getId()+"] owner is: ["+expense.getOwner().getName()+"] with contact Id ["+expense.getOwner().getId()+"] ");
+                            Contact beneficiaryToRemove = contactService.findById(idContact);
+                            if(expense.getOwner().getId() == idContact){
+                                System.out.println("#DEBUG: Expense owner ID is : ["+expense.getOwner().getId()+"] same as removed Contact ID ["+idContact+"], deleting expense...");
+                                expenseService.delete(expense.getId());
+                            } else {
+                                if (expenseBeneficiaries.contains(beneficiaryToRemove)) {
+                                    expenseBeneficiaries = expenseBeneficiaries.stream().filter(c -> c.getId() != beneficiaryToRemove.getId()).collect(Collectors.toList());
+                                    expense.setBeneficiaries(expenseBeneficiaries);
+                                }
+                            }
+                        }
+                    }
                 }
                 List<Contact> newParticipants = new ArrayList<>();
                 for(Integer id : newParticipantsIds){

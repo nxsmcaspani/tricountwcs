@@ -4,7 +4,7 @@
 	</head>
 	<body>
 	<header th:replace="fragments/header.html :: header"></header>
-	<section>
+	<main>
 		<th id="content" class="p-4 p-md-5 pt-5">
 			<h1 class="text-center text-primary m-4">All shared expenses</h1>
 			<div class="text-center">
@@ -35,59 +35,62 @@
 						</div>
 					</div>
 				</div>
-				<div class="row mt-5">
-					<div class="col-md-8 offset-md-2 col-xs-10 offset-xs-1">
-						<h2 class="text-center text-warning" th:text="${expenses.name}"></h2>
-						<h4 class="text-center">
-							<a class="text-decoration-none" th:href="@{/expenselistdetails/{id}(id=${expenses.id})}">
-								<button type="button" class="btn btn-labeled btn-success">
-									<span class="btn-label"><i class="bi-pencil"></i></span></button>
-							</a>
-<!--							<a class="text-decoration-none" th:href="@{/expenselistdetails/{id}(id=${expenses.id})}">-->
-<!--								<button type="button" class="btn btn-labeled btn-primary">-->
-<!--									<span class="btn-label"><i class="bi-binoculars-fill"></i> List details</span></button>-->
-<!--							</a>-->
-							<a class="text-decoration-none" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-bs-toggle="modal" data-bs-target="#confirm-delete">
-								<button type="button" class="btn btn-labeled btn-danger">
-									<span class="btn-label"><i class="bi-trash"></i></span></button>
-							</a>
-						</h4>
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>Last expenses</th>
-									<th>Made by</th>
-									<th>Amount</th>
-									<th>View</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="expense : ${expenses.idExpenses}">
-									<td th:text="${expense.name}">Expense Name</td>
-									<td th:text="${expense.owner.name}">Expense owner</td>
-									<td th:text="${expense.amount}">Expense amount</td>
-									<td>
-										<a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${expense.id})}">
-											<button type="button" class="btn btn-labeled btn-primary">
-												<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
-										</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="align-items-end">
-							<a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${expenses.id})}">
-								<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white" title="Add an expense to this list">
-									<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
-								</button>
-							</a>
-						</div>
+
+				<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+					<div class="row mb-3 px-0">
+						<h2 class="col text-center text-warning" th:text="${expenses.name}"></h2>
+						<a class="col-auto text-decoration-none px-1" th:href="@{/updatelist/{id}(id=${expenses.id})}">
+							<button type="button" class="btn btn-outline-primary">
+								<i class="bi-pencil"></i>
+							</button>
+						</a>
+						<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenses.id})}">
+							<button type="button" class="btn btn-outline-primary">
+								<i class="bi-binoculars-fill"></i>
+							</button>
+						</a>
+						<a class="col-auto text-decoration-none px-1" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-bs-toggle="modal" data-bs-target="#confirm-delete">
+							<button type="button" class="btn btn-outline-primary">
+								<i class="bi-trash"></i>
+							</button>
+						</a>
+					</div>
+
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Last expenses</th>
+								<th>Made by</th>
+								<th>Amount</th>
+								<th>View</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="expense : ${expenses.idExpenses}">
+								<td th:text="${expense.name}">Expense Name</td>
+								<td th:text="${expense.owner.name}">Expense owner</td>
+								<td th:text="${expense.amount}">Expense amount</td>
+								<td>
+									<a class="text-decoration-none" th:href="@{/expense/{id}(id=${expense.id})}">
+										<button type="button" class="btn btn-labeled btn-primary">
+											<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="row px-0 mx-0">
+						<a class="text-decoration-none px-0" th:href="@{/createexpense/{id}(id=${expenses.id})}">
+							<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end" title="Add an expense to this list">
+								<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
+							</button>
+						</a>
 					</div>
 				</div>
 			</th:block>
 			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 		</div>
-	</section>
+	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 	</body>
