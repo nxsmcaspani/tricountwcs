@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.wildcodeschool.tricount.dto.BalanceExpenseListDto;
 import com.wildcodeschool.tricount.dto.ContactForBalanceDto;
+import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
 import com.wildcodeschool.tricount.dto.BalanceExpenseDto;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
@@ -179,7 +180,7 @@ public class BalanceExpenseListService {
                 System.out.println("Traitement de " + ctd.getName() + " pour montant " + montant);
                 BalanceExpenseDto expense = new BalanceExpenseDto(LABEL_BALANCE, contactService.findById(ctd.getId()), montant, 
                         LocalDate.now(), balExpenseDto.getIdOfExpenseList());
-                expense.getBeneficiaries().add(cts.getId());
+                expense.setBeneficiary(cts);
                 balExpenseDto.getLstExpenseDto().add(expense);
                 cts.setAmountDue(montant);
                 ctd.setAmountSpend(montant);
@@ -198,9 +199,21 @@ public class BalanceExpenseListService {
      */
     public void executeBalance(BalanceExpenseListDto balExpenseDto) {
         for (BalanceExpenseDto expense : balExpenseDto.getLstExpenseDto()) {
-            expenseService.create(expense);
+            expenseService.create(convBalanceExpenseDtoToCreateExpenseDto(expense));
         }
     }
 
+    /**
+     * Convertie une BalanceExpenseDto en CreateExpenseDto
+     * @param exp
+     * @return
+     */
+    private CreateExpenseDTO convBalanceExpenseDtoToCreateExpenseDto(BalanceExpenseDto exp) {
+        CreateExpenseDTO createExp = new CreateExpenseDTO(exp.getName(), exp.getOwner(), exp.getAmount(), exp.getExpenseDate(), exp.getExpenseListId());
+        ArrayList<Integer> idBenef = new ArrayList<Integer>();
+        idBenef.add(exp.getBeneficiary().getId());
+        createExp.setIdBeneficiaries(idBenef);
+        return createExp;
+    }
 
 }

@@ -11,7 +11,7 @@ public class BalanceExpenseDto {
     private ReadExpenseListDto readExpenseListDto;
     private Integer expenseListId;
     private Contact owner;
-    private ArrayList<Contact> beneficiaries = new ArrayList<>();
+    private ContactForBalanceDto beneficiary;
 
     private float amount;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -67,14 +67,6 @@ public class BalanceExpenseDto {
         owner = aOwner;
     }
 
-    public ArrayList<Contact> getBeneficiaries() {
-        return beneficiaries;
-    }
-
-    public void setBeneficiaries(ArrayList<Contact> aBeneficiaries) {
-        beneficiaries = aBeneficiaries;
-    }
-
     public float getAmount() {
         return amount;
     }
@@ -89,5 +81,15 @@ public class BalanceExpenseDto {
 
     public void setExpenseDate(LocalDate expenseDate) {
         this.expenseDate = expenseDate;
+    }
+
+
+    public ContactForBalanceDto getBeneficiary() {
+        return beneficiary;
+    }
+
+
+    public void setBeneficiary(ContactForBalanceDto aBeneficiary) {
+        beneficiary = aBeneficiary;
     }
 }
