@@ -6,7 +6,6 @@ import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
 import com.wildcodeschool.tricount.mappers.ExpenseMapper;
 import com.wildcodeschool.tricount.service.ContactService;
-import com.wildcodeschool.tricount.service.ExpenseListService;
 import com.wildcodeschool.tricount.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,5 +71,4 @@ public class ExpenseController {
         }
         return "redirect:/";
     }
-
 }
