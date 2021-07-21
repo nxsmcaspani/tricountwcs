@@ -19,6 +19,16 @@ hr:last-child {
 	text-decoration: none;
 }
 
+#collapse-add-button {
+	transition: margin-right 2s;
+}
+
+#collapse-add-button:hover {
+	margin-right: 7em;
+	transform: translate
+}
+
+
 /*****
 Some buttons css
  */

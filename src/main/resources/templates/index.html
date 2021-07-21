@@ -4,17 +4,18 @@
 	</head>
 	<body>
 	<header th:replace="fragments/header.html :: header"></header>
-	<main>
+	<main class="position-relative">
+	
+		<!-- Fixed button for expense list creation -->
+		<div id="collapse-add-button" class="position-fixed bottom-0 end-0 m-5">
+			<a class="text-decoration-none" href="/createlist">
+					<i class="bi-plus-circle-fill fa-4x"></i>
+			</a>
+		</div>
+		
 		<th id="content" class="p-4 p-md-5 pt-5">
-			<h1 class="text-center text-primary m-4">All shared expenses</h1>
-			<div class="text-center">
-				<a class="text-decoration-none" href="/createlist">
-					<button type="button" class="btn btn-labeled btn-rounded btn-success text-white" title="Create expense list">
-						<span class="btn-label"><i class="bi-plus-circle-fill"></i> Create a shared expense list</span>
-					</button>
-				</a>
-			</div>
-			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
+			<h1 class="text-center text-primary m-4">My expenses Lists</h1>
+			
 			<th:block th:each="expenses, state : ${expenseslistsdto}">
 	<!--			Bootstrap modal div for confirmation windows pop-up -->
 				<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
@@ -80,16 +81,16 @@
 						</tbody>
 					</table>
 					<div class="row px-0 mx-0">
-						<a class="text-decoration-none px-0" th:href="@{/createexpense/{id}(id=${expenses.id})}">
+						<a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end" title="Add an expense to this list">
 								<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
 							</button>
 						</a>
 					</div>
+					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 				</div>
 			</th:block>
 			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
-		</div>
 	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
