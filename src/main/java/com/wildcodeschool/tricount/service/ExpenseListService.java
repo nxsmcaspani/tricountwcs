@@ -8,6 +8,7 @@ import com.wildcodeschool.tricount.repository.ContactRepository;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,8 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ExpenseListService {
-    private final int NB_DISPLAYED_EXPENSES = 3;
-
     @Autowired
     private ExpenseListRepository expenseListRepository;
 
@@ -59,122 +58,22 @@ public class ExpenseListService {
         return null;
     }
 
-    public ExpenseList convertFromDtoToEntity(ListExpenseListDto dto){
-        ExpenseList expenseListFromDto = new ExpenseList();
-        expenseListFromDto.setName(dto.getName());
-        if(dto.getId() != null){
-            expenseListFromDto.setId(dto.getId());
-        }
-        return expenseListFromDto;
-    }
-
-    public ListExpenseListDto convertFromEntityToDto(Integer idList, Boolean getLastThreeExpensesOnly){
-        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
-        if (optionalExpensesList.isPresent()) {
-            ExpenseList expenseList = optionalExpensesList.get();
-            ListExpenseListDto dto = new ListExpenseListDto();
-            dto.setId(expenseList.getId());
-            dto.setName(expenseList.getName());
-            if(!getLastThreeExpensesOnly) {
-                dto.setExpenses(expenseList.getExpensesList());
-            } else {
-                dto.setExpenses(expenseList.getExpensesList().stream()
-                        .sorted(Comparator.comparing(Expense::getExpenseDate).reversed())
-                        .limit(NB_DISPLAYED_EXPENSES)
-                        .collect(Collectors.toList()));
-            }
-            return dto;
-        } else return null;
-    }
-
-    public UpdateExpenseListDto fromEntityToDtoForUpdate(Integer idList){
-        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
-        if (optionalExpensesList.isPresent()) {
-            ExpenseList expenseList = optionalExpensesList.get();
-            UpdateExpenseListDto dto = new UpdateExpenseListDto();
-            List<ReadExpenseDTO> readExpenseDTO = new ArrayList<>();
-            dto.setId(expenseList.getId());
-            dto.setName(expenseList.getName());
-            for(Contact contact : expenseList.getContacts()) {
-                dto.getIdContacts().add(contact.getId());
-            }
-            for(Expense expense : expenseList.getExpensesList()){
-                readExpenseDTO.add(expenseService.mapExpenseToReadExpenseDTO(expense));
-            }
-            dto.setReadExpenseDTOS(readExpenseDTO);
-            return dto;
-        } else return null;
-    }
-
-    public ReadExpenseListDto fromEntityIdToDtoForRead(Integer idList){
-        Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(idList);
-        if (optionalExpensesList.isPresent()) {
-            ExpenseList expenseList = optionalExpensesList.get();
-            ReadExpenseListDto readExpenseListDto = new ReadExpenseListDto();
-            List<ContactDto> contactDtoList = new ArrayList<>();
-            readExpenseListDto.setId(expenseList.getId());
-            readExpenseListDto.setName(expenseList.getName());
-            for(Contact contact : expenseList.getContacts()) {
-                contactDtoList.add(contactService.convContactToDto(contact));
-            }
-            readExpenseListDto.setContactDtoList(contactDtoList);
-            return readExpenseListDto;
-        } else return null;
-    }
-
-    public ArrayList<ContactDto> getAllContactsAsDto(Integer expenseListId){
-        ExpenseList expenseList = expenseListRepository.getById(expenseListId);
-        ArrayList<ContactDto> contactsDto = new ArrayList<>();
-        for (Contact contact : expenseList.getContacts()){
-            contactsDto.add(new ContactDto(contact.getId(), contact.getName(), contact.getEmail()));
-        }
-        return contactsDto;
-    }
-
     private ExpenseList updateExpenseList(UpdateExpenseListDto expenseListDto) {
         ExpenseList expenseList;
         Optional<ExpenseList> optionalExpenseList = expenseListRepository.findById(expenseListDto.getId());
         if (optionalExpenseList.isPresent()) {
             expenseList = optionalExpenseList.get();
-            expenseList.setDate(LocalDate.now());
-            expenseList.setName(expenseListDto.getName());
             List<Integer> newParticipantsIds = expenseListDto.getIdContacts();
             List<Integer> oldParticipantsIds = expenseList.getContactsIds();
-            Collections.sort(newParticipantsIds);
-            Collections.sort(oldParticipantsIds);
-            if(!newParticipantsIds.equals(oldParticipantsIds)){
+            if(hasParticipantListBeenChanged(oldParticipantsIds, newParticipantsIds)){
                 oldParticipantsIds.removeAll(newParticipantsIds);
-                /**
-                 * Case when a participant has been removed
-                 * we delete expenses done by him
-                 * and remove him from the beneficiaries of other expenses
-                 */
-                if(oldParticipantsIds.size() > 0){
-                    System.out.println("#DEBUG: Some contacts were removed from the list, impacting expenses...");
-                    for (Integer idContact : oldParticipantsIds) {
-                        for(Expense expense : expenseList.getExpensesList()) {
-                            List<Contact> expenseBeneficiaries= expense.getBeneficiaries();
-                            System.out.println("#DEBUG: For expense Id ["+expense.getId()+"] owner is: ["+expense.getOwner().getName()+"] with contact Id ["+expense.getOwner().getId()+"] ");
-                            Contact beneficiaryToRemove = contactService.findById(idContact);
-                            if(expense.getOwner().getId() == idContact){
-                                System.out.println("#DEBUG: Expense owner ID is : ["+expense.getOwner().getId()+"] same as removed Contact ID ["+idContact+"], deleting expense...");
-                                expenseService.delete(expense.getId());
-                            } else {
-                                if (expenseBeneficiaries.contains(beneficiaryToRemove)) {
-                                    expenseBeneficiaries = expenseBeneficiaries.stream().filter(c -> c.getId() != beneficiaryToRemove.getId()).collect(Collectors.toList());
-                                    expense.setBeneficiaries(expenseBeneficiaries);
-                                }
-                            }
-                        }
-                    }
+                if(oldParticipantsIds.size() > 0) {
+                    removeParticipantsDeletingExpensesAndBeneficiary(oldParticipantsIds, expenseList);
                 }
-                List<Contact> newParticipants = new ArrayList<>();
-                for(Integer id : newParticipantsIds){
-                    Optional<Contact> OptionalContact = contactRepository.findById(id);
-                    OptionalContact.ifPresent(newParticipants::add);
-                }
-                expenseList.setContacts(newParticipants);
+                updateParticipantsFromContactIdsList(newParticipantsIds, expenseList);
             }
+            expenseList.setDate(LocalDate.now());
+            expenseList.setName(expenseListDto.getName());
         } else {
             throw new RuntimeException("Expense List Id not found.");
         }
@@ -189,10 +88,46 @@ public class ExpenseListService {
         List<Contact> contactList = new ArrayList<>();
         for(Integer id : expenseListDto.getIdContacts()){
             Optional<Contact> optionalContact = contactRepository.findById(id);
-            Contact contact = optionalContact.orElseThrow(RuntimeException::new); // Java 8 so that we get a contact else throws an exception
+            Contact contact = optionalContact.orElseThrow(RuntimeException::new);
             contactList.add(contact);
         }
         expenseList.setContacts(contactList);
         return expenseList;
+    }
+
+    private Boolean hasParticipantListBeenChanged(List<Integer> oldParticipantsIds, List<Integer> newParticipantsIds){
+        Collections.sort(newParticipantsIds);
+        Collections.sort(oldParticipantsIds);
+        if(!newParticipantsIds.equals(oldParticipantsIds)){
+            return Boolean.TRUE;
+        } else return Boolean.FALSE;
+    }
+
+    private void removeParticipantsDeletingExpensesAndBeneficiary(List<Integer> participantsId, ExpenseList expenseList){
+        for (Integer idContact : participantsId) {
+            Contact beneficiaryToRemove = contactService.findById(idContact);
+            List<Expense> expensesList = expenseList.getExpensesList();
+            for(Expense expense : expensesList) {
+                List<Contact> expenseBeneficiaries= expense.getBeneficiaries();
+                if(expense.getOwner().getId() == idContact){
+                    expenseList.setExpensesList(expenseList.getExpensesList().stream().filter(e -> e.getId() != expense.getId()).collect(Collectors.toList()));
+                    expenseService.delete(expense.getId());
+                } else {
+                    if (expenseBeneficiaries.contains(beneficiaryToRemove)) {
+                        expenseBeneficiaries = expenseBeneficiaries.stream().filter(c -> c.getId() != beneficiaryToRemove.getId()).collect(Collectors.toList());
+                        expense.setBeneficiaries(expenseBeneficiaries);
+                    }
+                }
+            }
+        }
+    }
+
+    private void updateParticipantsFromContactIdsList(List<Integer> newParticipantsIds, ExpenseList expenseList){
+        List<Contact> newParticipants = new ArrayList<>();
+        for(Integer id : newParticipantsIds){
+            Optional<Contact> OptionalContact = contactRepository.findById(id);
+            OptionalContact.ifPresent(newParticipants::add);
+        }
+        expenseList.setContacts(newParticipants);
     }
 }
