@@ -7,6 +7,7 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
     private float amountDue;
     private float amountSpend;
     private float amountSpendHorsBalance;
+    private float amountGiveOrTake;
     
     public Contact toContact() {
         return new Contact(this.getId(), this.getName(), this.getEmail());
@@ -58,4 +59,16 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
         return 1;        
     }
 
+    public float getAmountGiveOrTake() {
+        return amountGiveOrTake;
+    }
+
+    public void setAmountGiveOrTake(float aAmountGiveOrTake) {
+        amountGiveOrTake = aAmountGiveOrTake;
+    }
+
+    public void addToAmountGiveOrTake(float amount) {
+        amountGiveOrTake += amount;
+    }
+    
 }

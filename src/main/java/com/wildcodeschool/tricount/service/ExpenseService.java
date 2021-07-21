@@ -3,11 +3,10 @@ package com.wildcodeschool.tricount.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wildcodeschool.tricount.dto.BalanceExpenseDto;
 import com.wildcodeschool.tricount.dto.ContactDto;
 import com.wildcodeschool.tricount.dto.ContactForUpdateExpenseDto;
 import com.wildcodeschool.tricount.dto.CreateExpenseDTO;
@@ -44,8 +43,8 @@ public class ExpenseService {
         return mapExpenseToReadExpenseDTO(expense);
     }
 
-    public Expense create(CreateExpenseDTO expenseDTO) {
-        Expense expense = mapCreateExpenseDTOToExpense(expenseDTO);
+    public Expense create(BalanceExpenseDto aExpense) {
+        Expense expense = mapBalanceExpenseDtoToExpense(aExpense);
         return expenseRepository.save(expense);
     }
 
@@ -88,19 +87,14 @@ public class ExpenseService {
         return dto;
     }
 
-    private Expense mapCreateExpenseDTOToExpense(CreateExpenseDTO expenseDTO) {
+    private Expense mapBalanceExpenseDtoToExpense(BalanceExpenseDto expenseDTO) {
         Expense exp = new Expense();
         exp.setAmount(expenseDTO.getAmount());
         exp.setExpenseDate(expenseDTO.getExpenseDate());
         exp.setName(expenseDTO.getName());
         exp.setOwner(expenseDTO.getOwner());
         exp.setExpenseList(expenseListService.getExpenseList(expenseDTO.getExpenseListId()));
-        
-        ArrayList<Contact> beneficiaries = new ArrayList<Contact>();
-        for (Integer id : expenseDTO.getIdBeneficiaries()) {
-            beneficiaries.add(contactService.findById(id));
-        }
-        exp.setBeneficiaries(beneficiaries);
+        exp.setBeneficiaries(expenseDTO.getBeneficiaries());
         return exp;
     }
 
