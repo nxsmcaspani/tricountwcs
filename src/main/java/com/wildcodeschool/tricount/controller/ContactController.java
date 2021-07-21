@@ -3,6 +3,7 @@ package com.wildcodeschool.tricount.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wildcodeschool.tricount.mappers.ContactMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,24 +17,20 @@ import com.wildcodeschool.tricount.dto.ContactDto;
 public class ContactController {
     
     @Autowired
-    ContactService contactService; 
+    ContactService contactService;
+
+    @Autowired
+    ContactMapper contactMapper;
     
     @GetMapping("/contacts")
     public String getAll(Model model) {
         List<ContactDto> contactsDto = new ArrayList<ContactDto>();
-        contactsDto = contactService.getAll();
+        contactsDto = contactMapper.getAllAsDtos();
         model.addAttribute("contacts", contactsDto);
         model.addAttribute("contact", new ContactDto());
         model.addAttribute("newcontact", new ContactDto());
         return "contacts";
     }
-
-//    @GetMapping("/contact")
-//    public String getContactById(Model model, @RequestParam int idContact) {
-//        System.out.println("start getContactById");
-//        contactService.findById(idContact, model);
-//        return "contact";
-//    }
 
     @PostMapping("/contact")
     public String postContact(@ModelAttribute ContactDto contactDto) {
