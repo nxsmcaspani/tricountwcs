@@ -38,11 +38,11 @@
 							<div class = "col" ><b>To</b></div>
 						</div>
 					</div>
-					<th:block th:each="createExpenseDto, status : ${balExpenseDto.lstExpenseDto}">
+					<th:block th:each="balanceExpenseDto, status : ${balExpenseDto.lstExpenseDto}">
 						<div class="row">
-							<div class = "col" th:text="${createExpenseDto.owner.name}">doit</div>
-							<div class = "col" th:text="${createExpenseDto.amount}">montant</div>
-							<div class = "col" >a qui</div>
+							<div class = "col" th:text="${balanceExpenseDto.owner.name}">doit</div>
+							<div class = "col" th:text="${balanceExpenseDto.amount}">montant</div>
+							<div class = "col" th:text="${balanceExpenseDto.beneficiary.name}" >a qui</div>
 						</div>
 					</th:block>
 					<div class="col-md-12 text-center" >
@@ -50,6 +50,10 @@
 					</div>
 					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 				</div>
+				<a class="text-decoration-none" th:href="@{/expenselistdetails/{id}(id=${balExpenseDto.idOfExpenseList})}">
+					<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end">Back to ExpenseList</button>
+				</a>
+				
 			</form>
 		</div>
 	</section>

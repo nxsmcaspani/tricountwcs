@@ -1,17 +1,26 @@
 package com.wildcodeschool.tricount.dto;
 
-import com.wildcodeschool.tricount.entity.Contact;
-
 public class ContactForBalanceDto extends ContactDto implements Comparable<ContactForBalanceDto> {
 
+    /**
+     * Montant de la part des achats pour la personne
+     */
     private float amountDue;
-    private float amountSpend;
-    private float amountSpendHorsBalance;
-    private float amountGiveOrTake;
     
-    public Contact toContact() {
-        return new Contact(this.getId(), this.getName(), this.getEmail());
-    }
+    /**
+     * Montant des dépenses totales
+     */
+    private float amountSpend;
+    
+    /**
+     * Montant des dépenses faites hors opérations balance
+     */
+    private float amountSpendHorsBalance;
+    
+    /**
+     * Montant de la balance : dépenses - dues
+     */
+    private float amountGiveOrTake;
     
     public ContactForBalanceDto(int id, String name, String email) {
         super(id, name, email);
@@ -24,6 +33,10 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
     public void setAmountDue(float aAmountDue) {
         amountDue = aAmountDue;
     }
+    
+    public void addAmountDue(float aAmountDue) {
+        amountDue += aAmountDue;
+    }
 
     public float getAmountSpend() {
         return amountSpend;
@@ -33,6 +46,10 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
         this.amountSpend = aAmountSpend;
     }
 
+    public void addAmountSpend(float aAmountSpend) {
+        this.amountSpend += aAmountSpend;
+    }
+    
     public float getAmountSpendHorsBalance() {
         return amountSpendHorsBalance;
     }
@@ -41,6 +58,18 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
         this.amountSpendHorsBalance = amountSpendHorsBalance;
     }
 
+    public float getAmountGiveOrTake() {
+        return amountGiveOrTake;
+    }
+
+    public void setAmountGiveOrTake(float aAmountGiveOrTake) {
+        amountGiveOrTake = aAmountGiveOrTake;
+    }
+
+    public void addToAmountGiveOrTake(float amount) {
+        amountGiveOrTake += amount;
+    }
+    
     public float getSolde() {
         return amountSpend - amountDue;
     }
@@ -59,16 +88,4 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
         return 1;        
     }
 
-    public float getAmountGiveOrTake() {
-        return amountGiveOrTake;
-    }
-
-    public void setAmountGiveOrTake(float aAmountGiveOrTake) {
-        amountGiveOrTake = aAmountGiveOrTake;
-    }
-
-    public void addToAmountGiveOrTake(float amount) {
-        amountGiveOrTake += amount;
-    }
-    
 }

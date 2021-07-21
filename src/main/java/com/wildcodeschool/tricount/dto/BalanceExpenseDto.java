@@ -4,7 +4,6 @@ import com.wildcodeschool.tricount.entity.Contact;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class BalanceExpenseDto {
     private String name;
@@ -24,7 +23,6 @@ public class BalanceExpenseDto {
         this.expenseDate = expenseDate;
         this.expenseListId = expenseListId;
     }
-
     
     public BalanceExpenseDto(String name, Contact owner, float amount) {
         this.name = name;

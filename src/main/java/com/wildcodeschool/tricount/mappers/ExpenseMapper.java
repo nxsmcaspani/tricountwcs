@@ -73,4 +73,25 @@ public class ExpenseMapper {
         dto.setBeneficiariesIds(expense.getBeneficiariesIds());
         return dto;
     }
+    
+    /**
+     * Convertie une BalanceExpenseDto en CreateExpenseDto
+     * @param BalanceExpenseDto
+     * @return CreateExpenseDTO
+     */
+    public CreateExpenseDTO convBalanceExpenseDtoToCreateExpenseDto(BalanceExpenseDto exp) {
+        CreateExpenseDTO createExp = new CreateExpenseDTO(
+                exp.getName(), 
+                exp.getOwner(), 
+                exp.getAmount(), 
+                exp.getExpenseDate(), 
+                exp.getExpenseListId());
+        ArrayList<Integer> idBenef = new ArrayList<Integer>();
+        idBenef.add(exp.getBeneficiary().getId());
+        createExp.setIdBeneficiaries(idBenef);
+        return createExp;
+    }
+
+    
+    
 }

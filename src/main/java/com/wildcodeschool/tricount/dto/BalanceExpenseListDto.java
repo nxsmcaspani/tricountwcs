@@ -47,8 +47,8 @@ public class BalanceExpenseListDto {
         return balanceOk;
     }
 
-    public void setBalanceOk(boolean aBalanceOk) {
-        balanceOk = aBalanceOk;
+    public void setBalanceOk() {
+        balanceOk = checkBalanceOk();
     }
 
     public int getIdOfExpenseList() {
@@ -67,5 +67,20 @@ public class BalanceExpenseListDto {
         lstExpenseDto = aLstExpenseDto;
     }
 
-    
+    /**
+     * Vérifie si tous les contacts ont leur due et spend égaux
+     * @param lstContacts
+     * @return boolean
+     */
+    private boolean checkBalanceOk() {
+        if (lstContacts.size() <2) {
+            System.out.println("inf 2, true");
+            return true;
+        }
+        for (ContactForBalanceDto contact : lstContacts) {
+            if (contact.getAmountDue() != contact.getAmountSpend())
+                return false;
+        }
+        return true;
+    }
 }
