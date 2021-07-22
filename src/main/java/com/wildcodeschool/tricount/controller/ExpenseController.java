@@ -62,13 +62,13 @@ public class ExpenseController {
     }
 
     @GetMapping("/expense/delete/{id}")
-    public String deleteExpense(@PathVariable int id){
+    public String deleteExpense(@PathVariable int id, HttpServletRequest request){
         Expense readExpenseDTO= expenseService.getById(id);
         if (readExpenseDTO !=null){
             expenseService.delete(id);
         }else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense  not found "+id);
         }
-        return "redirect:/";
+        return "redirect:"+request.getHeader("Referer");
     }
 }
