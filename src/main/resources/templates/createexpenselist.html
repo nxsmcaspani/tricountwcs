@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="h-100">
 <head th:replace="fragments/header.html :: head">
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <header th:replace="fragments/header.html :: header"></header>
-<main>
+<main class="flex-shrink-0">
     <div class="container">
         <h1 class="text-center text-primary m-4">Create a shared expenses list</h1>
         <form action="#"  method="POST" th:action="@{/newexpenseslist}" th:object="${createexpenselistdto}">
