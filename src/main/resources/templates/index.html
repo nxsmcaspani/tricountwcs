@@ -68,8 +68,11 @@
 								<td th:text="${expense.amount}">Expense amount</td>
 								<td>
 									<a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${expense.id})}">
-										<button type="button" class="btn btn-labeled btn-primary">
-											<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
+										<button type="button" class="btn btn-outline-primary">
+											<i class="bi-binoculars"></i>
+										</button>
+<!--										<button type="button" class="btn btn-labeled btn-primary">-->
+<!--											<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>-->
 									</a>
 								</td>
 							</tr>
