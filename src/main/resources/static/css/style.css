@@ -19,15 +19,9 @@ hr:last-child {
 	text-decoration: none;
 }
 
-#collapse-add-button {
-	transition: margin-right 2s;
+.hd-container {
+	height: 120px;
 }
-
-#collapse-add-button:hover {
-	margin-right: 7em;
-	transform: translate
-}
-
 
 /*****
 Some buttons css

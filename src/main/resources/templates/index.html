@@ -14,7 +14,7 @@
 		</div>
 		
 		<th id="content" class="p-4 p-md-5 pt-5">
-			<h1 class="text-center text-primary m-4">My expenses Lists</h1>
+			<h1 class="text-center text-warning m-4">My expenses lists</h1>
 			
 			<th:block th:each="expenses, state : ${expenseslistsdto}">
 	<!--			Bootstrap modal div for confirmation windows pop-up -->
@@ -39,15 +39,10 @@
 
 				<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<div class="row mb-3 px-0">
-						<h2 class="col text-center text-warning" th:text="${expenses.name}"></h2>
-						<a class="col-auto text-decoration-none px-1" th:href="@{/updatelist/{id}(id=${expenses.id})}">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-pencil"></i>
-							</button>
-						</a>
+						<h2 class="col text-primary" th:text="${expenses.name}"></h2>
 						<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-binoculars-fill"></i>
+								<i class="bi-pencil"></i>
 							</button>
 						</a>
 						<a class="col-auto text-decoration-none px-1" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenses.id})}" data-bs-toggle="modal" data-bs-target="#confirm-delete">
@@ -81,16 +76,15 @@
 						</tbody>
 					</table>
 					<div class="row px-0 mx-0">
-						<a class="text-decoration-none" th:href="@{/createexpense/{id}(id=${expenses.id})}">
+						<a class="text-decoration-none px-0" th:href="@{/createexpense/{id}(id=${expenses.id})}">
 							<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end" title="Add an expense to this list">
 								<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
 							</button>
 						</a>
 					</div>
-					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 				</div>
+				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 			</th:block>
-			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>

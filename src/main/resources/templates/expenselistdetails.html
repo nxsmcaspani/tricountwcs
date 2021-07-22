@@ -4,7 +4,7 @@
   </head>
   <body>
   <header th:replace="fragments/header.html :: header"></header>
-  <section>
+  <main>
     <div class="container">
       <h1 class="text-center text-primary m-4">Expense List details</h1>
       <form action="#" method="POST" th:action="@{/updateexpenseslist}" th:object="${updateexpenselistdto}">
@@ -66,9 +66,7 @@
             </table>
         </div>
     </div>
-
-    </div>
-    </section>
+    </main>
   <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
   <script>
     var config = {};
