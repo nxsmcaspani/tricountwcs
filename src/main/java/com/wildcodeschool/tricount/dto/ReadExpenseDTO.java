@@ -3,18 +3,18 @@ package com.wildcodeschool.tricount.dto;
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import com.wildcodeschool.tricount.entity.Contact;
 
 public class ReadExpenseDTO {
-
     private int id;
     private String name;
     private Contact owner;
     private LocalDate expenseDate;
     private float amount;
-    
-    
+    private List<ContactDto> contactDtoList;
+
     public ReadExpenseDTO(int aId, String aName, Contact aOwner, LocalDate aExpenseDate, float aAmount) {
         super();
         id = aId;
@@ -54,6 +54,11 @@ public class ReadExpenseDTO {
     public void setAmount(float aAmount) {
         amount = aAmount;
     }
-    
-    
+    public List<ContactDto> getContactDtoList() {
+        return contactDtoList;
+    }
+
+    public void setContactDtoList(List<ContactDto> contactDtoList) {
+        this.contactDtoList = contactDtoList;
+    }
 }

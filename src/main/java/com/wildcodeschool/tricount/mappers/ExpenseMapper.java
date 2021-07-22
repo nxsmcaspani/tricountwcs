@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ExpenseMapper {
@@ -22,6 +23,9 @@ public class ExpenseMapper {
     ContactService contactService;
 
     @Autowired
+    ContactMapper contactMapper;
+
+    @Autowired
     ExpenseRepository expenseRepository;
 
     // Method called when accessing the expense creation form
@@ -32,7 +36,7 @@ public class ExpenseMapper {
         return createExpenseDTO;
     }
 
-    public static ReadExpenseDTO mapExpenseToReadExpenseDTO(Expense expense) {
+    public ReadExpenseDTO mapExpenseToReadExpenseDTO(Expense expense) {
         if (expense == null) {
             return null;
         }
@@ -42,6 +46,11 @@ public class ExpenseMapper {
                 expense.getOwner(),
                 expense.getExpenseDate(),
                 expense.getAmount());
+        List<ContactDto> contactDtoList = new ArrayList<>();
+        for(Contact contact : expense.getBeneficiaries()){
+            contactDtoList.add(contactMapper.convContactToDto(contact));
+        }
+        dto.setContactDtoList(contactDtoList);
         return dto;
     }
 
