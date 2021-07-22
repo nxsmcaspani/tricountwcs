@@ -62,12 +62,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="expense : ${expenses.idExpenses}">
+							<tr th:each="expense : ${expenselist.idExpenses}">
 								<td th:text="${expense.name}">Expense Name</td>
 								<td th:text="${expense.owner.name}">Expense owner</td>
 								<td th:text="${expense.amount}">Expense amount</td>
 								<td>
-									<a class="text-decoration-none" th:href="@{/expense/{id}(id=${expense.id})}">
+									<a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${expense.id})}">
 										<button type="button" class="btn btn-labeled btn-primary">
 											<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>
 									</a>
@@ -76,7 +76,7 @@
 						</tbody>
 					</table>
 					<div class="row px-0 mx-0">
-						<a class="text-decoration-none px-0" th:href="@{/createexpense/{id}(id=${expenses.id})}">
+						<a class="text-decoration-none px-0" th:href="@{/createexpense/{id}(id=${expenselist.id})}">
 							<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end" title="Add an expense to this list">
 								<span class="btn-label"><i class="bi-plus-circle-fill"></i> Add an expense</span>
 							</button>

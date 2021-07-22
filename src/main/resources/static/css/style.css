@@ -29,3 +29,11 @@ Some buttons css
 .btn-label {position: relative;display: inline-block;padding: 6px 12px;border-radius: 4px 0 0 4px;}
 .btn-labeled {padding-top: 0;padding-bottom: 0;}
 .btn { margin-bottom:10px; }
+
+h2 {
+	margin-bottom: 25px;
+}
+
+.container{
+	padding-top: 60px;
+}

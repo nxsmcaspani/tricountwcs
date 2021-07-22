@@ -4,7 +4,8 @@ import com.wildcodeschool.tricount.dto.ListExpenseListDto;
 import com.wildcodeschool.tricount.dto.UpdateExpenseListDto;
 import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.ExpenseList;
-import com.wildcodeschool.tricount.service.ContactService;
+import com.wildcodeschool.tricount.mappers.ContactMapper;
+import com.wildcodeschool.tricount.mappers.ExpenseListMapper;
 import com.wildcodeschool.tricount.service.ExpenseListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,45 +22,38 @@ import java.util.Optional;
 @Controller
 public class ExpenseListController {
     @Autowired
+    private ExpenseListMapper expenseListMapper;
+
+    @Autowired
     private ExpenseListService expenseListService;
 
     @Autowired
-    private ContactService contactService;
+    private ContactMapper contactMapper;
 
     @GetMapping("/")
     public String getAll(Model model) {
         List<ListExpenseListDto> expensesListsDto = new ArrayList<>();
         for( ExpenseList expenseList : expenseListService.findAll()){
-            expensesListsDto.add(expenseListService.convertFromEntityToDto(expenseList.getId(), Boolean.TRUE));
+            expensesListsDto.add(expenseListMapper.convertFromEntityToDto(expenseList.getId(), Boolean.TRUE));
         }
         model.addAttribute("expenseslistsdto", expensesListsDto);
         return "index";
     }
 
     @GetMapping("/createlist")
-    public String editExpensesList(Model model, HttpServletRequest request){
+    public String createtExpensesList(Model model, HttpServletRequest request){
         CreateExpenseListDto createExpenseListDto = new CreateExpenseListDto();
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        model.addAttribute("contactsdto", contactMapper.getAllContactsAsDto());
         model.addAttribute("createexpenselistdto", createExpenseListDto);
         String referer = request.getHeader("Referer");
         model.addAttribute("previous", referer);
         return "createexpenselist";
     }
 
-    @GetMapping("/updatelist/{id}")
-    public String showExpensesList(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request){
-        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
-        model.addAttribute("updateexpenselistdto", updateexpenselistdto);
-        String referer = request.getHeader("Referer");
-        model.addAttribute("previous", referer);
-        return "updateexpenselist";
-    }
-
     @GetMapping("/expenselistdetails/{id}")
     public String showExpensesListDetails(Model model, @PathVariable(name = "id") Integer idList, HttpServletRequest request){
-        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(idList);
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        UpdateExpenseListDto updateexpenselistdto = expenseListMapper.fromEntityToDtoForUpdate(idList);
+        model.addAttribute("contactsdto", contactMapper.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
         String referer = request.getHeader("Referer");
         model.addAttribute("previous", referer);
@@ -71,13 +65,12 @@ public class ExpenseListController {
         expenseListService.create(createExpenseListDto);
         return "redirect:/";
     }
-
-    // Using HttpServletRequest to redirect to page the update was done from (either updatelist or pagedetails)
+    
     @PostMapping("/updateexpenseslist")
     public String updateExpensesList(Model model, @ModelAttribute UpdateExpenseListDto UpdateExpenseListDto, HttpServletRequest request) {
         expenseListService.update(UpdateExpenseListDto);
-        UpdateExpenseListDto updateexpenselistdto = expenseListService.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
-        model.addAttribute("contactsdto", contactService.getAllContactsAsDto());
+        UpdateExpenseListDto updateexpenselistdto = expenseListMapper.fromEntityToDtoForUpdate(UpdateExpenseListDto.getId());
+        model.addAttribute("contactsdto", contactMapper.getAllContactsAsDto());
         model.addAttribute("updateexpenselistdto", updateexpenselistdto);
         String referer = request.getHeader("Referer");
         return "redirect:"+ referer;
