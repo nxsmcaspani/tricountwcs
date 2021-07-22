@@ -23,10 +23,36 @@ hr:last-child {
 	height: 120px;
 }
 
-#collapse-add-button {
-	margin-right: 3em;
-	margin-bottom: 4em;
-	
+#add-list-button {
+	margin-right: 48px;
+	margin-bottom: 64px;
+}
+
+.add-icon {
+	font-size: 64px;
+}
+
+#add-list-container {
+	margin-right: 48px;
+	margin-bottom: 78px;
+	line-height: 62px;
+	padding-left: 24px;
+	z-index: 9;
+	display: flex;
+	visibility: hidden;
+}
+
+#add-list-button:hover + #add-list-container {
+	visibility: visible;
+}
+
+#add-list-container:hover {
+	visibility: visible;
+}
+
+#add-list-label {
+	font-size: 24px;
+	margin-right: 12px;
 }
 
 /*****

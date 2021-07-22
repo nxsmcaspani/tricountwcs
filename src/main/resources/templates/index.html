@@ -7,10 +7,14 @@
 	<main class="position-relative">
 	
 		<!-- Fixed button for expense list creation -->
-		<div id="collapse-add-button" class="position-fixed bottom-0 end-0">
+ 		<div id="add-list-button" class="position-fixed bottom-0 end-0">
 			<a class="text-decoration-none" href="/createlist">
-					<i class="bi-plus-circle-fill fa-4x"></i>
+					<i class="bi-plus-circle-fill add-icon"></i>
 			</a>
+		</div>
+		<div id="add-list-container" class="text-center text-white bg-primary position-fixed bottom-0 end-0 rounded-pill">
+				<span id="add-list-label"><a class="text-decoration-none text-white" href="/createlist">Create new list</a></span>
+				<i class="bi-plus add-icon"></i>
 		</div>
 		
 		<th id="content" class="p-4 p-md-5 pt-5">
