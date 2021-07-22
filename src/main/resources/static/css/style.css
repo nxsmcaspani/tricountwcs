@@ -35,7 +35,6 @@ hr:last-child {
 #add-list-container {
 	margin-right: 48px;
 	margin-bottom: 78px;
-	line-height: 62px;
 	padding-left: 24px;
 	z-index: 9;
 	display: flex;
@@ -52,7 +51,7 @@ hr:last-child {
 
 #add-list-label {
 	font-size: 24px;
-	margin-right: 12px;
+	vertical-align: middle;
 }
 
 /*****
