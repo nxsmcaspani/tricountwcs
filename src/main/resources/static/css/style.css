@@ -19,6 +19,10 @@ hr:last-child {
 	text-decoration: none;
 }
 
+.hd-container {
+	height: 120px;
+}
+
 /*****
 Some buttons css
  */
