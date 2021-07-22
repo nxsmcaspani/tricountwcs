@@ -41,6 +41,7 @@
                 <th>Expense name</th>
                 <th>Made by</th>
                 <th>Amount</th>
+                <th>Beneficiary.ies</th>
                 <th>Date</th>
                 <th>Action</th>
               </tr>
@@ -50,15 +51,20 @@
                 <td th:text="${readexpensedto.name}">Expense Name</td>
                 <td th:text="${readexpensedto.owner.name}">Expense owner</td>
                 <td th:text="${readexpensedto.amount}">Expense amount</td>
+                <td>
+                  <span th:each="beneficiary : ${readexpensedto.contactDtoList}" th:text="|${beneficiary.name} |"> </span>
+                </td>
                 <td th:text="${readexpensedto.expenseDate}">Expense date</td>
                 <td>
                   <a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
-                    <button type="button" class="btn btn-labeled btn-success">
-                      <span class="btn-label"><i class="bi-pencil"></i></span></button>
+                    <button type="button" class="btn btn-outline-primary">
+                      <i class="bi-pencil"></i>
+                    </button>
                   </a>
                   <a class="text-decoration-none" th:href="@{/expense/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
-                    <button type="button" class="btn btn-labeled btn-danger">
-                      <span class="btn-label"><i class="bi-trash"></i></span></button>
+                    <button type="button" class="btn btn-outline-primary">
+                      <i class="bi-trash"></i>
+                    </button>
                   </a>
                 </td>
               </tr>

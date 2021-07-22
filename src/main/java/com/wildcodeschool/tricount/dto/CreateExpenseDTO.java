@@ -17,6 +17,15 @@ public class CreateExpenseDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expenseDate;
 
+    public CreateExpenseDTO(String name, Contact owner, float amount, LocalDate expenseDate, Integer expenseListId) {
+        this.name = name;
+        this.owner = owner;
+        this.amount = amount;
+        this.expenseDate = expenseDate;
+        this.expenseListId = expenseListId;
+    }
+
+    
     public CreateExpenseDTO(String name, Contact owner, float amount) {
         this.name = name;
         this.owner = owner;

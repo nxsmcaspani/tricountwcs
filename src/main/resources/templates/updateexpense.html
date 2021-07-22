@@ -10,7 +10,7 @@
 				th:text="${updateexpensedto.readExpenseListDto.name}"></h1> -->
 			<h2 class="text-center text-primary m-4">Update an expense</h2>
 			
-			<form action="#" method="POST" th:action="@{/expense/update}" th:object="${updateexpensedto}">
+			<form action="#" method="POST" th:action="@{/expense/update}" th:object="${updateexpensedto}" >
 				<input name="expenseListId" th:field="*{expenseListId}" type="hidden">
 				<input name="id" th:field="*{id}" type="hidden">
 				<div class="modal-body">
@@ -32,13 +32,12 @@
 							<label for="ownerId">Expense Owner:</label>
 						</div>
 						<div class="col-2 col-sm-2">
-							<select class="custom-select" required id="ownerId" name="ownerId" autocomplete="on">
+							<select class="custom-select" id="ownerId" name="ownerId" autocomplete="on" required>
 								<option value="">Expense Owner</option>
 								<option th:each="contact : ${contactsdto}"
 										th:value="${contact.id}"
 										th:utext="${contact.name}"
 										th:selected="${contact.id}==${updateexpensedto.ownerId}" />
-<!--										th:selected="${contact.selected}"/>-->
 							</select>
 						</div>
 					</div>
@@ -72,7 +71,7 @@
 							<label for="beneficiariesIds">Beneficiaries :</label>
 						</div>
 						<div class="col-4 col-sm-4">
-							<select id="beneficiariesIds" name="beneficiariesIds[]" multiple placeholder="Add beneficiaries..." autocomplete="on" >
+							<select id="beneficiariesIds" name="beneficiariesIds[]" multiple placeholder="Add beneficiaries..." autocomplete="on" required>
 								<option th:each="contact : ${contactsdto}"
 									th:value="${contact.id}"
 									th:utext="${contact.name}"
@@ -84,7 +83,7 @@
 					
 					<br />
 					<div class="modal-footer">
-						<a th:href="${previous}" class="btn secondary" role="button">Cancel</a>
+						<a th:href="${previous}" class="btn btn-secondary" role="button">Cancel</a>
 						<button type="submit" class="btn btn-primary">Update</button>
 					</div>
 					<br>

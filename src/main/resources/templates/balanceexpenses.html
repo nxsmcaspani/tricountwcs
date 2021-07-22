@@ -15,23 +15,45 @@
 				<div class="col"> 
 					<div class="row">
 						<div class = "col" ><b>Name</b></div>
-						<div class = "col" ><b>Amount due</b></div>
-						<div class = "col" ><b>Amount spent</b></div>
+						<div class = "col" ><b>Spent Amount</b></div>
+						<div class = "col" ><b>Balance</b></div>
 					</div>
 				</div>
 				<th:block th:each="contact, status : ${balExpenseDto.lstContacts}">
 				<div class="col">
 					<div class="row">
 						<div class = "col" th:text="${contact.name}">Name</div>
-						<div class = "col" th:text="${contact.amountDue}">Dépenses beneficiées</div>
-						<div class = "col" th:text="${contact.amountSpend}">Dépenses faites</div>
+						<div class = "col" th:text="${contact.amountSpendHorsBalance}">Depenses faites</div>
+						<div class = "col" th:text="${contact.amountGiveOrTake}">Balance</div>
 					</div>
 				</div>
 				</th:block>
 				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
-				<div class="col-md-12 text-center" th:unless="${balExpenseDto.balanceOk}">
-					<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+				<div th:unless="${balExpenseDto.balanceOk}">
+					<h3 class="test-primary">How to rebalance: </h3>
+					<div class="col"> 
+						<div class="row">
+							<div class = "col" ><b>Name</b></div>
+							<div class = "col" ><b>Amount due</b></div>
+							<div class = "col" ><b>To</b></div>
+						</div>
+					</div>
+					<th:block th:each="balanceExpenseDto, status : ${balExpenseDto.lstExpenseDto}">
+						<div class="row">
+							<div class = "col" th:text="${balanceExpenseDto.owner.name}">doit</div>
+							<div class = "col" th:text="${balanceExpenseDto.amount}">montant</div>
+							<div class = "col" th:text="${balanceExpenseDto.beneficiary.name}" >a qui</div>
+						</div>
+					</th:block>
+					<div class="col-md-12 text-center" >
+						<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
+					</div>
+					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 				</div>
+				<a class="text-decoration-none" th:href="${previous}">
+					<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end">Back</button>
+				</a>
+				
 			</form>
 		</div>
 	</main>
