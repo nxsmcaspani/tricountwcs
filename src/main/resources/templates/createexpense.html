@@ -75,7 +75,7 @@
 							<label for="beneficiaries">Beneficiaries :</label>
 						</div>
 						<div class="col-4 col-sm-4">
-							<select  id="beneficiaries" name="idBeneficiaries[]" multiple autocomplete="on">
+							<select id="beneficiaries" name="idBeneficiaries[]" multiple autocomplete="on" required>
 								<option th:each="contact : ${createexpensedto.readExpenseListDto.contactDtoList}"
 										th:value="${contact.id}"
 										th:utext="${contact.name}"
