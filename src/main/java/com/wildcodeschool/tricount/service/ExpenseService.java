@@ -31,7 +31,6 @@ public class ExpenseService {
     @Autowired
     private ContactService contactService;
 
-
     public List<Expense> getAll() {
         return expenseRepository.findAll();
     }

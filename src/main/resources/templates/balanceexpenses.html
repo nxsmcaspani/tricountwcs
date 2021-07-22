@@ -4,7 +4,7 @@
 	</head>
 	<body>
 	<header th:replace="fragments/header.html :: header"></header>
-	<section>
+	<main>
 		<div class="container">
 			<!-- <form action="/balanceexpenses" method="post" name="balanceId" th:value="${balExpenseDto.idOfExpenseList}">  -->
 			<form action= "#" th:action="@{'/balanceexpenses/{id}'(id=${balExpenseDto.idOfExpenseList})}" th:method="post">
@@ -56,7 +56,7 @@
 				
 			</form>
 		</div>
-	</section>
+	</main>
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 	</body>
 </html>

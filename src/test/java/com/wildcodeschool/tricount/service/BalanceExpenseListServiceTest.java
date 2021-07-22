@@ -15,6 +15,7 @@ import com.wildcodeschool.tricount.dto.CreateExpenseListDto;
 import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
+import com.wildcodeschool.tricount.mappers.ContactMapper;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
@@ -25,6 +26,9 @@ public class BalanceExpenseListServiceTest {
     
     @Autowired
     private ContactService contactSrv;
+    
+    @Autowired
+    private ContactMapper contactMapper;
     
     @Autowired 
     private ExpenseListService expListSrv;
@@ -74,7 +78,7 @@ public class BalanceExpenseListServiceTest {
         for (int i = 1; i <= nb; i++) {
             contactSrv.save(new ContactDto("testContact"+i, "email" + i + "@test"));
         }
-        return contactSrv.getAll();
+        return contactMapper.getAllContactsAsDto();
     }
 
     private ArrayList<Integer> convContactDtoToId(List<ContactDto> contacts) {
