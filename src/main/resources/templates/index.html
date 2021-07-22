@@ -7,10 +7,18 @@
 	<main class="position-relative">
 	
 		<!-- Fixed button for expense list creation -->
-		<div id="collapse-add-button" class="position-fixed bottom-0 end-0 m-5">
+ 		<div id="add-list-button" class="position-fixed bottom-0 end-0">
 			<a class="text-decoration-none" href="/createlist">
-					<i class="bi-plus-circle-fill fa-4x"></i>
+					<i class="bi-plus-circle-fill add-icon"></i>
 			</a>
+		</div>
+		<div id="add-list-container" class="text-center text-white bg-primary position-fixed bottom-0 end-0 rounded-pill">
+				<a class="text-decoration-none text-white" href="/createlist">
+					<span id="add-list-label">Create new list</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  						<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+					</svg>
+				</a>
 		</div>
 		
 		<th id="content" class="p-4 p-md-5 pt-5">
@@ -55,7 +63,7 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>Last expenses</th>
+								<th>Last three expenses</th>
 								<th>Made by</th>
 								<th>Amount</th>
 								<th>View</th>

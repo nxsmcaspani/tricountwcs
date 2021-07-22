@@ -14,7 +14,7 @@
         	</div>
         	<div class="mb-3">
 	            <label for="contacts">Select participants to the list</label><br /><br />
-	            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Click here" autocomplete="on">
+	            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple autocomplete="on">
 	                <option value="">Add a participant...</option>
 	                <option th:each="contact : ${contactsdto}"
 	                        th:value="${contact.id}"
