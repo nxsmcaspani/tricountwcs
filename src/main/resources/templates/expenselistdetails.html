@@ -41,6 +41,7 @@
                 <th>Expense name</th>
                 <th>Made by</th>
                 <th>Amount</th>
+                <th>Beneficiaries</th>
                 <th>Date</th>
                 <th>Action</th>
               </tr>
@@ -50,6 +51,9 @@
                 <td th:text="${readexpensedto.name}">Expense Name</td>
                 <td th:text="${readexpensedto.owner.name}">Expense owner</td>
                 <td th:text="${readexpensedto.amount}">Expense amount</td>
+                <td>
+                  <span th:each="beneficiary : ${readexpensedto.contactDtoList}" th:text="|${beneficiary.name} |"> </span>
+                </td>
                 <td th:text="${readexpensedto.expenseDate}">Expense date</td>
                 <td>
                   <a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
