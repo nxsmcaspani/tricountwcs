@@ -5,7 +5,6 @@ import com.wildcodeschool.tricount.entity.Contact;
 import com.wildcodeschool.tricount.entity.Expense;
 import com.wildcodeschool.tricount.entity.ExpenseList;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
-import com.wildcodeschool.tricount.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class ExpenseListMapper {
     ExpenseListRepository expenseListRepository;
 
     @Autowired
-    ContactService contactService;
+    ContactMapper contactMapper;
 
     @Autowired
     ExpenseMapper expenseMapper;
@@ -61,7 +60,10 @@ public class ExpenseListMapper {
             for(Expense expense : expenseList.getExpensesList()){
                 readExpenseDTO.add(expenseMapper.mapExpenseToReadExpenseDTO(expense));
             }
-            dto.setReadExpenseDTOS(readExpenseDTO);
+//            dto.setReadExpenseDTOS(readExpenseDTO);
+            dto.setReadExpenseDTOS(readExpenseDTO.stream()
+                    .sorted(Comparator.comparing(ReadExpenseDTO::getExpenseDate).reversed())
+                    .collect(Collectors.toList()));
             return dto;
         } else return null;
     }
@@ -75,7 +77,7 @@ public class ExpenseListMapper {
             readExpenseListDto.setId(expenseList.getId());
             readExpenseListDto.setName(expenseList.getName());
             for(Contact contact : expenseList.getContacts()) {
-                contactDtoList.add(contactService.convContactToDto(contact));
+                contactDtoList.add(contactMapper.convContactToDto(contact));
             }
             readExpenseListDto.setContactDtoList(contactDtoList);
             return readExpenseListDto;

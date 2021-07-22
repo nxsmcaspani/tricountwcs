@@ -4,26 +4,29 @@
 </head>
 <body>
 <header th:replace="fragments/header.html :: header"></header>
-<section>
+<main>
     <div class="container">
-        <h1 class="text-center text-primary m-4">Create a shared expenses List</h1>
+        <h1 class="text-center text-primary m-4">Create a shared expenses list</h1>
         <form action="#"  method="POST" th:action="@{/newexpenseslist}" th:object="${createexpenselistdto}">
-            <label for="expense-list-name">Expense List Name:</label><br /><br />
-            <input class="form-control" id="expense-list-name" name="name" placeholder="Expense List Name" required th:field="*{name}" type="text">
-            <br /><hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3">
-            <label for="contacts">Add participants to the list:</label><br /><br />
-            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Add a participant..." autocomplete="on">
-                <option value="">Add a participant...</option>
-                <option th:each="contact : ${contactsdto}"
-                        th:value="${contact.id}"
-                        th:utext="${contact.name}"/>
-            </select>
+        	<div class="mb-3">
+	            <label for="expense-list-name">Expense List Name</label><br /><br />
+    	        <input class="form-control" id="expense-list-name" name="name" placeholder="Fill an expense list name" required th:field="*{name}" type="text">
+        	</div>
+        	<div class="mb-3">
+	            <label for="contacts">Select participants to the list</label><br /><br />
+	            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple placeholder="Click here" autocomplete="on">
+	                <option value="">Add a participant...</option>
+	                <option th:each="contact : ${contactsdto}"
+	                        th:value="${contact.id}"
+	                        th:utext="${contact.name}"/>
+	            </select>
+			</div>
             <br /><br />
-            <input type="submit" value="Create List" class="btn btn-primary">
-            <a th:href="${previous}" class="btn btn-secondary" role="button">Cancel</a>
+	            <input type="submit" value="Create List" class="btn btn-primary col-auto">
+	            <a th:href="${previous}" class="btn btn-secondary col-auto" role="button">Cancel</a>
         </form>
     </div>
-</section>
+</main>
 <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 <script>
     var config = {};

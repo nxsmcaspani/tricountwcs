@@ -4,8 +4,8 @@
 	</head>
 	<body>
 	<header th:replace="fragments/header.html :: header"></header>
-	<section>
-		<div id="content" class="p-4 p-md-5 pt-5">
+	<main>
+		<th id="content" class="p-4 p-md-5 pt-5">
 			<h1 class="text-center text-primary m-4">All shared expenses</h1>
 			<div class="text-center">
 				<a class="text-decoration-none" href="/createlist">
@@ -38,7 +38,7 @@
 
 				<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
 					<div class="row mb-3 px-0">
-						<h2 class="col text-center text-warning" th:text="${expenselist.name}"></h2>
+						<h2 class="col text-primary" th:text="${expenselist.name}"></h2>
 						<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenselist.id})}">
 							<button type="button" class="btn btn-outline-primary">
 								<i class="bi-pencil"></i>
@@ -82,9 +82,8 @@
 						</a>
 					</div>
 				</div>
+				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
 			</th:block>
-			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
-		</div>
 	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
