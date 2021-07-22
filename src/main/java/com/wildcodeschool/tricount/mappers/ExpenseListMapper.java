@@ -60,7 +60,10 @@ public class ExpenseListMapper {
             for(Expense expense : expenseList.getExpensesList()){
                 readExpenseDTO.add(expenseMapper.mapExpenseToReadExpenseDTO(expense));
             }
-            dto.setReadExpenseDTOS(readExpenseDTO);
+//            dto.setReadExpenseDTOS(readExpenseDTO);
+            dto.setReadExpenseDTOS(readExpenseDTO.stream()
+                    .sorted(Comparator.comparing(ReadExpenseDTO::getExpenseDate).reversed())
+                    .collect(Collectors.toList()));
             return dto;
         } else return null;
     }
