@@ -1,82 +1,110 @@
 package com.wildcodeschool.tricount.dto;
 
+import java.math.BigDecimal;
+
 public class ContactForBalanceDto extends ContactDto implements Comparable<ContactForBalanceDto> {
 
     /**
      * Montant de la part des achats pour la personne
      */
-    private float amountDue;
+    private BigDecimal amountDue = new BigDecimal(0);
     
     /**
      * Montant des dépenses totales
      */
-    private float amountSpend;
+    private BigDecimal amountSpend = new BigDecimal(0);
     
     /**
      * Montant des dépenses faites hors opérations balance
      */
-    private float amountSpendHorsBalance;
+    private BigDecimal amountSpendHorsBalance = new BigDecimal(0);
     
     /**
      * Montant de la balance : dépenses - dues
      */
-    private float amountGiveOrTake;
+    private BigDecimal amountGiveOrTake = new BigDecimal(0);
     
     public ContactForBalanceDto(int id, String name, String email) {
         super(id, name, email);
     }
 
-    public float getAmountDue() {
+    public BigDecimal getAmountDue() {
         return amountDue;
     }
 
-    public void setAmountDue(float aAmountDue) {
+    public void setAmountDue(BigDecimal aAmountDue) {
         amountDue = aAmountDue;
+        System.out.println("CFB : set AmountDue de " + aAmountDue + " donne " + amountDue);
     }
     
-    public void addAmountDue(float aAmountDue) {
-        amountDue += aAmountDue;
+    public void addAmountDue(BigDecimal aAmountDue) {
+            amountDue = amountDue.add(aAmountDue);
+            System.out.println("CFB : add AmountDue de " + aAmountDue + " donne " + amountDue);
     }
 
-    public float getAmountSpend() {
+    public BigDecimal getAmountSpend() {
         return amountSpend;
     }
 
-    public void setAmountSpend(float aAmountSpend) {
+    public void setAmountSpend(BigDecimal aAmountSpend) {
         this.amountSpend = aAmountSpend;
+        System.out.println("CFB : add aAmountSpend de " + aAmountSpend + " donne " + amountSpend);
+
     }
 
-    public void addAmountSpend(float aAmountSpend) {
-        this.amountSpend += aAmountSpend;
+    public void addAmountSpend(BigDecimal aAmountSpend) {
+            amountSpend = this.amountSpend.add(aAmountSpend);
+            System.out.println("CFB : add amountSpend de " + aAmountSpend + " donne " + amountSpend);
+
     }
     
-    public float getAmountSpendHorsBalance() {
+    public BigDecimal getAmountSpendHorsBalance() {
         return amountSpendHorsBalance;
     }
 
-    public void setAmountSpendHorsBalance(float amountSpendHorsBalance) {
+    public void setAmountSpendHorsBalance(BigDecimal amountSpendHorsBalance) {
         this.amountSpendHorsBalance = amountSpendHorsBalance;
     }
 
-    public float getAmountGiveOrTake() {
+    public BigDecimal getAmountGiveOrTake() {
         return amountGiveOrTake;
     }
 
-    public void setAmountGiveOrTake(float aAmountGiveOrTake) {
+    public void setAmountGiveOrTake(BigDecimal aAmountGiveOrTake) {
         amountGiveOrTake = aAmountGiveOrTake;
     }
 
-    public void addToAmountGiveOrTake(float amount) {
-        amountGiveOrTake += amount;
+    public void addToAmountGiveOrTake(BigDecimal amount) {
+        amountGiveOrTake = amountGiveOrTake.add(amount);
     }
     
-    public float getSolde() {
-        return amountSpend - amountDue;
+    public BigDecimal getSolde() {
+        return amountSpend.subtract(amountDue);
+    }
+
+    public void addAmountSpend(float aF) {
+        amountSpend = amountSpend.add(new BigDecimal(Float.toString(aF)));
+    }
+
+    public void addToAmountGiveOrTake(float amount) {
+        amountGiveOrTake = amountGiveOrTake.add(new BigDecimal(Float.toString(amount)));
+    }
+
+    public void addAmountDue(float fl) {
+        amountDue = amountDue.add(new BigDecimal(Float.toString(fl)));
+    }
+
+    public void setAmountDue(float fl) {
+        amountDue = new BigDecimal(Float.toString(fl));
+    }
+
+    public void setAmountSpend(float fl) {
+            amountSpend = new BigDecimal(Float.toString(fl));
     }
     
     @Override
     public int compareTo(ContactForBalanceDto other) {
-        if (this.getSolde() < other.getSolde()) {
+        if (this.getSolde().compareTo(other.getSolde()) < 0) {
             return -1;
         }
         if (this.getSolde() == other.getSolde()) {
@@ -88,4 +116,6 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
         return 1;        
     }
 
+
+    
 }

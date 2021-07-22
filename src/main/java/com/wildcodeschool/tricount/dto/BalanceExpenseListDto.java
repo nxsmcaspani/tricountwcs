@@ -73,13 +73,17 @@ public class BalanceExpenseListDto {
      * @return boolean
      */
     private boolean checkBalanceOk() {
+        System.out.println("CheckBalanceOk");
         if (lstContacts.size() <2) {
             System.out.println("inf 2, true");
             return true;
         }
         for (ContactForBalanceDto contact : lstContacts) {
-            if (contact.getAmountDue() != contact.getAmountSpend())
+            System.out.println("for contact " + contact.getName());
+            if (contact.getAmountDue().compareTo(contact.getAmountSpend()) != 0) {
+                System.out.println("amount différent : " + contact.getAmountDue() + " versus " + contact.getAmountSpend());
                 return false;
+            }
         }
         return true;
     }

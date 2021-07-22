@@ -64,6 +64,7 @@ public class BalanceExpenseListService {
             lstCt.add(new ContactForBalanceDto(ct.getId(), ct.getName(), ct.getEmail()));
         }
         BalanceExpenseListDto balDto = new BalanceExpenseListDto(expList.getName(), expList.getId(), lstCt);
+        System.out.println("Répartition dépenses");
         for (Expense dep : expList.getExpensesList()) {
             if (!dep.getName().equals(LABEL_BALANCE)) {
                 balDto.setTotal(balDto.getTotal() + dep.getAmount());
@@ -71,6 +72,7 @@ public class BalanceExpenseListService {
             repartitionUneDepense(dep, balDto);
         }
         balDto.setBalanceOk();
+        System.out.println("Balance dépenses équilibrées : " + balDto.isBalanceOk());
         for (ContactForBalanceDto ct : balDto.getLstContacts()) {
             ct.setAmountSpendHorsBalance(ct.getAmountSpend());
         }
@@ -88,6 +90,7 @@ public class BalanceExpenseListService {
      * @param expList 
      */
     private void removeRemboursementAmountSpend(List<Expense> expList, BalanceExpenseListDto balDto) {
+        System.out.println("remove Balance expenses");
         for (Expense exp : expList) {
             System.out.println("exp : " + exp.getName() );
             if (exp.getName().equals(LABEL_BALANCE)) {
@@ -111,36 +114,22 @@ public class BalanceExpenseListService {
         convContactToDto(exp.getOwner(), balDto).addToAmountGiveOrTake(exp.getAmount());
         System.out.println("Depense Spend : " +exp.getAmount() + " ajouté à : " + exp.getOwner().getName() + ", total spend : " + convContactToDto(exp.getOwner(), balDto).getAmountSpend());
         // calcul part de chacun avec complément pour arrondi
-        float montant = arrondi2decimales(exp.getAmount() / exp.getBeneficiaries().size());
+        BigDecimal montant = new BigDecimal(exp.getAmount() / exp.getBeneficiaries().size()).setScale(2, RoundingMode.HALF_UP);
         System.out.println("Montant divisé calculé : " + montant);
-        float compl = 0f;
-        System.out.println("DEBUG : " + montant * exp.getBeneficiaries().size() + " comparé à : " + exp.getAmount());
-        if (montant * exp.getBeneficiaries().size() != exp.getAmount()) {
-            compl = arrondi2decimales(exp.getAmount() - (montant * exp.getBeneficiaries().size()));
+        BigDecimal compl = new BigDecimal(0);
+        System.out.println("DEBUG : " + montant.multiply(new BigDecimal(exp.getBeneficiaries().size())) + " comparé à : " + new BigDecimal(exp.getAmount()).setScale(2, RoundingMode.HALF_UP));
+        if (montant.multiply(new BigDecimal(exp.getBeneficiaries().size())).compareTo(new BigDecimal(exp.getAmount()).setScale(2, RoundingMode.HALF_UP))  != 0) {
+            compl = new BigDecimal(exp.getAmount()).subtract(montant.multiply(new BigDecimal(exp.getBeneficiaries().size()))).setScale(2, RoundingMode.HALF_UP);
             System.out.println("compl calculé : " + compl);
         }
         // affecte part de chacun à amountDue et retire ce montant de giveOrTake
         for (Contact ct : exp.getBeneficiaries()) {
-            float totalPart = arrondi2decimales(montant + compl);
+            BigDecimal totalPart = montant.add(compl);
             convContactToDto(ct, balDto).addAmountDue(totalPart);
-            convContactToDto(ct, balDto).addToAmountGiveOrTake(-(totalPart));
+            convContactToDto(ct, balDto).addToAmountGiveOrTake(totalPart.negate());
             System.out.println("Ajout Due à " + convContactToDto(ct, balDto).getName() + " montant " + montant + " & compl " + compl + ", total due : " + convContactToDto(ct, balDto).getAmountDue());
-            compl = 0f;
+            compl = new BigDecimal(0);
         }
-    }
-    
-    /**
-     * Arrondi un float à 2 décimales 
-     * @param fl
-     * @return fl reduit à 2 décimales
-     */
-    private float arrondi2decimales(float fl) {
-        System.out.println("arrondi de : " + fl + " donne : " + (float) (Math.round(( fl) * Math.pow(10, 2)) / Math.pow(10, 2)));
-        // DecimalFormat df = new DecimalFormat("0.00");
-        BigDecimal big = new BigDecimal(fl).setScale(2, RoundingMode.CEILING);
-        return big.floatValue(); 
-        
-        // return (float) (Math.round(( fl) * Math.pow(10, 2)) / Math.pow(10, 2));
     }
     
     /**
@@ -169,10 +158,10 @@ public class BalanceExpenseListService {
         // On met chaque contact dans l'un ou l'autre, ou nulle part s'il est à 0  
         for (ContactForBalanceDto contact : balExpenseDto.getLstContacts()) {
             System.out.println("Contact : " + contact.getName() + " balance : " + contact.getSolde());
-            if (contact.getSolde() > 0) {
+            if (contact.getSolde().compareTo(BigDecimal.ZERO) > 0) {
                 tstContactsSpend.add(contact);
                 System.out.println("Contact : " + contact.getName() + " ajouté à Spend, total Spend : " + tstContactsSpend.size());
-            } else if (contact.getSolde() < 0) {
+            } else if (contact.getSolde().compareTo(BigDecimal.ZERO) < 0) {
                 tstContactsDue.add(contact);
                 System.out.println("Contact : " + contact.getName() + " ajouté à Due, total Due"  + tstContactsDue.size());
             }
@@ -181,17 +170,17 @@ public class BalanceExpenseListService {
         for (ContactForBalanceDto cts : tstContactsSpend) {
             Set<ContactForBalanceDto> toRemove = new TreeSet<ContactForBalanceDto>();
             for (ContactForBalanceDto ctd : tstContactsDue) {
-                float montant = Math.min(cts.getSolde(), Math.abs(ctd.getSolde()));
+                BigDecimal montant = cts.getSolde().min(ctd.getSolde().abs());
                 System.out.println("Traitement de " + ctd.getName() + " pour montant " + montant);
-                BalanceExpenseDto expense = new BalanceExpenseDto(LABEL_BALANCE, contactService.findById(ctd.getId()), montant, 
+                BalanceExpenseDto expense = new BalanceExpenseDto(LABEL_BALANCE, contactService.findById(ctd.getId()), montant.floatValue(), 
                         LocalDate.now(), balExpenseDto.getIdOfExpenseList());
                 expense.setBeneficiary(cts);
                 balExpenseDto.getLstExpenseDto().add(expense);
                 cts.setAmountDue(montant);
                 ctd.setAmountSpend(montant);
-                if (ctd.getSolde() == 0)
+                if (ctd.getSolde().compareTo(BigDecimal.ZERO) == 0)
                     toRemove.add(ctd);
-                if (cts.getSolde() == 0)
+                if (cts.getSolde().compareTo(BigDecimal.ZERO) == 0)
                     break;
             }
             tstContactsDue.removeAll(toRemove);
