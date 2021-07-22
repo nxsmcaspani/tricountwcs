@@ -26,7 +26,7 @@
 			
 			<th:block th:each="expenselist, state : ${expenseslistsdto}">
 	<!--			Bootstrap modal div for confirmation windows pop-up -->
-				<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
+				<div class="modal fade" th:attr="id=${'deletelist'+expenselist.id}" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -39,26 +39,25 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								<a class="btn btn-danger btn-ok">Delete</a>
+								<a th:href="@{/expenseslist/delete/{idList}(idList=${expenselist.id})}" class="btn btn-danger btn-ok">Delete</a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
-					<div class="row mb-3 px-0">
-						<h2 class="col text-primary" th:text="${expenselist.name}"></h2>
-						<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenselist.id})}">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-pencil"></i>
-							</button>
-						</a>
-						<a class="col-auto text-decoration-none px-1" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenselist.id})}" data-bs-toggle="modal" data-bs-target="#confirm-delete">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-trash"></i>
-							</button>
-						</a>
-					</div>
+			<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+				<div class="row mb-3 px-0">
+					<h2 class="col text-primary" th:text="${expenselist.name}"></h2>
+					<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenselist.id})}">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="bi-pencil"></i>
+						</button>
+					</a>
+					<a class="col-auto text-decoration-none px-1" data-bs-toggle="modal" th:attr="data-bs-target=${'#deletelist'+expenselist.id}">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="bi-trash"></i>
+						</button>
+					</a>
+				</div>
 
 					<table class="table table-striped">
 						<thead>
@@ -94,8 +93,9 @@
 						</a>
 					</div>
 				</div>
-				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
-			</th:block>
+			</div>
+			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
+		</th:block>
 	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
