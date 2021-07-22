@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-  </head>
-  <body>
-    <footer class="footer" th:fragment="tail">
-      <div class="container">
-      <p class="text-center text-warning text-bold "> Tricount Corporate<br> Wild code school 2021</p>
-      </div>
-      <script src="/bootstrap/js/bootstrap.min.js"></script>
-      <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script>
-        function openNav() {
-          document.getElementById("mySidenav").style.width = "15%";
-        }
-        function closeNav() {
-          document.getElementById("mySidenav").style.width = "0";
-        }
-        closeNav();
-      </script>
-<!--      <script src="/js/jquery-3.2.1.slim.min.js"></script>-->
-      <script src="/bootstrap/js/bootstrap.min.js"></script>
-      <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="https://kit.fontawesome.com/8e8aa578fc.js" crossorigin="anonymous"></script>
-      <script src="/js/tom-select.complete.js"></script>
-    </footer>
+<head>
+</head>
+<body>
+	<footer class="footer mt-4 bg-primary" th:fragment="tail">
+		<div>
+			<p class="text-center text-warning text-bold mb-0">Tricount Corporate</p>
+			<p class="text-center text-warning text-bold mb-0">Wild code school 2021</p>
+		</div>
+		<script>
+			function openNav() {
+				document.getElementById("mySidenav").style.width = "15%";
+			}
+			function closeNav() {
+				document.getElementById("mySidenav").style.width = "0";
+			}
+			closeNav();
+		</script>
+		<script src="/js/jquery-3.2.1.slim.min.js"></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="https://kit.fontawesome.com/8e8aa578fc.js"
+			crossorigin="anonymous"></script>
+		<script src="/js/tom-select.complete.js"></script>
+	</footer>
 </body>
 
 </html>
