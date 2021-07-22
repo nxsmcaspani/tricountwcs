@@ -8,7 +8,7 @@ section {
 }
 
 .footer{
-	height: 50px;
+	height: 60px;
 	text-align: center;
 }
 
@@ -21,6 +21,12 @@ hr:last-child {
 
 .hd-container {
 	height: 120px;
+}
+
+#collapse-add-button {
+	margin-right: 3em;
+	margin-bottom: 4em;
+	
 }
 
 /*****
