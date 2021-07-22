@@ -34,12 +34,10 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
 
     public void setAmountDue(BigDecimal aAmountDue) {
         amountDue = aAmountDue;
-        System.out.println("CFB : set AmountDue de " + aAmountDue + " donne " + amountDue);
     }
     
     public void addAmountDue(BigDecimal aAmountDue) {
             amountDue = amountDue.add(aAmountDue);
-            System.out.println("CFB : add AmountDue de " + aAmountDue + " donne " + amountDue);
     }
 
     public BigDecimal getAmountSpend() {
@@ -48,14 +46,10 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
 
     public void setAmountSpend(BigDecimal aAmountSpend) {
         this.amountSpend = aAmountSpend;
-        System.out.println("CFB : add aAmountSpend de " + aAmountSpend + " donne " + amountSpend);
-
     }
 
     public void addAmountSpend(BigDecimal aAmountSpend) {
             amountSpend = this.amountSpend.add(aAmountSpend);
-            System.out.println("CFB : add amountSpend de " + aAmountSpend + " donne " + amountSpend);
-
     }
     
     public BigDecimal getAmountSpendHorsBalance() {
@@ -99,7 +93,7 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
     }
 
     public void setAmountSpend(float fl) {
-            amountSpend = new BigDecimal(Float.toString(fl));
+        amountSpend = new BigDecimal(Float.toString(fl));
     }
     
     @Override
