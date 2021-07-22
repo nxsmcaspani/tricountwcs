@@ -3,6 +3,8 @@ package com.wildcodeschool.tricount.entity;
 import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.*;
+
 @Entity
 @Table(name = "contact")
 public class Contact {
@@ -12,14 +14,14 @@ public class Contact {
     private int id;
     private String name;
     private String email;
-    
-    @ManyToMany (mappedBy = "contacts")
+
+    @ManyToMany (mappedBy = "contacts",  cascade = CascadeType.ALL)
     private List<ExpenseList> expenseLists;
     
-    @ManyToMany (mappedBy ="beneficiaries")
+    @ManyToMany (mappedBy ="beneficiaries",  cascade = CascadeType.ALL)
     private List<Expense> expenses;
     
-    @OneToMany(mappedBy = "owner", targetEntity = Expense.class)
+    @OneToMany(mappedBy = "owner", targetEntity = Expense.class,  cascade = CascadeType.ALL)
     @Column(columnDefinition="int")
     private List<Expense> ownExpenses;
        

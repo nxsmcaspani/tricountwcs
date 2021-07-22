@@ -3,6 +3,9 @@ package com.wildcodeschool.tricount.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "expense_list")
@@ -15,11 +18,11 @@ public class ExpenseList {
     private LocalDate date;
 
     
-    @OneToMany (mappedBy="expenseList", cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy="expenseList", cascade = CascadeType.ALL)
     @Column(columnDefinition="int")
     private List<Expense> expensesList;
     
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL)
     @JoinTable(name="contact_expense_list", 
         joinColumns = @JoinColumn(name="expenselist_id", columnDefinition="int"), 
         inverseJoinColumns = @JoinColumn(name = "contact_id", columnDefinition="int"))
@@ -49,6 +52,9 @@ public class ExpenseList {
     }
     public List<Contact> getContacts() {
         return contacts;
+    }
+    public List<Integer> getContactsIds(){
+        return contacts.stream().map(Contact::getId).collect(Collectors.toList());
     }
     public void setContacts(List<Contact> aContacts) {
         contacts = aContacts;

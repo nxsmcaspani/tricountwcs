@@ -8,6 +8,7 @@ public class ContactForBalanceDto extends ContactDto implements Comparable<Conta
     private float amountSpend;
     
     public Contact toContact() {
+        System.out.println("toContact : " + this.getId());
         return new Contact(this.getId(), this.getName(), this.getEmail());
     }
     

@@ -26,6 +26,9 @@ public class BalanceExpenseListService {
     @Autowired
     private ExpenseService expenseService;
     
+    @Autowired
+    private ContactService contactService;
+    
     private static String LABEL_BALANCE = "Balance operation";
     
     public BalanceExpenseDto getDtoBalanceExpense(int idList) {
@@ -154,12 +157,13 @@ public class BalanceExpenseListService {
     //            System.out.println("non ajouté, solde 0 ?");
             }
         }
-    //    System.out.println("Création des dues " + tstContactsDue.size() + " et des spend : " + tstContactsSpend.size());
+        System.out.println("Création des dues " + tstContactsDue.size() + " et des spend : " + tstContactsSpend.size());
         for (ContactForBalanceDto cts : tstContactsSpend) {
             Set<ContactForBalanceDto> toRemove = new TreeSet<ContactForBalanceDto>();
             for (ContactForBalanceDto ctd : tstContactsDue) {
                 float montant = Math.min(cts.getSolde(), Math.abs(ctd.getSolde()));
-                CreateExpenseDTO expense = new CreateExpenseDTO(LABEL_BALANCE, ctd.toContact(), montant);
+                Contact owner = contactService.findById(ctd.getId());
+                CreateExpenseDTO expense = new CreateExpenseDTO(LABEL_BALANCE, owner, montant);
                 expense.getIdBeneficiaries().add(cts.getId());
                 expense.setExpenseDate(LocalDate.now());
                 expense.setExpenseListId(balExpenseDto.getIdOfExpenseList());
@@ -173,9 +177,9 @@ public class BalanceExpenseListService {
             }
             tstContactsDue.removeAll(toRemove);
         }
-        System.out.println("Fin des balances, expenses créées : " + lstExpenses.size());
+        // System.out.println("Fin des balances, expenses créées : " + lstExpenses.size());
         for (CreateExpenseDTO expense : lstExpenses) {
-            System.out.println("Expense : " + expense.getAmount() + " from " + expense.getOwner().getName());
+            // System.out.println("Expense : " + expense.getAmount() + " from " + expense.getOwner().getName() + " id : " + expense.getOwner().getId());
             expenseService.create(expense);
         }
     }
