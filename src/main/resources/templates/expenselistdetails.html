@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org" lang="en" class="h-100">
 <head th:replace="fragments/header.html :: head">
 </head>
@@ -51,50 +52,69 @@
 			</button>
 		</a>
 
-		<div class="row mt-5" >
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Expense name</th>
-						<th>Made by</th>
-						<th>Amount</th>
-						<th>Beneficiary.ies</th>
-						<th>Date</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:object="${updateexpenselistdto}"
-						th:each="readexpensedto, state : ${updateexpenselistdto.readExpenseDTOS}">
-						<td th:text="${readexpensedto.name}">Expense Name</td>
-						<td th:text="${readexpensedto.owner.name}">Expense owner</td>
-						<td th:text="${readexpensedto.amount}">Expense amount</td>
-						<td><span
-							th:each="beneficiary : ${readexpensedto.contactDtoList}"
-							th:text="|${beneficiary.name} |"> </span></td>
-						<td th:text="${readexpensedto.expenseDate}">Expense date</td>
-						<td><a class="text-decoration-none"
-							th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
-								<button type="button" class="btn btn-outline-primary">
-									<i class="bi-pencil"></i>
-								</button>
-						</a> <a class="text-decoration-none"
-							th:href="@{/expense/delete/{id}(id=${readexpensedto.id})}"
-							data-toggle="modal" data-target="#confirm-delete">
-								<button type="button" class="btn btn-outline-primary">
-									<i class="bi-trash"></i>
-								</button>
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	</main>
-	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
-	<script>
-		var config = {};
-		new TomSelect('#contacts', config);
-	</script>
-</body>
+
+		<div class="row mt-5">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Expense name</th>
+                <th>Made by</th>
+                <th>Amount</th>
+                <th>Beneficiary.ies</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:object="${updateexpenselistdto}" th:each="readexpensedto, state : ${updateexpenselistdto.readExpenseDTOS}">
+                <td th:text="${readexpensedto.name}">Expense Name</td>
+                <td th:text="${readexpensedto.owner.name}">Expense owner</td>
+                <td th:text="${readexpensedto.amount}">Expense amount</td>
+                <td>
+                  <span th:each="beneficiary : ${readexpensedto.contactDtoList}" th:text="|${beneficiary.name} |"> </span>
+                </td>
+                <td th:text="${readexpensedto.expenseDate}">Expense date</td>
+                <td>
+                  <a class="text-decoration-none" th:href="@{/updateexpense/{id}(id=${readexpensedto.id})}">
+                    <button type="button" class="btn btn-outline-primary">
+                      <i class="bi-pencil"></i>
+                    </button>
+                  </a>
+                  <!--			Bootstrap modal div for confirmation windows pop-up -->
+                  <div class="modal fade" th:attr="id=${'deleteexpense'+readexpensedto.id}" tabindex="-1" role="dialog" aria-labelledby="deleteExpenseLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteExpenseLabel">Confirm Delete</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>You are about to delete an expense, this action cannot be undone.</p>
+                          <p>Do you want to proceed?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <a th:href="@{/expense/delete/{id}(id=${readexpensedto.id})}" class="btn btn-danger btn-ok">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="text-decoration-none" data-bs-toggle="modal" th:attr="data-bs-target=${'#deleteexpense'+readexpensedto.id}">
+                    <button type="button" class="btn btn-outline-primary">
+                      <i class="bi-trash"></i>
+                    </button>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    </main>
+  <footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+  <script>
+    var config = {};
+    new TomSelect('#contacts',config);
+  </script>
+  </body>
 </html>
