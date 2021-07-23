@@ -61,7 +61,26 @@
                       <i class="bi-pencil"></i>
                     </button>
                   </a>
-                  <a class="text-decoration-none" th:href="@{/expense/delete/{id}(id=${readexpensedto.id})}" data-toggle="modal" data-target="#confirm-delete">
+                  <!--			Bootstrap modal div for confirmation windows pop-up -->
+                  <div class="modal fade" th:attr="id=${'deleteexpense'+readexpensedto.id}" tabindex="-1" role="dialog" aria-labelledby="deleteExpenseLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteExpenseLabel">Confirm Delete</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>You are about to delete an expense, this action cannot be undone.</p>
+                          <p>Do you want to proceed?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <a th:href="@{/expense/delete/{id}(id=${readexpensedto.id})}" class="btn btn-danger btn-ok">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="text-decoration-none" data-bs-toggle="modal" th:attr="data-bs-target=${'#deleteexpense'+readexpensedto.id}">
                     <button type="button" class="btn btn-outline-primary">
                       <i class="bi-trash"></i>
                     </button>

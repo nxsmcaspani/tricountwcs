@@ -7,10 +7,18 @@
 	<main class="position-relative">
 	
 		<!-- Fixed button for expense list creation -->
-		<div id="collapse-add-button" class="position-fixed bottom-0 end-0 m-5">
+ 		<div id="add-list-button" class="position-fixed bottom-0 end-0">
 			<a class="text-decoration-none" href="/createlist">
-					<i class="bi-plus-circle-fill fa-4x"></i>
+					<i class="bi-plus-circle-fill add-icon"></i>
 			</a>
+		</div>
+		<div id="add-list-container" class="text-center text-white bg-primary position-fixed bottom-0 end-0 rounded-pill">
+				<a class="text-decoration-none text-white" href="/createlist">
+					<span id="add-list-label">Create new list</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  						<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+					</svg>
+				</a>
 		</div>
 		
 		<th id="content" class="p-4 p-md-5 pt-5">
@@ -18,7 +26,7 @@
 			
 			<th:block th:each="expenselist, state : ${expenseslistsdto}">
 	<!--			Bootstrap modal div for confirmation windows pop-up -->
-				<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
+				<div class="modal fade" th:attr="id=${'deletelist'+expenselist.id}" tabindex="-1" role="dialog" aria-labelledby="deleteListLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -31,31 +39,30 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								<a class="btn btn-danger btn-ok">Delete</a>
+								<a th:href="@{/expenseslist/delete/{idList}(idList=${expenselist.id})}" class="btn btn-danger btn-ok">Delete</a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
-					<div class="row mb-3 px-0">
-						<h2 class="col text-primary" th:text="${expenselist.name}"></h2>
-						<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenselist.id})}">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-pencil"></i>
-							</button>
-						</a>
-						<a class="col-auto text-decoration-none px-1" th:data-href="@{/expenseslist/delete/{idList}(idList=${expenselist.id})}" data-bs-toggle="modal" data-bs-target="#confirm-delete">
-							<button type="button" class="btn btn-outline-primary">
-								<i class="bi-trash"></i>
-							</button>
-						</a>
-					</div>
+			<div class="row mt-5 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+				<div class="row mb-3 px-0">
+					<h2 class="col text-primary" th:text="${expenselist.name}"></h2>
+					<a class="col-auto text-decoration-none px-1" th:href="@{/expenselistdetails/{id}(id=${expenselist.id})}">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="bi-pencil"></i>
+						</button>
+					</a>
+					<a class="col-auto text-decoration-none px-1" data-bs-toggle="modal" th:attr="data-bs-target=${'#deletelist'+expenselist.id}">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="bi-trash"></i>
+						</button>
+					</a>
+				</div>
 
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>Last expenses</th>
+								<th>Last three expenses</th>
 								<th>Made by</th>
 								<th>Amount</th>
 								<th>View</th>
@@ -71,8 +78,6 @@
 										<button type="button" class="btn btn-outline-primary">
 											<i class="bi-binoculars"></i>
 										</button>
-<!--										<button type="button" class="btn btn-labeled btn-primary">-->
-<!--											<span class="btn-label"><i class="bi-binoculars-fill"></i></span></button>-->
 									</a>
 								</td>
 							</tr>
@@ -86,8 +91,9 @@
 						</a>
 					</div>
 				</div>
-				<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
-			</th:block>
+			</div>
+			<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3"><br />
+		</th:block>
 	</main>
 
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>

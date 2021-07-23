@@ -62,8 +62,8 @@ public class ExpenseListController {
 
     @PostMapping("/newexpenseslist")
     public String newExpensesList(@ModelAttribute CreateExpenseListDto createExpenseListDto) {
-        expenseListService.create(createExpenseListDto);
-        return "redirect:/";
+        ExpenseList currentList = expenseListService.create(createExpenseListDto);
+        return "redirect:/expenselistdetails/" + currentList.getId();
     }
     
     @PostMapping("/updateexpenseslist")
