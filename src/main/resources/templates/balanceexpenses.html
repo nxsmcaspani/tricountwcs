@@ -6,6 +6,26 @@
 	<header th:replace="fragments/header.html :: header"></header>
 	<main>
 		<div class="container">
+
+			<div class="modal fade" id="modal-balanceok" tabindex="-1" aria-labelledby="balanceOkLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title">Balance Ok</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body">
+				      <div class="container-fluid">
+				        Balance done!<br>
+				      </div>
+				  </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+	
 			<!-- <form action="/balanceexpenses" method="post" name="balanceId" th:value="${balExpenseDto.idOfExpenseList}">  -->
 			<form action= "#" th:action="@{'/balanceexpenses/{id}'(id=${balExpenseDto.idOfExpenseList})}" th:method="post">
 				<h1 class="text-center text-primary m-4">Who owns who?</h1>
@@ -24,7 +44,7 @@
 					<div class="row">
 						<div class = "col" th:text="${contact.name}">Name</div>
 						<div class = "col" th:text="${contact.amountSpendHorsBalance}">Depenses faites</div>
-						<div class = "col" th:text="${contact.amountGiveOrTake}">Balance</div>
+						<div class = "col" th:style ="${contact.amountGiveOrTake>=0} ? 'color: green' : 'color: red'" th:text="${contact.amountGiveOrTake}">Balance</div>
 					</div>
 				</div>
 				</th:block>
@@ -45,19 +65,29 @@
 							<div class = "col" th:text="${balanceExpenseDto.beneficiary.name}" >a qui</div>
 						</div>
 					</th:block>
-					<div class="col-md-12 text-center" >
-						<button type="submit" class="btn btn-primary center">Rebalance Spending</button>
-					</div>
 					<hr class="col-md-4 offset-md-4 border-2 border-top border-warning mt-3" >
 				</div>
-				<a class="text-decoration-none" th:href="@{/expenselistdetails/{id}(id=${balExpenseDto.idOfExpenseList})}">
-					<button type="button" class="btn btn-labeled btn-rounded btn-warning text-white float-end">Back</button>
-				</a>
+				<div class="row float-end">
+				    <a th:href="@{/expenselistdetails/{id}(id=${balExpenseDto.idOfExpenseList})}" class="btn btn-secondary col-auto" role="button">Back</a>
+				    <span th:unless="${balExpenseDto.balanceOk}" class="col-auto">
+				    	<button type="submit" class="btn btn-primary  ms-3">Rebalance Spending</button>
+				    </span>
+				</div>
+				
 				
 			</form>
 		</div>
 	</main>
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 	</body>
+	
+	<script>
+		if (window.location.search.includes("balanceOk=true")) {
+			const myModal = new bootstrap.Modal(document.getElementById('modal-balanceok'));
+			myModal.show();
+		}
+</script>
+	
+	
 </html>
 

@@ -196,7 +196,13 @@ public class BalanceExpenseListService {
             //prepareExpenses(balExpenseDto, tstContactsSpend, tstContactsDue);
             for (ContactForBalanceDto contact : tstContactsSpend) {
                 if (contact.getSolde().compareTo(BigDecimal.ZERO) != 0) {
-                    System.out.println(" =====> solde de : " + contact.getName() + " non vide ! " +contact.getSolde());
+                    System.out.println(" =====> Set Spend : solde de : " + contact.getName() + " non vide ! " +contact.getSolde());
+                    equilibreOk = false;
+                }
+            }
+            for (ContactForBalanceDto contact : tstContactsDue) {
+                if (contact.getSolde().compareTo(BigDecimal.ZERO) != 0) {
+                    System.out.println(" =====> Set Due : solde de : " + contact.getName() + " non vide ! " +contact.getSolde());
                     equilibreOk = false;
                 }
             }
