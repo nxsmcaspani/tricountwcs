@@ -1,14 +1,10 @@
-body {
-	
-}
-
 section {
 	min-height: 100%;
 	margin-bottom: -50px;
 }
 
 .footer{
-	height: 50px;
+	height: 60px;
 	text-align: center;
 }
 
@@ -23,6 +19,37 @@ hr:last-child {
 	height: 120px;
 }
 
+#add-list-button {
+	margin-right: 48px;
+	margin-bottom: 64px;
+}
+
+.add-icon {
+	font-size: 64px;
+}
+
+#add-list-container {
+	margin-right: 48px;
+	margin-bottom: 78px;
+	padding-left: 24px;
+	z-index: 9;
+	display: flex;
+	visibility: hidden;
+}
+
+#add-list-button:hover + #add-list-container {
+	visibility: visible;
+}
+
+#add-list-container:hover {
+	visibility: visible;
+}
+
+#add-list-label {
+	font-size: 24px;
+	vertical-align: middle;
+}
+
 /*****
 Some buttons css
  */
@@ -34,6 +61,6 @@ h2 {
 	margin-bottom: 25px;
 }
 
-.container{
+/* .container{
 	padding-top: 60px;
-}
+} */

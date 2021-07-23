@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.wildcodeschool.tricount.dto.BalanceExpenseDto;
+import com.wildcodeschool.tricount.dto.BalanceExpenseListDto;
 import com.wildcodeschool.tricount.service.BalanceExpenseListService;
 
 @Controller
@@ -21,7 +21,7 @@ public class BalanceExpenseController {
     
     @GetMapping("/balanceexpenses/{idList}")
     public String balanceExpenses(Model model, @PathVariable int idList) {
-        BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(idList);
+        BalanceExpenseListDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(idList);
         if (balExpenseDto == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+idList);
         }
@@ -32,13 +32,13 @@ public class BalanceExpenseController {
     @PostMapping("/balanceexpenses/{id}")
     public String executeBalanceExpenses(@PathVariable int id) {
         System.out.println("executeBalanceExpenses idList sur " + id);
-        BalanceExpenseDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(id);
+        BalanceExpenseListDto balExpenseDto = balanceExpenseListService.getDtoBalanceExpense(id);
         if (balExpenseDto == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense List ID not found "+id);
         }
         balanceExpenseListService.executeBalance(balExpenseDto);
         System.out.println("post mapping balanceexpenses, redirect to : redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList());
-        return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList();
+        return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList() + "?balanceOk=true";
     }
     
     

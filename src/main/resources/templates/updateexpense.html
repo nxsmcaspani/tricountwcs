@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="h-100">
 	<head th:replace="fragments/header.html :: head">
 	</head>
-	<body>
+	<body class="d-flex flex-column h-100">
 		<header th:replace="fragments/header.html :: header"></header>
-		<section>
+		<main class="flex-shrink-0">
 		<div class="container">
-<!-- 			<h1 class="text-center text-warning"
-				th:text="${updateexpensedto.readExpenseListDto.name}"></h1> -->
 			<h2 class="text-center text-primary m-4">Update an expense</h2>
 			
 			<form action="#" method="POST" th:action="@{/expense/update}" th:object="${updateexpensedto}" >
@@ -82,14 +80,13 @@
 					<br />
 					
 					<br />
-					<div class="modal-footer">
-						<a th:href="${previous}" class="btn secondary" role="button">Cancel</a>
-						<button type="submit" class="btn btn-primary">Update</button>
+					<div class="row float-end">
+						<a th:href="${previous}" class="btn btn-secondary col-auto" role="button">Cancel</a>
+						<button type="submit" class="btn btn-primary col-auto ms-3">Update</button>
 					</div>
-					<br>
 			</form>
 		</div>
-	</section>
+		</main>
 	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
 <!--	 Put TomSelect Js code (for config) below the fragment :: -->
 		<script>

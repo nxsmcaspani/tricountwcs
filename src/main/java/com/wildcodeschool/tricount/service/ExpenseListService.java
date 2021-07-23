@@ -8,7 +8,6 @@ import com.wildcodeschool.tricount.repository.ContactRepository;
 import com.wildcodeschool.tricount.repository.ExpenseListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,6 +48,12 @@ public class ExpenseListService {
         return expenseListRepository.findAll();
     }
 
+    public List<ExpenseList> findByContact(Integer contactsId){ return expenseListRepository.findByContactsId(contactsId);}
+
+    public List<Integer> findExpensesListsIdsByContact(Integer contactsId){
+        return expenseListRepository.findByContactsId(contactsId).stream().map(exp -> exp.getId()).collect(Collectors.toList());
+    }
+
     public ExpenseList getExpenseList(Integer id) {
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(id);
         if (optionalExpensesList.isPresent()) {
@@ -87,7 +92,8 @@ public class ExpenseListService {
         List<Contact> contactList = new ArrayList<>();
         for(Integer id : expenseListDto.getIdContacts()){
             Optional<Contact> optionalContact = contactRepository.findById(id);
-            Contact contact = optionalContact.orElseThrow(RuntimeException::new);
+            Contact contact = optionalContact.orElseThrow(RuntimeException::new); // Java 8 so that we get a contact else throws an exception
+            System.out.println("Contact trouvé : " + contact.getId() + " - " + contact.getName());
             contactList.add(contact);
         }
         expenseList.setContacts(contactList);

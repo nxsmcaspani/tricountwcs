@@ -22,7 +22,7 @@ public class ExpenseList {
     @Column(columnDefinition="int")
     private List<Expense> expensesList;
     
-    @ManyToMany( cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name="contact_expense_list", 
         joinColumns = @JoinColumn(name="expenselist_id", columnDefinition="int"), 
         inverseJoinColumns = @JoinColumn(name = "contact_id", columnDefinition="int"))
