@@ -21,11 +21,11 @@
 					<option th:each="contact : ${contactsdto}" th:value="${contact.id}" th:utext="${contact.name}" />
 				</select>
 				<br />
-			</form>
 			<div class="float-end">
-				<a th:href="${previous}" class="btn btn-secondary col-auto my-6" role="button">Cancel</a>
-				<button type="submit" class="btn btn-primary col-auto ms-3">Update</button>
+				<a href="/" class="btn btn-secondary col-auto my-6" role="button">Back</a>
+				<input type="submit" value="Update List" class="btn btn-primary col-auto ms-3">
 			</div>
+			</form>
 		</div>
 		<br />
 		<br />
