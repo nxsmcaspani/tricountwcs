@@ -147,9 +147,17 @@
 								<form action="/del_contact" method="post" th:object="${contact}">
 									<div class="modal-body">
 										<h3>Are you sure you want to delete this contact?</h3>
+										this contact has these expense lists:
+										<br><br>
+										<ul><li class="d-none" type="text" name="expenseList"
+												th:each="expenseList:${contact.getListExpenseLists()}" th:text="${expenseList}"></li>
+										</ul>
+
+
 									</div>
 									<input class="d-none" type="number" name="id"
 										th:value=${contact.id}>
+
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary"
 											data-bs-dismiss="modal">Cancel</button>
