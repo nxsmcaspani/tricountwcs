@@ -3,34 +3,35 @@
 <head th:replace="fragments/header.html :: head">
 </head>
 <body class="d-flex flex-column h-100">
-<header th:replace="fragments/header.html :: header"></header>
-<main class="flex-shrink-0">
-    <div class="container">
-        <h1 class="text-center text-primary m-4">Create a shared expenses list</h1>
-        <form action="#"  method="POST" th:action="@{/newexpenseslist}" th:object="${createexpenselistdto}">
-        	<div class="mb-3">
-	            <label for="expense-list-name">Expense List Name</label><br /><br />
-    	        <input class="form-control" id="expense-list-name" name="name" placeholder="Fill an expense list name" required th:field="*{name}" type="text">
-        	</div>
-        	<div class="mb-3">
-	            <label for="contacts">Select participants to the list</label><br /><br />
-	            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple autocomplete="on">
-	                <option value="">Add a participant...</option>
-	                <option th:each="contact : ${contactsdto}"
-	                        th:value="${contact.id}"
-	                        th:utext="${contact.name}"/>
-	            </select>
-			</div>
-            <br /><br />
-	            <input type="submit" value="Create List" class="btn btn-primary col-auto">
-	            <a th:href="${previous}" class="btn btn-secondary col-auto" role="button">Cancel</a>
-        </form>
-    </div>
-</main>
-<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
-<script>
-    var config = {};
-    new TomSelect('#contacts',config);
-</script>
+	<header th:replace="fragments/header.html :: header"></header>
+	<main class="flex-shrink-0 col-md-8 offset-md-2 col-xs-10 offset-xs-1">
+	    <div class="container">
+	        <h1 class="text-center text-primary my-5">Create a new expenses list</h1>
+	        <form action="#"  method="POST" th:action="@{/newexpenseslist}" th:object="${createexpenselistdto}">
+	        	<div class="mb-5">
+		            <label for="expense-list-name">Expense List Name</label><br /><br />
+	    	        <input class="form-control" id="expense-list-name" name="name" placeholder="Fill an expense list name" required th:field="*{name}" type="text">
+	        	</div>
+	        	<div class="mb-5">
+		            <label for="contacts">Select participants to the list</label><br /><br />
+		            <select th:field="*{idContacts}" id="contacts" name="idContacts[]" multiple autocomplete="on">
+		                <option value="">Add a participant...</option>
+		                <option th:each="contact : ${contactsdto}"
+		                        th:value="${contact.id}"
+		                        th:utext="${contact.name}"/>
+		            </select>
+				</div>
+				<div class="row float-end mt-6">
+					<a th:href="${previous}" class="btn btn-secondary col-auto" role="button">Cancel</a>
+					<button type="submit" class="btn btn-primary col-auto ms-3">Create</button>
+				</div>
+	        </form>
+	    </div>
+	</main>
+	<footer class="footer" th:replace="fragments/footer.html :: tail"></footer>
+	<script>
+	    var config = {};
+	    new TomSelect('#contacts',config);
+	</script>
 </body>
 </html>
