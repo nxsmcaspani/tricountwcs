@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -173,18 +171,21 @@ public class BalanceExpenseListService {
         int cpt = 10;
         do {
             System.out.println("prepare Expense, passe " + cpt);
-            
             for (ContactForBalanceDto cts : tstContactsSpend) {
               for (ContactForBalanceDto ctd : tstContactsDue) {
                   if (ctd.getSolde().compareTo(BigDecimal.ZERO) != 0) {
                       BigDecimal montant = cts.getSolde().min(ctd.getSolde().abs());
-                      System.out.println("Traitement de " + ctd.getName() + " pour montant " + montant + " vers "+cts.getName());
-                      BalanceExpenseDto expense = new BalanceExpenseDto(LABEL_BALANCE, contactService.findById(ctd.getId()), montant.floatValue(), 
-                              LocalDate.now(), balExpenseDto.getIdOfExpenseList());
-                      expense.setBeneficiary(cts);
-                      balExpenseDto.getLstExpenseDto().add(expense);
-                      cts.addAmountDue(montant);
-                      ctd.addAmountSpend(montant);
+                      if (montant.compareTo(BigDecimal.ZERO) != 0) {
+                          System.out.println("Traitement de " + ctd.getName() + " pour montant " + montant + " vers "+cts.getName());
+                          BalanceExpenseDto expense = new BalanceExpenseDto(LABEL_BALANCE, contactService.findById(ctd.getId()), montant.floatValue(), 
+                                  LocalDate.now(), balExpenseDto.getIdOfExpenseList());
+                          expense.setBeneficiary(cts);
+                          balExpenseDto.getLstExpenseDto().add(expense);
+                          cts.addAmountDue(montant);
+                          ctd.addAmountSpend(montant);
+                      } else {
+                          System.out.println("Montant à 0 !");
+                      }
                       if (cts.getSolde().compareTo(BigDecimal.ZERO) == 0) {
                           System.out.println(cts.getName() + " solde a 0, sortie spend");
                           break;
@@ -193,7 +194,6 @@ public class BalanceExpenseListService {
               }
           }
             
-            //prepareExpenses(balExpenseDto, tstContactsSpend, tstContactsDue);
             for (ContactForBalanceDto contact : tstContactsSpend) {
                 if (contact.getSolde().compareTo(BigDecimal.ZERO) != 0) {
                     System.out.println(" =====> Set Spend : solde de : " + contact.getName() + " non vide ! " +contact.getSolde());
@@ -209,15 +209,9 @@ public class BalanceExpenseListService {
             cpt -=1;
         } while ((cpt>0)&&(equilibreOk == false));
         
-        
-        
         System.out.println("Fin des balances, expenses créées : " + balExpenseDto.getLstExpenseDto().size());
     }
     
-    
-    private void prepareExpenses(BalanceExpenseListDto balExpenseDto, Set<ContactForBalanceDto> tstContactsSpend, Set<ContactForBalanceDto> tstContactsDue) {
-
-    }
     
     /**
      * Applique les expenses pour équilibrer la balance Dto
