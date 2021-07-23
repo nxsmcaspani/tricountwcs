@@ -38,7 +38,7 @@ public class BalanceExpenseController {
         }
         balanceExpenseListService.executeBalance(balExpenseDto);
         System.out.println("post mapping balanceexpenses, redirect to : redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList());
-        return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList();
+        return "redirect:/balanceexpenses/" + balExpenseDto.getIdOfExpenseList() + "?balanceOk=true";
     }
     
     
