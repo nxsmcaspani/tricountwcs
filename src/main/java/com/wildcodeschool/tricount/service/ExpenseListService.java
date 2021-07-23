@@ -48,6 +48,12 @@ public class ExpenseListService {
         return expenseListRepository.findAll();
     }
 
+    public List<ExpenseList> findByContact(Integer contactsId){ return expenseListRepository.findByContactsId(contactsId);}
+
+    public List<Integer> findExpensesListsIdsByContact(Integer contactsId){
+        return expenseListRepository.findByContactsId(contactsId).stream().map(exp -> exp.getId()).collect(Collectors.toList());
+    }
+
     public ExpenseList getExpenseList(Integer id) {
         Optional<ExpenseList> optionalExpensesList = expenseListRepository.findById(id);
         if (optionalExpensesList.isPresent()) {
