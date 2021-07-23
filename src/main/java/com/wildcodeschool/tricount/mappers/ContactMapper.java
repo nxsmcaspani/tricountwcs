@@ -8,14 +8,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ContactMapper {
     @Autowired
     ContactRepository contactRepository;
 
+    @Autowired
+    ExpenseListMapper expenseListMapper;
+
     public ContactDto convContactToDto(Contact contact) {
-        return new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
+        ContactDto contactDto=new ContactDto(contact.getId(), contact.getName(), contact.getEmail());
+        contactDto.setListExpenseLists(contact.getExpenseLists().stream().
+                map(list->list.getName())
+                .collect(Collectors.toList()));
+        return contactDto ;
     }
 
     public List<ContactDto> getAllAsDtos() {

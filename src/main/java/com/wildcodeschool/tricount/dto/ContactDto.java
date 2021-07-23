@@ -1,9 +1,19 @@
 package com.wildcodeschool.tricount.dto;
-
+import java.util.List;
 public class ContactDto {
     private Integer id;
     private String name;
     private String email;
+
+    public List<String> getListExpenseLists() {
+        return listExpenseLists;
+    }
+
+    public void setListExpenseLists(List<String> listExpenseLists) {
+        this.listExpenseLists = listExpenseLists;
+    }
+
+    private List<String> listExpenseLists;
 
     public Integer getId() {
         return id;
